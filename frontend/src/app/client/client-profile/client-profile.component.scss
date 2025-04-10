@@ -1,0 +1,32 @@
+.profile-container {
+  display: flex;
+  min-height: calc(100vh - 120px); // Account for navbar and footer
+  background-color: #f9fafb;
+  padding-top: 10em;
+  padding-bottom: 10em;
+}
+
+.sidebar {
+  width: 256px;
+  background-color: #f3f4f6;
+  border-right: 1px solid #e5e7eb;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  background-color: #f9fafb;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+}

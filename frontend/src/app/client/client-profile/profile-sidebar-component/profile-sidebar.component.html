@@ -1,0 +1,22 @@
+<div class="sidebar-content">
+  <h2 class="sidebar-title">Profile Options</h2>
+  
+  <ul class="sidebar-options">
+    <li>
+      <button 
+        class="sidebar-button" 
+        [class.active]="activePage === 'edit'"
+        (click)="onPageSelect('edit')">
+        Edit Profile
+      </button>
+    </li>
+    <li>
+      <button 
+        class="sidebar-button delete" 
+        [class.active]="activePage === 'delete'"
+        (click)="onPageSelect('delete')">
+        Delete Profile
+      </button>
+    </li>
+  </ul>
+</div> 

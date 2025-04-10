@@ -1,0 +1,14 @@
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  imports: [RouterLink, FontAwesomeModule],
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss']
+})
+export class FooterComponent {
+
+}

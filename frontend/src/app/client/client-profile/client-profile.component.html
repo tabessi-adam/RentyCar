@@ -1,0 +1,20 @@
+<app-navbar></app-navbar>
+
+<div class="profile-container">
+  <div class="sidebar">
+    <app-profile-sidebar 
+      [activePage]="activePage"
+      (pageChange)="onPageChange($event)">
+    </app-profile-sidebar>
+  </div>
+  
+  <div class="main-content">
+    @if (activePage === 'edit') {
+      <app-edit-profile></app-edit-profile>
+    } @else {
+      <app-delete-profile></app-delete-profile>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

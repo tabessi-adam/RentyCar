@@ -1,0 +1,93 @@
+<div class="edit-profile-container">
+  <h1 class="page-title">Edit Your Profile</h1>
+  
+  @if (isLoading) {
+    <div class="loading-message">Loading profile...</div>
+  } @else if (error) {
+    <div class="error-message">{{ error }}</div>
+  } @else if (profile) {
+    <div class="profile-card">
+      <div class="profile-field">
+        <label>Name</label>
+        @if (editingField === 'name') {
+          <div class="edit-mode">
+            <input type="text" [(ngModel)]="tempValue">
+            <button class="save-button" (click)="saveField('name')">Save</button>
+            <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+          </div>
+        } @else {
+          <div class="view-mode">
+            <span>{{ profile.name }}</span>
+            <button class="edit-button" (click)="startEditing('name')">Edit</button>
+          </div>
+        }
+      </div>
+
+      <div class="profile-field">
+        <label>Email</label>
+        <div class="view-mode">
+          <span>{{ profile.email }}</span>
+        </div>
+      </div>
+
+      <div class="profile-field">
+        <label>Phone Number</label>
+        @if (editingField === 'phoneNumber') {
+          <div class="edit-mode">
+            <input type="text" [(ngModel)]="tempValue">
+            <button class="save-button" (click)="saveField('phoneNumber')">Save</button>
+            <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+          </div>
+        } @else {
+          <div class="view-mode">
+            <span>{{ profile.phoneNumber || 'Not set' }}</span>
+            <button class="edit-button" (click)="startEditing('phoneNumber')">Edit</button>
+          </div>
+        }
+      </div>
+
+      <div class="profile-field">
+        <label>Password</label>
+        @if (editingField === 'password') {
+          <div class="edit-mode password-update">
+            <div class="password-field">
+              <label>Current Password</label>
+              <input type="password" [(ngModel)]="oldPassword" placeholder="Enter current password">
+            </div>
+            <div class="password-field">
+              <label>New Password</label>
+              <input type="password" [(ngModel)]="newPassword" placeholder="Enter new password">
+            </div>
+            <div class="password-field">
+              <label>Confirm New Password</label>
+              <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm new password">
+            </div>
+            <div class="password-buttons">
+              <button class="save-button" (click)="updatePassword()">Update Password</button>
+              <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+            </div>
+          </div>
+        } @else {
+          <div class="view-mode">
+            <span>********</span>
+            <button class="edit-button" (click)="startEditing('password')">Change Password</button>
+          </div>
+        }
+      </div>
+
+      <div class="profile-field">
+        <label>Account Creation Date</label>
+        <div class="view-mode">
+          <span>{{ formatDate(profile.createdAt) }}</span>
+        </div>
+      </div>
+
+      <div class="profile-field">
+        <label>Last Update Date</label>
+        <div class="view-mode">
+          <span>{{ formatDate(profile.updatedAt) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div> 
