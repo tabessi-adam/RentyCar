@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service'; // Use the new AuthService path
 import { CommonModule } from '@angular/common';
 import { Role } from '../../core/models/role.enum'; // Use the new Role enum
-import { UserService } from '../../services/user.service';
+import { ClientService } from '../../core/services/client.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,12 +20,12 @@ export class NavbarComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private userService: UserService
+    private clientService: ClientService
   ) {}
 
   ngOnInit() {
     // Subscribe to user name changes
-    this.userService.userName$.subscribe(name => {
+    this.clientService.userName$.subscribe(name => {
       this.userName = name;
     });
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClientProfileService } from '../../../services/client-profile.service';
+import { ClientService } from '../../../core/services/client.service';
 
 @Component({
   selector: 'app-delete-profile',
@@ -13,7 +13,7 @@ export class DeleteProfileComponent {
   error: string | null = null;
 
   constructor(
-    private clientProfileService: ClientProfileService,
+    private clientService: ClientService,
     private router: Router
   ) {}
 
@@ -30,7 +30,7 @@ export class DeleteProfileComponent {
     this.isDeleting = true;
     this.error = null;
 
-    this.clientProfileService.deleteProfile().subscribe({
+    this.clientService.deleteProfile().subscribe({
       next: () => {
         // Redirect to login or home page after successful deletion
         this.router.navigate(['/auth/login']);

@@ -8,6 +8,12 @@
   } @else if (profile) {
     <div class="profile-card">
       <div class="profile-field">
+        <label>Email</label>
+        <div class="view-mode">
+          <span>{{ profile.email }}</span>
+        </div>
+      </div>
+      <div class="profile-field">
         <label>Name</label>
         @if (editingField === 'name') {
           <div class="edit-mode">
@@ -23,12 +29,7 @@
         }
       </div>
 
-      <div class="profile-field">
-        <label>Email</label>
-        <div class="view-mode">
-          <span>{{ profile.email }}</span>
-        </div>
-      </div>
+     
 
       <div class="profile-field">
         <label>Phone Number</label>

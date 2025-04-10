@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ClientProfileService, ClientProfile } from '../../../services/client-profile.service';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../services/user.service';
+import { ClientService, ClientProfile } from '../../../core/services/client.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,8 +20,7 @@ export class EditProfileComponent implements OnInit {
   error: string | null = null;
 
   constructor(
-    private clientProfileService: ClientProfileService,
-    private userService: UserService
+    private clientService: ClientService
   ) {}
 
   ngOnInit() {
@@ -32,11 +30,11 @@ export class EditProfileComponent implements OnInit {
   loadProfile() {
     this.isLoading = true;
     this.error = null;
-    this.clientProfileService.getProfile().subscribe({
+    this.clientService.getProfile().subscribe({
       next: (profile) => {
         this.profile = profile;
         this.isLoading = false;
-        this.userService.updateUserName(profile.name);
+        this.clientService.updateUserName(profile.name);
       },
       error: (err) => {
         this.error = 'Failed to load profile. Please try again later.';
@@ -66,14 +64,14 @@ export class EditProfileComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.clientProfileService.updateProfile(updateData).subscribe({
+    this.clientService.updateProfile(updateData).subscribe({
       next: (updatedProfile) => {
         this.profile = updatedProfile;
         this.editingField = null;
         this.isLoading = false;
         
         if (field === 'name') {
-          this.userService.updateUserName(this.tempValue);
+          this.clientService.updateUserName(this.tempValue);
         }
       },
       error: (err) => {
@@ -117,7 +115,7 @@ export class EditProfileComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.clientProfileService.updateProfile(updateData).subscribe({
+    this.clientService.updateProfile(updateData).subscribe({
       next: (updatedProfile) => {
         this.profile = updatedProfile;
         this.editingField = null;
