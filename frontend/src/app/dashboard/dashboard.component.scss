@@ -19,13 +19,13 @@ $transition-duration: 0.3s;
   .main-content {
     flex: 1;
     padding: 20px;
-    margin-left: $sidebar-width-expanded;
-    transition: margin-left $transition-duration ease, width $transition-duration ease;
-    width: calc(100% - #{$sidebar-width-expanded});
+    margin-left: 250px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    width: calc(100% - 250px);
 
     &.sidebar-collapsed {
-      margin-left: $sidebar-width-collapsed;
-      width: calc(100% - #{$sidebar-width-collapsed});
+      margin-left: 70px;
+      width: calc(100% - 70px);
     }
 
     // Common styles for all dashboard content containers

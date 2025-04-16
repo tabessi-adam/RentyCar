@@ -1,4 +1,32 @@
-.profile-container {
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  position: relative;
+
+  app-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    width: calc(100% - 250px);
+
+    &.sidebar-collapsed {
+      margin-left: 70px;
+      width: calc(100% - 70px);
+    }
+  }
+}
+
+.reservations-container {
   background-color: white;
   border-radius: 8px;
   padding: 24px;
