@@ -28,7 +28,7 @@ export class VehiclesListComponent implements OnInit {
     this.loadVehicles();
   }
 
-  private loadVehicles() {
+  loadVehicles() {
     this.loading = true;
     this.error = null;
     

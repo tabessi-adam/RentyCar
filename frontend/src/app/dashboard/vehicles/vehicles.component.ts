@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
+import { VehicleService } from '../../core/services/vehicle.service';
+import { CreateVehiclePayload, Vehicle } from '../../core/models/vehicle.model';
 
 @Component({
   selector: 'app-vehicles',
@@ -18,7 +20,10 @@ import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
 })
 export class VehiclesComponent {
   @ViewChild(AddVehicleComponent) addVehicleComponent!: AddVehicleComponent;
+  @ViewChild(VehiclesListComponent) vehiclesListComponent!: VehiclesListComponent;
   isSidebarExpanded = true;
+
+  constructor(private vehicleService: VehicleService) {}
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
@@ -28,9 +33,17 @@ export class VehiclesComponent {
     this.addVehicleComponent.open();
   }
 
-  onVehicleAdded(vehicle: any) {
-    // Here you can handle the newly added vehicle
-    // For example, refresh the vehicles list or add the vehicle to the list
-    console.log('New vehicle added:', vehicle);
+  onVehicleAdded(vehicleData: CreateVehiclePayload) {
+    this.vehicleService.createVehicle(vehicleData).subscribe({
+      next: (createdVehicle) => {
+        console.log('Vehicle created successfully:', createdVehicle);
+        // Refresh the vehicles list
+        this.vehiclesListComponent.loadVehicles();
+      },
+      error: (error) => {
+        console.error('Error creating vehicle:', error);
+        // Handle error appropriately (show error message to user)
+      }
+    });
   }
 }
