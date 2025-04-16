@@ -15,6 +15,9 @@ $background-light: #f8f9fa;
 
 .vehicles-list-container {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   
   .loading, .error {
     text-align: center;
@@ -24,6 +27,10 @@ $background-light: #f8f9fa;
 
   .error {
     color: $danger-red;
+  }
+
+  app-vehicle-filters {
+    margin-bottom: 20px;
   }
 
   .table-responsive {

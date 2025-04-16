@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, NotFoundException, Query } from '@nestjs/common';
 import { VehiclesService } from '../vehicles.service';
 import { CreateVehicleDto } from '../dto/create-vehicle.dto';
 import { UpdateVehicleDto } from '../dto/update-vehicle.dto';
+import { VehicleFiltersDto } from '../dto/vehicle-filters.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -39,14 +40,19 @@ export class AgentVehiclesController {
   }
 
   @Get()
-  async findAll(@Request() req) {
+  async findAll(@Request() req, @Query() filters: VehicleFiltersDto) {
     const agent = await this.agentRepository.findOne({ where: { id: req.user.id } });
     if (!agent) {
       throw new NotFoundException('Agent not found');
     }
     
-    // Return only vehicles from the agent's office
-    return this.vehicleRepository.find({ where: { officeId: agent.officeId } });
+    // Always filter by the agent's office
+    const filtersWithOffice = {
+      ...filters,
+      officeId: agent.officeId
+    };
+    
+    return this.vehiclesService.findAll(filtersWithOffice);
   }
 
   @Get(':id')

@@ -1,0 +1,102 @@
+<div class="filters-container">
+  <div class="filters-header">
+    <h3>Filters</h3>
+  </div>
+
+  <form [formGroup]="filterForm" class="filters-form">
+    <!-- Status Filter -->
+    <div class="filter-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status" class="form-control">
+        <option value="">All</option>
+        <option *ngFor="let status of vehicleStatus" [value]="status">
+          {{ status }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Brand and Model Filters -->
+    <div class="filter-group">
+      <label for="brand">Brand</label>
+      <input type="text" id="brand" formControlName="brand" class="form-control" placeholder="Enter brand">
+    </div>
+
+    <div class="filter-group">
+      <label for="model">Model</label>
+      <input type="text" id="model" formControlName="model" class="form-control" placeholder="Enter model">
+    </div>
+
+    <!-- Year Range -->
+    <div class="filter-group">
+      <label>Year Range</label>
+      <div class="range-inputs">
+        <input type="number" formControlName="minYear" class="form-control" placeholder="Min" min="1900" [max]="currentYear">
+        <span>to</span>
+        <input type="number" formControlName="maxYear" class="form-control" placeholder="Max" min="1900" [max]="currentYear">
+      </div>
+    </div>
+
+    <!-- Fuel Type and Transmission -->
+    <div class="filter-group">
+      <label for="fuelType">Fuel Type</label>
+      <select id="fuelType" formControlName="fuelType" class="form-control">
+        <option value="">All</option>
+        <option *ngFor="let type of fuelTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="transmission">Transmission</label>
+      <select id="transmission" formControlName="transmission" class="form-control">
+        <option value="">All</option>
+        <option *ngFor="let type of transmissions" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Price Range -->
+    <div class="filter-group">
+      <label>Price Range (per day)</label>
+      <div class="range-inputs">
+        <input type="number" formControlName="minPrice" class="form-control" placeholder="Min" min="0">
+        <span>to</span>
+        <input type="number" formControlName="maxPrice" class="form-control" placeholder="Max" min="0">
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="filter-group features-group">
+      <label>Features</label>
+      <div class="feature-checkboxes">
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasGPS" formControlName="hasGPS">
+          <label for="hasGPS">GPS</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasBluetooth" formControlName="hasBluetooth">
+          <label for="hasBluetooth">Bluetooth</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasAirConditioning" formControlName="hasAirConditioning">
+          <label for="hasAirConditioning">Air Conditioning</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasUSBCable" formControlName="hasUSBCable">
+          <label for="hasUSBCable">USB Cable</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="filters-footer">
+    <button class="reset-button" (click)="resetFilters()">
+      <i class="fas fa-undo"></i> Reset
+    </button>
+    <button class="apply-button" (click)="applyFilters()">
+      <i class="fas fa-filter"></i> Apply Filters
+    </button>
+  </div>
+</div> 

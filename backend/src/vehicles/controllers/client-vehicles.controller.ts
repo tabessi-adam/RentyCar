@@ -1,5 +1,6 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, Query } from '@nestjs/common';
 import { VehiclesService } from '../vehicles.service';
+import { VehicleFiltersDto } from '../dto/vehicle-filters.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -12,8 +13,8 @@ export class ClientVehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
   @Get()
-  findAll() {
-    return this.vehiclesService.findAll();
+  findAll(@Query() filters: VehicleFiltersDto) {
+    return this.vehiclesService.findAll(filters);
   }
 
   @Get(':id')

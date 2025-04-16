@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Vehicle, CreateVehiclePayload, UpdateVehiclePayload } from '../models/vehicle.model';
 import { AuthService } from './auth.service';
 import { Role } from '../models/role.enum';
@@ -53,13 +53,35 @@ export class VehicleService {
   }
 
   // GET /<role>/vehicles
-  getAllVehicles(): Observable<Vehicle[]> {
+  getAllVehicles(filters?: any): Observable<Vehicle[]> {
+    console.log('VehicleService - Getting vehicles with filters:', filters);
     const apiUrl = this.getApiPath();
     if (!apiUrl) {
+      console.error('VehicleService - No API URL found');
       return throwError(() => new Error('User role unknown'));
     }
-    return this.http.get<Vehicle[]>(apiUrl, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+
+    // Format query parameters
+    let params = new HttpParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== '') {
+          params = params.append(key, value.toString());
+        }
+      });
+    }
+
+    console.log('VehicleService - Sending request with params:', params.toString());
+    return this.http.get<Vehicle[]>(apiUrl, { 
+      headers: this.getAuthHeaders(),
+      params
+    }).pipe(
+      tap(response => console.log('VehicleService - Received response:', response)),
+      catchError(error => {
+        console.error('VehicleService - Error:', error);
+        return this.handleError(error);
+      })
+    );
   }
 
   // GET /<role>/vehicles/:id

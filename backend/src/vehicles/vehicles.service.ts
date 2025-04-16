@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Between, Like } from 'typeorm';
 import { Vehicle } from './entities/vehicle.entity';
 import { Office } from '../offices/entities/office.entity';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { VehicleFiltersDto } from './dto/vehicle-filters.dto';
 
 @Injectable()
 export class VehiclesService {
@@ -29,8 +30,78 @@ export class VehiclesService {
     return this.vehiclesRepository.save(vehicle);
   }
 
-  findAll() {
-    return this.vehiclesRepository.find();
+  async findAll(filters?: VehicleFiltersDto) {
+    const queryBuilder = this.vehiclesRepository.createQueryBuilder('vehicle');
+
+    if (filters) {
+      if (filters.status) {
+        queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
+      }
+
+      if (filters.brand) {
+        queryBuilder.andWhere('vehicle.brand LIKE :brand', { brand: `%${filters.brand}%` });
+      }
+
+      if (filters.model) {
+        queryBuilder.andWhere('vehicle.model LIKE :model', { model: `%${filters.model}%` });
+      }
+
+      if (filters.minYear || filters.maxYear) {
+        if (filters.minYear && filters.maxYear) {
+          queryBuilder.andWhere('vehicle.year BETWEEN :minYear AND :maxYear', {
+            minYear: filters.minYear,
+            maxYear: filters.maxYear,
+          });
+        } else if (filters.minYear) {
+          queryBuilder.andWhere('vehicle.year >= :minYear', { minYear: filters.minYear });
+        } else if (filters.maxYear) {
+          queryBuilder.andWhere('vehicle.year <= :maxYear', { maxYear: filters.maxYear });
+        }
+      }
+
+      if (filters.fuelType) {
+        queryBuilder.andWhere('vehicle.fuelType = :fuelType', { fuelType: filters.fuelType });
+      }
+
+      if (filters.transmission) {
+        queryBuilder.andWhere('vehicle.transmission = :transmission', { transmission: filters.transmission });
+      }
+
+      if (filters.minPrice || filters.maxPrice) {
+        if (filters.minPrice && filters.maxPrice) {
+          queryBuilder.andWhere('vehicle.pricePerDay BETWEEN :minPrice AND :maxPrice', {
+            minPrice: filters.minPrice,
+            maxPrice: filters.maxPrice,
+          });
+        } else if (filters.minPrice) {
+          queryBuilder.andWhere('vehicle.pricePerDay >= :minPrice', { minPrice: filters.minPrice });
+        } else if (filters.maxPrice) {
+          queryBuilder.andWhere('vehicle.pricePerDay <= :maxPrice', { maxPrice: filters.maxPrice });
+        }
+      }
+
+      if (filters.officeId) {
+        queryBuilder.andWhere('vehicle.officeId = :officeId', { officeId: filters.officeId });
+      }
+
+      if (filters.hasGPS !== undefined) {
+        queryBuilder.andWhere('vehicle.hasGPS = :hasGPS', { hasGPS: filters.hasGPS });
+      }
+
+      if (filters.hasBluetooth !== undefined) {
+        queryBuilder.andWhere('vehicle.hasBluetooth = :hasBluetooth', { hasBluetooth: filters.hasBluetooth });
+      }
+
+      if (filters.hasAirConditioning !== undefined) {
+        queryBuilder.andWhere('vehicle.hasAirConditioning = :hasAirConditioning', { hasAirConditioning: filters.hasAirConditioning });
+      }
+
+      if (filters.hasUSBCable !== undefined) {
+        queryBuilder.andWhere('vehicle.hasUSBCable = :hasUSBCable', { hasUSBCable: filters.hasUSBCable });
+      }
+    }
+
+    return queryBuilder.getMany();
   }
 
   async findOne(id: string) {

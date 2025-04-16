@@ -5,11 +5,18 @@ import { Vehicle, VehicleStatus, FuelType, Transmission } from '../../../core/mo
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
 import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
 import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
+import { VehicleFiltersComponent } from '../vehicle-filters/vehicle-filters.component';
 
 @Component({
   selector: 'app-vehicles-list',
   standalone: true,
-  imports: [CommonModule, EditVehicleComponent, DeleteVehicleComponent, ViewVehicleComponent],
+  imports: [
+    CommonModule, 
+    EditVehicleComponent, 
+    DeleteVehicleComponent, 
+    ViewVehicleComponent,
+    VehicleFiltersComponent
+  ],
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss'
 })
@@ -21,6 +28,7 @@ export class VehiclesListComponent implements OnInit {
   loading = true;
   error: string | null = null;
   vehicleToDelete: Vehicle | null = null;
+  currentFilters: any = {};
 
   constructor(private vehicleService: VehicleService) {}
 
@@ -29,20 +37,29 @@ export class VehiclesListComponent implements OnInit {
   }
 
   loadVehicles() {
+    console.log('Loading vehicles with filters:', this.currentFilters);
     this.loading = true;
     this.error = null;
     
-    this.vehicleService.getAllVehicles().subscribe({
+    this.vehicleService.getAllVehicles(this.currentFilters).subscribe({
       next: (vehicles) => {
+        console.log('Vehicles loaded:', vehicles);
         this.vehicles = vehicles;
         this.loading = false;
       },
       error: (error) => {
+        console.error('Error loading vehicles:', error);
         this.error = 'Failed to load vehicles. Please try again later.';
         this.loading = false;
-        console.error('Error loading vehicles:', error);
       }
     });
+  }
+
+  onFiltersChanged(filters: any) {
+    console.log('Filters received in VehiclesList:', filters);
+    this.currentFilters = filters;
+    console.log('Current filters set to:', this.currentFilters);
+    this.loadVehicles();
   }
 
   // Helper methods for displaying enum values nicely

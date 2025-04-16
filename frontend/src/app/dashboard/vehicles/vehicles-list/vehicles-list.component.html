@@ -7,6 +7,8 @@
     {{ error }}
   </div>
 
+  <app-vehicle-filters (filtersChanged)="onFiltersChanged($event)"></app-vehicle-filters>
+
   <div *ngIf="!loading && !error" class="table-responsive">
     <table class="vehicles-table">
       <thead>
