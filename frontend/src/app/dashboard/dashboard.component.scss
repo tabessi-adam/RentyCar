@@ -1,6 +1,8 @@
 .dashboard-container {
   display: flex;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
 .main-content {
@@ -9,10 +11,20 @@
   padding: 24px;
   background-color: #f5f5f5;
   min-height: 100vh;
-  transition: margin-left 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left center;
+  position: relative;
+  z-index: 1;
 
   // When sidebar is collapsed
   .sidebar.collapsed ~ & {
     margin-left: 64px; // Match the collapsed sidebar width
+    transform: translateX(0);
   }
+}
+
+// Add a subtle scale effect when sidebar is collapsed
+.sidebar.collapsed ~ .main-content {
+  transform: scale(1.01);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
