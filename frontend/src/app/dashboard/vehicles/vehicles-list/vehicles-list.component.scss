@@ -1,3 +1,18 @@
+@use "sass:color";
+
+// Color variables
+$primary-orange: #FF6B35;
+$text-primary: #333333;
+$text-secondary: #666666;
+$border-color: #E0E0E0;
+$white: #FFFFFF;
+$success-green: #28A745;
+$info-blue: #17A2B8;
+$warning-amber: #FFC107;
+$danger-red: #DC3545;
+$gray: #6C757D;
+$background-light: #f8f9fa;
+
 .vehicles-list-container {
   padding: 20px;
   
@@ -8,7 +23,7 @@
   }
 
   .error {
-    color: #dc3545;
+    color: $danger-red;
   }
 
   .table-responsive {
@@ -16,58 +31,146 @@
     margin-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .vehicles-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+    background-color: $white;
+    min-width: 800px;
     
     th, td {
       padding: 12px 15px;
       text-align: left;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid $border-color;
+      white-space: nowrap;
     }
 
     th {
-      background-color: #f8f9fa;
+      background-color: $background-light;
       font-weight: 600;
-      color: #495057;
+      color: $text-primary;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     tr:hover {
-      background-color: #f8f9fa;
+      background-color: $background-light;
     }
 
     .no-data {
       text-align: center;
-      color: #6c757d;
+      color: $text-secondary;
       font-style: italic;
     }
-  }
 
-  // Status styles
-  .status-available {
-    color: #28a745;
-    background-color: #e8f5e9;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
+    // Status styles
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1;
+      transition: all 200ms ease;
+      color: $white;
 
-  .status-rented {
-    color: #0056b3;
-    background-color: #e3f2fd;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
+      &.status-available {
+        background-color: $success-green;
+      }
 
-  .status-maintenance {
-    color: #dc3545;
-    background-color: #ffebee;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: 500;
+      &.status-rented {
+        background-color: $danger-red;
+      }
+
+      &.status-maintenance {
+        background-color: $warning-amber;
+      }
+    }
+
+    .actions {
+      white-space: nowrap;
+      padding: 8px 15px;
+
+      .action-button {
+        background: none;
+        border: none;
+        padding: 6px;
+        margin: 0 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        i {
+          font-size: 16px;
+        }
+
+        &.view {
+          color: $gray;
+          &:hover {
+            background-color: rgba($gray, 0.1);
+          }
+        }
+
+        &.edit {
+          color: $gray;
+          &:hover {
+            background-color: rgba($gray, 0.1);
+          }
+        }
+
+        &.delete {
+          color: $danger-red;
+          &:hover {
+            background-color: rgba($danger-red, 0.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media screen and (max-width: 1200px) {
+  .vehicles-list-container {
+    padding: 15px;
+    
+    .vehicles-table {
+      th, td {
+        padding: 10px 12px;
+        font-size: 0.95em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .vehicles-list-container {
+    padding: 10px;
+    
+    .vehicles-table {
+      th, td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .vehicles-list-container {
+    padding: 8px;
+    
+    .vehicles-table {
+      th, td {
+        padding: 6px 8px;
+        font-size: 0.85em;
+      }
+    }
   }
 }

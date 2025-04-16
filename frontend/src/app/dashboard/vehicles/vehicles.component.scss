@@ -48,39 +48,41 @@ $danger-red: #DC3545;
 .vehicles-container {
   background-color: white;
   border-radius: 8px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 100%;
 
-  h1 {
-    margin: 0 0 24px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #343a40;
-  }
-
-  .header {
+  .header-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
 
-    .add-button {
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: $neutral-gray-800;
+    }
+
+    .add-vehicle-button {
       background-color: $primary-orange;
       color: $white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 4px;
       font-weight: 500;
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      cursor: pointer;
-      transition: background-color 200ms ease;
+      transition: background-color 0.2s;
+
+      i {
+        font-size: 14px;
+      }
 
       &:hover {
-        background-color: color.adjust($primary-orange, $lightness: -10%);
+        background-color: darken($primary-orange, 5%);
       }
     }
   }
@@ -289,6 +291,24 @@ $danger-red: #DC3545;
       font-size: 16px;
       color: $neutral-gray-600;
       margin-bottom: 24px;
+    }
+  }
+}
+
+// Responsive styles
+@media screen and (max-width: 768px) {
+  .vehicles-container {
+    padding: 16px;
+
+    .header-actions {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+
+      .add-vehicle-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
   }
 }

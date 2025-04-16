@@ -1,0 +1,87 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Edit Vehicle</h2>
+      <button class="close-button" (click)="close()">&times;</button>
+    </div>
+    
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="vehicle-form">
+      <div class="form-group">
+        <label for="brand">Brand</label>
+        <input type="text" id="brand" formControlName="brand" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="model">Model</label>
+        <input type="text" id="model" formControlName="model" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="year">Year</label>
+        <input type="number" id="year" formControlName="year" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="fuelType">Fuel Type</label>
+        <select id="fuelType" formControlName="fuelType" class="form-control">
+          <option value="PETROL">Petrol</option>
+          <option value="DIESEL">Diesel</option>
+          <option value="ELECTRIC">Electric</option>
+          <option value="HYBRID">Hybrid</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="transmission">Transmission</label>
+        <select id="transmission" formControlName="transmission" class="form-control">
+          <option value="MANUAL">Manual</option>
+          <option value="AUTOMATIC">Automatic</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pricePerDay">Price per Day</label>
+        <input type="number" id="pricePerDay" formControlName="pricePerDay" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="officeId">Office ID</label>
+        <input type="text" id="officeId" formControlName="officeId" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status" class="form-control">
+          <option value="AVAILABLE">Available</option>
+          <option value="RENTED">Rented</option>
+          <option value="MAINTENANCE">Maintenance</option>
+        </select>
+      </div>
+
+      <div class="features-group">
+        <h3>Features</h3>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasGPS" formControlName="hasGPS">
+          <label for="hasGPS">GPS</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasBluetooth" formControlName="hasBluetooth">
+          <label for="hasBluetooth">Bluetooth</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasAirConditioning" formControlName="hasAirConditioning">
+          <label for="hasAirConditioning">Air Conditioning</label>
+        </div>
+        <div class="feature-checkbox">
+          <input type="checkbox" id="hasUSBCable" formControlName="hasUSBCable">
+          <label for="hasUSBCable">USB Cable</label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!vehicleForm.valid">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div> 
