@@ -15,6 +15,7 @@ import { ClientService } from '../../core/services/client.service';
 export class NavbarComponent implements OnInit {
   isMobileMenuOpen = false;
   isProfileDropdownOpen = false;
+  isAuthenticated = false;
 
   constructor(
     public authService: AuthService,
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     // Subscribe to auth state changes
     this.authService.currentUser$.subscribe(user => {
+      this.isAuthenticated = !!user;
       if (user?.name) {
         this.clientService.updateUserName(user.name);
       } else {
@@ -65,7 +67,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
     this.closeMenus();
   }
 
@@ -85,7 +87,7 @@ export class NavbarComponent implements OnInit {
 
   // Get dashboard route based on user role
   getDashboardRoute(): string {
-    const user = this.authService.getCurrentUser();
+    const user = this.authService.currentUser;
     const role = user?.role;
     switch (role) {
       case Role.ADMIN:
@@ -102,5 +104,9 @@ export class NavbarComponent implements OnInit {
   private closeMenus() {
     this.isMobileMenuOpen = false;
     this.isProfileDropdownOpen = false;
+  }
+
+  get currentUser() {
+    return this.authService.currentUser;
   }
 }

@@ -3,9 +3,19 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { LoginDto, RegisterDto, User } from '../models/auth.model';
+import { LoginDto, RegisterDto, User as AuthUser } from '../models/auth.model';
 import { Role } from '../models/role.enum';
 import { isPlatformBrowser } from '@angular/common';
+
+export type UserRole = Role;
+
+export interface User {
+  id: string;
+  email: string;
+  role: UserRole;
+  name: string;
+  accessToken?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +33,13 @@ export class AuthService {
     this.isBrowser = isPlatformBrowser(this.platformId);
     
     if (this.isBrowser) {
-      const storedUser = localStorage.getItem('currentUser');
-      if (storedUser) {
+      const savedUser = localStorage.getItem('currentUser');
+      if (savedUser) {
         try {
-          const user = JSON.parse(storedUser);
-          this.currentUserSubject.next(user);
+          this.currentUserSubject.next(JSON.parse(savedUser));
         } catch (error) {
           console.error('Error parsing stored user data:', error);
-          localStorage.removeItem('currentUser'); // Remove invalid data
+          localStorage.removeItem('currentUser');
         }
       }
     }
@@ -64,10 +73,11 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/admin/login`, loginDto).pipe(
       tap((response: any) => {
         if (response && response.access_token) {
-          const user = {
+          const user: User = {
             id: response.id,
             email: loginDto.email,
             role: Role.ADMIN,
+            name: response.name || loginDto.email.split('@')[0],
             accessToken: response.access_token
           };
           if (this.isBrowser) {
@@ -84,8 +94,11 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/agent/login`, loginDto).pipe(
       tap((response: any) => {
         if (response && response.access_token) {
-          const user = {
-            ...response,
+          const user: User = {
+            id: response.id,
+            email: loginDto.email,
+            role: Role.AGENT,
+            name: response.name || loginDto.email.split('@')[0],
             accessToken: response.access_token
           };
           if (this.isBrowser) {
@@ -105,12 +118,12 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  getCurrentUser(): User | null {
+  get currentUser(): User | null {
     return this.currentUserSubject.value;
   }
 
   isAuthenticated(): boolean {
-    return !!this.getCurrentUser()?.accessToken;
+    return !!this.currentUser?.accessToken;
   }
 
   isLoggedIn(): boolean {
@@ -118,19 +131,15 @@ export class AuthService {
   }
 
   userRole(): Role | undefined {
-    return this.getCurrentUser()?.role;
-  }
-
-  currentUser(): User | null {
-    return this.getCurrentUser();
+    return this.currentUser?.role;
   }
 
   currentToken(): string | undefined {
-    return this.getCurrentUser()?.accessToken;
+    return this.currentUser?.accessToken;
   }
 
   hasRole(role: Role): boolean {
-    const user = this.getCurrentUser();
+    const user = this.currentUser;
     return user ? user.role === role : false;
   }
 
@@ -158,5 +167,17 @@ export class AuthService {
       status: error.status,
       error: error.error
     }));
+  }
+
+  get isAdmin(): boolean {
+    return this.currentUser?.role === Role.ADMIN;
+  }
+
+  get isAgent(): boolean {
+    return this.currentUser?.role === Role.AGENT;
+  }
+
+  get isClient(): boolean {
+    return this.currentUser?.role === Role.CLIENT;
   }
 }

@@ -1,0 +1,12 @@
+.clients-container {
+  padding: 24px;
+  margin-left: 256px; // Adjust based on sidebar width
+  transition: margin-left 300ms ease;
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #212529;
+    margin-bottom: 24px;
+  }
+} 

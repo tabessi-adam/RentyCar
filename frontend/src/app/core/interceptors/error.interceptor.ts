@@ -32,14 +32,32 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   
   return next(req).pipe(
     catchError(err => {
+      let errorMessage = 'An unknown error occurred';
+      
       if (err.status === 401) {
-        // Auto logout if 401 Unauthorized response returned from api
-        authService.logout();
-        router.navigate(['/login']);
+        if (err.error?.message === 'No account found with this email') {
+          errorMessage = 'No account found with this email address';
+        } else if (err.error?.message === 'Incorrect password') {
+          errorMessage = 'Incorrect password. Please try again.';
+        } else {
+          // Auto logout if 401 Unauthorized response returned from api
+          authService.logout();
+          router.navigate(['/login']);
+          errorMessage = 'Your session has expired. Please log in again.';
+        }
+      } else if (err.status === 400) {
+        errorMessage = err.error?.message || 'Invalid request. Please check your input.';
+      } else if (err.status === 404) {
+        errorMessage = err.error?.message || 'Resource not found.';
+      } else if (err.status === 500) {
+        errorMessage = 'Server error. Please try again later.';
       }
 
-      const error = err.error?.message || err.statusText;
-      return throwError(() => new Error(error));
+      return throwError(() => ({
+        message: errorMessage,
+        status: err.status,
+        error: err.error
+      }));
     })
   );
 };

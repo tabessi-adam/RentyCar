@@ -1,0 +1,18 @@
+<div class="sidebar" [class.collapsed]="!isExpanded">
+  <div class="logo-content" (click)="toggleSidebar()">
+    <fa-icon [icon]="icons.car" class="logo-icon"></fa-icon>
+    <span class="logo-text" *ngIf="isExpanded">FleetAdmin</span>
+  </div>
+
+  <nav class="nav-menu">
+    <a *ngFor="let item of navItems" 
+       [routerLink]="item.action ? null : item.path"
+       (click)="item.action ? item.action() : null"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-item">
+      <fa-icon [icon]="icons[item.icon]" class="nav-icon"></fa-icon>
+      <span class="nav-text" *ngIf="isExpanded">{{ item.label }}</span>
+    </a>
+  </nav>
+</div>

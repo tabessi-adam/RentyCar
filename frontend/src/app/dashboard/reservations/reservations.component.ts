@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reservations',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './reservations.component.html',
-  styleUrl: './reservations.component.scss'
+  styleUrls: ['./reservations.component.scss']
 })
 export class ReservationsComponent {
 

@@ -16,7 +16,7 @@
 
   <!-- Desktop Auth Section -->
   <div class="navbar__auth">
-    <ng-container *ngIf="!authService.isAuthenticated(); else loggedInTemplate">
+    <ng-container *ngIf="!isAuthenticated; else loggedInTemplate">
       <button routerLink="/login" class="btn btn--secondary">Login</button>
       <button routerLink="/register" class="btn btn--primary">Register</button>
     </ng-container>
@@ -25,7 +25,7 @@
       <div class="navbar__profile" tabindex="0" (click)="toggleProfileDropdown()" 
            (keydown)="handleProfileKeydown($event)" [attr.aria-expanded]="isProfileDropdownOpen" 
            aria-label="Profile menu">
-        <span>{{ clientService.userName() || 'User' }}</span>
+        <span>{{ currentUser?.name || 'User' }}</span>
         <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
           <a routerLink="/client/profile" role="menuitem">Edit Profile</a>
           <a routerLink="/client/reservations" role="menuitem">My Reservations</a>
@@ -51,7 +51,7 @@
     <a routerLink="/about" routerLinkActive="active" role="menuitem">About Us</a>
     <a routerLink="/contact" routerLinkActive="active" role="menuitem">Contact</a>
     
-    <ng-container *ngIf="!authService.isAuthenticated(); else mobileLoggedIn">
+    <ng-container *ngIf="!isAuthenticated; else mobileLoggedIn">
       <a routerLink="/login" role="menuitem">Login</a>
       <a routerLink="/register" role="menuitem">Register</a>
     </ng-container>

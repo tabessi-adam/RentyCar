@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage: string | null = null;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,17 +62,11 @@ export class LoginComponent implements OnInit {
         error: (error) => {
           this.isLoading = false;
           console.error('Login error:', error);
-
-          switch (error.status) {
-            case 401:
-              this.errorMessage = error.message || 'Invalid email or password';
-              break;
-            case 0:
-              this.errorMessage = 'Unable to connect to the server. Please check your internet connection.';
-              break;
-            default:
-              this.errorMessage = error.message || 'An error occurred during login. Please try again.';
-          }
+          this.errorMessage = error.message || 'An error occurred during login. Please try again.';
+          
+          // Clear password field on error
+          this.loginForm.patchValue({ password: '' });
+          this.password?.markAsUntouched();
         }
       });
     } else {
@@ -80,6 +75,10 @@ export class LoginComponent implements OnInit {
         control?.markAsTouched();
       });
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   // Helper method to navigate based on user role

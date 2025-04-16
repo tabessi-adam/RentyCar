@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reviews',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './reviews.component.html',
-  styleUrl: './reviews.component.scss'
+  styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent {
 

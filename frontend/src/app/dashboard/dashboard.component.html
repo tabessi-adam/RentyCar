@@ -1,1 +1,6 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <app-sidebar [isExpanded]="isSidebarExpanded"></app-sidebar>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-agents',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './agents.component.html',
-  styleUrl: './agents.component.scss'
+  styleUrls: ['./agents.component.scss']
 })
 export class AgentsComponent {
 

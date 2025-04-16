@@ -1,0 +1,263 @@
+@use "sass:color";
+
+// Color variables
+$primary-orange: #FF6B35;
+$neutral-gray-100: #F8F9FA;
+$neutral-gray-200: #E9ECEF;
+$neutral-gray-300: #DEE2E6;
+$neutral-gray-400: #CED4DA;
+$neutral-gray-500: #ADB5BD;
+$neutral-gray-600: #6C757D;
+$neutral-gray-700: #495057;
+$neutral-gray-800: #343A40;
+$neutral-gray-900: #212529;
+$white: #FFFFFF;
+$success-green: #28A745;
+$info-blue: #17A2B8;
+$warning-amber: #FFC107;
+$danger-red: #DC3545;
+
+.vehicles-container {
+  padding: 24px;
+  margin-left: 256px; // Adjust based on sidebar width
+  transition: margin-left 300ms ease;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: $neutral-gray-900;
+    }
+
+    .add-button {
+      background-color: $primary-orange;
+      color: $white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background-color 200ms ease;
+
+      &:hover {
+        background-color: color.adjust($primary-orange, $lightness: -10%);
+      }
+    }
+  }
+
+  .filters-section {
+    background-color: $white;
+    border-radius: 10px;
+    border: 1px solid $neutral-gray-200;
+    margin-bottom: 24px;
+
+    .filters-header {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $neutral-gray-200;
+
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
+        color: $neutral-gray-800;
+      }
+
+      .toggle-filters {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $neutral-gray-600;
+      }
+    }
+
+    .filters-content {
+      padding: 24px;
+
+      .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
+        margin-bottom: 24px;
+
+        .filter-group {
+          label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: $neutral-gray-700;
+          }
+
+          input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid $neutral-gray-300;
+            border-radius: 6px;
+            font-size: 14px;
+          }
+
+          .slider-container {
+            padding: 8px 0;
+          }
+
+          .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            label {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .filter-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+
+        button {
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          transition: all 200ms ease;
+
+          &.reset-button {
+            background-color: $neutral-gray-100;
+            color: $neutral-gray-700;
+            border: 1px solid $neutral-gray-300;
+
+            &:hover {
+              background-color: $neutral-gray-200;
+            }
+          }
+
+          &.apply-button {
+            background-color: $primary-orange;
+            color: $white;
+            border: none;
+
+            &:hover {
+              background-color: color.adjust($primary-orange, $lightness: -10%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .vehicles-table {
+    background-color: $white;
+    border-radius: 10px;
+    border: 1px solid $neutral-gray-200;
+    overflow: hidden;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid $neutral-gray-200;
+      }
+
+      th {
+        background-color: $neutral-gray-100;
+        font-size: 14px;
+        font-weight: 600;
+        color: $neutral-gray-700;
+      }
+
+      td {
+        font-size: 14px;
+        color: $neutral-gray-800;
+      }
+
+      tr:hover {
+        background-color: $neutral-gray-100;
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+
+        &.available {
+          background-color: rgba($success-green, 0.1);
+          color: $success-green;
+        }
+
+        &.rented {
+          background-color: rgba($info-blue, 0.1);
+          color: $info-blue;
+        }
+
+        &.maintenance {
+          background-color: rgba($warning-amber, 0.1);
+          color: $warning-amber;
+        }
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+
+        .action-button {
+          background: none;
+          border: none;
+          padding: 4px;
+          cursor: pointer;
+          color: $neutral-gray-600;
+          transition: color 200ms ease;
+
+          &:hover {
+            &.view { color: $info-blue; }
+            &.edit { color: $primary-orange; }
+            &.delete { color: $danger-red; }
+          }
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px;
+    background-color: $white;
+    border-radius: 10px;
+    border: 1px solid $neutral-gray-200;
+
+    i {
+      font-size: 48px;
+      color: $neutral-gray-400;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      color: $neutral-gray-600;
+      margin-bottom: 24px;
+    }
+  }
+}

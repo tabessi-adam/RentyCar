@@ -3,12 +3,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-clients',
   standalone: true,
   imports: [CommonModule, SidebarComponent],
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  templateUrl: './clients.component.html',
+  styleUrls: ['./clients.component.scss']
 })
-export class ProfileComponent {
-
-}
+export class ClientsComponent {
+  // Component implementation
+} 
