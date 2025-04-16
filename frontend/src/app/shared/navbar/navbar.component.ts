@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service'; // Use the new AuthService path
+import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Role } from '../../core/models/role.enum'; // Use the new Role enum
+import { Role } from '../../core/models/role.enum';
 import { ClientService } from '../../core/services/client.service';
 
 @Component({
@@ -15,18 +15,21 @@ import { ClientService } from '../../core/services/client.service';
 export class NavbarComponent implements OnInit {
   isMobileMenuOpen = false;
   isProfileDropdownOpen = false;
-  userName: string = '';
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private clientService: ClientService
+    public clientService: ClientService
   ) {}
 
   ngOnInit() {
-    // Subscribe to user name changes
-    this.clientService.userName$.subscribe(name => {
-      this.userName = name;
+    // Subscribe to auth state changes
+    this.authService.currentUser$.subscribe(user => {
+      if (user?.name) {
+        this.clientService.updateUserName(user.name);
+      } else {
+        this.clientService.clearUserName();
+      }
     });
   }
 

@@ -26,7 +26,8 @@ export class AuthService {
       const storedUser = localStorage.getItem('currentUser');
       if (storedUser) {
         try {
-          this.currentUserSubject.next(JSON.parse(storedUser));
+          const user = JSON.parse(storedUser);
+          this.currentUserSubject.next(user);
         } catch (error) {
           console.error('Error parsing stored user data:', error);
           localStorage.removeItem('currentUser'); // Remove invalid data

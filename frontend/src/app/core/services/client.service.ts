@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 export interface ClientProfile {
@@ -18,16 +19,18 @@ export interface ClientProfile {
   providedIn: 'root'
 })
 export class ClientService {
-  private userNameSubject = new BehaviorSubject<string>('');
-  userName$ = this.userNameSubject.asObservable();
+  userName = signal<string>('');
   private apiUrl = `${environment.apiUrl}/clients`;
-  private authService = inject(AuthService);
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {
     // Initialize with the name from localStorage if available
     const storedName = localStorage.getItem('userName');
     if (storedName) {
-      this.userNameSubject.next(storedName);
+      this.userName.set(storedName);
     }
   }
 
@@ -52,23 +55,20 @@ export class ClientService {
       .pipe(
         tap(() => {
           this.clearUserName();
-          this.authService.logout(); // Log out the user after account deletion
+          this.authService.logout();
+          this.router.navigate(['/']);
         })
       );
   }
 
   // User name methods
   updateUserName(name: string) {
-    this.userNameSubject.next(name);
+    this.userName.set(name);
     localStorage.setItem('userName', name);
   }
 
-  getUserName(): string {
-    return this.userNameSubject.value;
-  }
-
   clearUserName() {
-    this.userNameSubject.next('');
+    this.userName.set('');
     localStorage.removeItem('userName');
   }
 } 
