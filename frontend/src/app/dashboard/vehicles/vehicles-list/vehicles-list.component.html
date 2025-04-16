@@ -1,0 +1,45 @@
+<div class="vehicles-list-container">
+  <div *ngIf="loading" class="loading">
+    Loading vehicles...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error" class="table-responsive">
+    <table class="vehicles-table">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Fuel Type</th>
+          <th>Transmission</th>
+          <th>Price/Day</th>
+          <th>Office ID</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of vehicles">
+          <td>{{ vehicle.brand }}</td>
+          <td>{{ vehicle.model }}</td>
+          <td>{{ vehicle.year }}</td>
+          <td>{{ vehicle.fuelType }}</td>
+          <td>{{ vehicle.transmission }}</td>
+          <td>{{ vehicle.pricePerDay | currency }}</td>
+          <td>{{ vehicle.officeId }}</td>
+          <td>
+            <span [class]="getStatusClass(vehicle.status)">
+              {{ vehicle.status }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="vehicles.length === 0">
+          <td colspan="8" class="no-data">No vehicles available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 <div class="dashboard-container">
-  <app-sidebar [isExpanded]="isSidebarExpanded"></app-sidebar>
-  <main class="main-content">
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (expandedChange)="onSidebarExpandedChange($event)">
+  </app-sidebar>
+  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
     <router-outlet></router-outlet>
   </main>
 </div>

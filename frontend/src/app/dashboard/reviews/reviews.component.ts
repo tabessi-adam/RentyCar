@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-reviews',
@@ -10,5 +10,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent {
+  isSidebarExpanded = true;
 
+  onSidebarExpandedChange(expanded: boolean) {
+    this.isSidebarExpanded = expanded;
+  }
 }

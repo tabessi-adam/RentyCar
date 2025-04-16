@@ -1,2 +1,11 @@
-
-  <app-sidebar></app-sidebar>
+<div class="dashboard-container">
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (expandedChange)="onSidebarExpandedChange($event)">
+  </app-sidebar>
+  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+    <div class="profile-container">
+      <h1>Profile Management</h1>
+    </div>
+  </main>
+</div>

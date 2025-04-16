@@ -1,12 +1,14 @@
 .clients-container {
+  background-color: white;
+  border-radius: 8px;
   padding: 24px;
-  margin-left: 256px; // Adjust based on sidebar width
-  transition: margin-left 300ms ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
 
   h1 {
+    margin: 0 0 24px;
     font-size: 24px;
-    font-weight: bold;
-    color: #212529;
-    margin-bottom: 24px;
+    font-weight: 600;
+    color: #343a40;
   }
 } 

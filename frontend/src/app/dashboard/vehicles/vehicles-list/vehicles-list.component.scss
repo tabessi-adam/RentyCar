@@ -1,0 +1,73 @@
+.vehicles-list-container {
+  padding: 20px;
+  
+  .loading, .error {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+  }
+
+  .error {
+    color: #dc3545;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .vehicles-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      color: #495057;
+    }
+
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #6c757d;
+      font-style: italic;
+    }
+  }
+
+  // Status styles
+  .status-available {
+    color: #28a745;
+    background-color: #e8f5e9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .status-rented {
+    color: #0056b3;
+    background-color: #e3f2fd;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .status-maintenance {
+    color: #dc3545;
+    background-color: #ffebee;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+}

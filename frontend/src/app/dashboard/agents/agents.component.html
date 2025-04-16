@@ -1,2 +1,11 @@
-
-  <app-sidebar></app-sidebar>
+<div class="dashboard-container">
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (expandedChange)="onSidebarExpandedChange($event)">
+  </app-sidebar>
+  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+    <div class="agents-container">
+      <h1>Agents Management</h1>
+    </div>
+  </main>
+</div>

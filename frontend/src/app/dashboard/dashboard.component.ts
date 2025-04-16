@@ -13,7 +13,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 export class DashboardComponent {
   isSidebarExpanded = true;
 
-  toggleSidebar() {
-    this.isSidebarExpanded = !this.isSidebarExpanded;
+  onSidebarExpandedChange(expanded: boolean) {
+    this.isSidebarExpanded = expanded;
   }
 }

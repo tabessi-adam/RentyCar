@@ -1,25 +1,55 @@
+$sidebar-width-expanded: 250px;
+$sidebar-width-collapsed: 70px;
+$transition-duration: 0.3s;
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
+  background-color: #f8f9fa;
   position: relative;
-  overflow: hidden;
-}
 
-.main-content {
-  flex: 1;
-  margin-left: 256px; // Match the expanded sidebar width
-  padding: 24px;
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: left center;
-  position: relative;
-  z-index: 1;
+  app-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
 
-  // When sidebar is collapsed
-  .sidebar.collapsed ~ & {
-    margin-left: 64px; // Match the collapsed sidebar width
-    transform: translateX(0);
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: $sidebar-width-expanded;
+    transition: margin-left $transition-duration ease, width $transition-duration ease;
+    width: calc(100% - #{$sidebar-width-expanded});
+
+    &.sidebar-collapsed {
+      margin-left: $sidebar-width-collapsed;
+      width: calc(100% - #{$sidebar-width-collapsed});
+    }
+
+    // Common styles for all dashboard content containers
+    :host ::ng-deep {
+      .agents-container,
+      .clients-container,
+      .profile-container,
+      .reservations-container,
+      .reviews-container,
+      .vehicles-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 100%;
+
+        h1 {
+          margin: 0 0 24px;
+          font-size: 24px;
+          font-weight: 600;
+          color: #343a40;
+        }
+      }
+    }
   }
 }
 
