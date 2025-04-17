@@ -27,7 +27,7 @@
            aria-label="Profile menu">
         <span>{{ currentUser?.name || 'User' }}</span>
         <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
-          <a routerLink="/client/profile" role="menuitem">Edit Profile</a>
+          <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>
           <a routerLink="/client/reservations" role="menuitem">My Reservations</a>
           <a (click)="logout()" role="menuitem">Logout</a>
         </div>
@@ -58,7 +58,7 @@
     
     <ng-template #mobileLoggedIn>
       <a routerLink="/client/reservations" role="menuitem">My Reservations</a>
-      <a routerLink="/client/profile" role="menuitem">Edit Profile</a>
+      <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>
       <a (click)="logout()" role="menuitem">Logout</a>
     </ng-template>
   </div>
