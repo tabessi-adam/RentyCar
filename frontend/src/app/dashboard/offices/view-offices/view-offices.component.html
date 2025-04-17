@@ -1,1 +1,35 @@
-<p>view-offices works!</p>
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 *ngIf="office">{{ office.name }}</h2>
+      <button class="close-button" (click)="close()">&times;</button>
+    </div>
+    
+    <div class="office-details" *ngIf="office">
+      <div class="detail-row">
+        <span class="label">ID</span>
+        <span class="value">{{ office.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Name</span>
+        <span class="value">{{ office.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Address</span>
+        <span class="value">{{ office.address }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Phone Number</span>
+        <span class="value">{{ office.phoneNumber || '-' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Created At</span>
+        <span class="value">{{ office.createdAt | date:'medium' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Last Updated</span>
+        <span class="value">{{ office.updatedAt | date:'medium' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

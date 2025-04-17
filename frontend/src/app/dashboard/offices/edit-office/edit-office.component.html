@@ -1,1 +1,44 @@
-<p>edit-office works!</p>
+<div class="modal-content">
+  <div class="modal-header">
+    <h2>Edit Office</h2>
+    <button class="close-button" (click)="close()" aria-label="Close modal">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <form [formGroup]="officeForm" (ngSubmit)="onSubmit()" class="edit-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter office name">
+      <mat-error *ngIf="officeForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" placeholder="Enter office address">
+      <mat-error *ngIf="officeForm.get('address')?.hasError('required')">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
+      <mat-error *ngIf="officeForm.get('phoneNumber')?.hasError('required')">
+        Phone number is required
+      </mat-error>
+      <mat-error *ngIf="officeForm.get('phoneNumber')?.hasError('pattern')">
+        Please enter a valid phone number
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!officeForm.valid">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

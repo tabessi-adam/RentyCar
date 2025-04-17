@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,6 +33,7 @@ import { DeleteOfficeComponent } from '../delete-office/delete-office.component'
   styleUrl: './offices-list.component.scss'
 })
 export class OfficesListComponent implements OnInit {
+  @ViewChild(ViewOfficesComponent) viewOfficeComponent!: ViewOfficesComponent;
   displayedColumns: string[] = ['id', 'name', 'address', 'phoneNumber', 'createdAt', 'actions'];
   offices: Office[] = [];
   isLoading = true;
@@ -64,17 +65,12 @@ export class OfficesListComponent implements OnInit {
   }
 
   onView(office: Office): void {
-    this.selectedOffice = office;
-    const dialogRef = this.dialog.open(ViewOfficesComponent, {
-      width: '600px',
-      data: { office }
-    });
+    this.viewOfficeComponent.open(office);
   }
 
   onEdit(office: Office): void {
-    this.selectedOffice = office;
     const dialogRef = this.dialog.open(EditOfficeComponent, {
-      width: '600px',
+      width: '500px',
       data: { office }
     });
 
@@ -86,9 +82,10 @@ export class OfficesListComponent implements OnInit {
   }
 
   onDelete(office: Office): void {
-    this.selectedOffice = office;
     const dialogRef = this.dialog.open(DeleteOfficeComponent, {
-      width: '400px',
+      width: '500px',
+      maxWidth: '90vw',
+      panelClass: 'delete-dialog-container',
       data: { office }
     });
 

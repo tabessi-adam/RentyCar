@@ -143,3 +143,14 @@ p {
     font-size: 1rem;
   }
 }
+
+.delete-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0;
+  }
+
+  .mat-mdc-dialog-surface {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
