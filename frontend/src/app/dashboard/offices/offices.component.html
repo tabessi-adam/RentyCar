@@ -4,8 +4,17 @@
       (expandedChange)="onSidebarExpandedChange($event)">
     </app-sidebar>
     <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-      <div class="reservations-container">
-        <h1>Offices Management</h1>
+      <div class="offices-container">
+        <div class="header-actions">
+          <h1>Offices Management</h1>
+          <button class="add-office-button" (click)="openAddOfficeModal()">
+            <i class="fas fa-plus"></i> Add New Office
+          </button>
+        </div>
+        <app-offices-list></app-offices-list>
+        <app-add-office 
+          (officeAdded)="onOfficeAdded($event)">
+        </app-add-office>
       </div>
     </main>
   </div>

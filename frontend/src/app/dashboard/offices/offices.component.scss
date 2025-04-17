@@ -26,18 +26,57 @@
     }
   }
   
-  .reservations-container {
+  .offices-container {
     background-color: white;
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 100%;
+  }
+  
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
   
     h1 {
-      margin: 0 0 24px;
+      margin: 0;
       font-size: 24px;
-      font-weight: 600;
-      color: #343a40;
+      font-weight: 500;
+    }
+  
+    .add-office-button {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border: 1.5px solid #000000 !important;
+      box-shadow: none !important;
+      padding: 0 20px !important;
+      height: 40px !important;
+      line-height: 40px !important;
+      border-radius: 6px !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin-right: 24px !important;
+  
+      i {
+        font-size: 14px !important;
+      }
+  
+      &:hover {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+      }
+  
+      @media (max-width: 768px) {
+        margin-right: 16px !important;
+      }
     }
   }
   
