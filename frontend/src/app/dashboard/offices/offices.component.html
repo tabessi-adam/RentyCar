@@ -1,0 +1,12 @@
+<div class="dashboard-container">
+    <app-sidebar 
+      [isExpanded]="isSidebarExpanded"
+      (expandedChange)="onSidebarExpandedChange($event)">
+    </app-sidebar>
+    <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+      <div class="reservations-container">
+        <h1>Offices Management</h1>
+      </div>
+    </main>
+  </div>
+  
