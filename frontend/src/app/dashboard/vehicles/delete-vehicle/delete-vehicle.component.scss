@@ -114,7 +114,7 @@ $background-light: #f8f9fa;
       border: none;
 
       &:hover {
-        background-color: darken($danger-red, 5%);
+        background-color: color.adjust($danger-red, $lightness: -5%);
       }
     }
   }

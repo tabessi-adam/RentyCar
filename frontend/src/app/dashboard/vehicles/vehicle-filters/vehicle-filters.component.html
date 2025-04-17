@@ -1,102 +1,162 @@
-<div class="filters-container">
-  <div class="filters-header">
-    <h3>Filters</h3>
+<div class="filters-container" [ngClass]="{'collapsed': isCollapsed}">
+  <!-- Mobile View -->
+  <div class="mobile-filters" *ngIf="isMobile">
+    <div class="filter-icon" (click)="applyFilters()">
+      <i class="fas fa-filter"></i>
+    </div>
+    <div class="filter-icon" (click)="resetFilters()">
+      <i class="fas fa-undo"></i>
+    </div>
   </div>
 
-  <form [formGroup]="filterForm" class="filters-form">
-    <!-- Status Filter -->
-    <div class="filter-group">
-      <label for="status">Status</label>
-      <select id="status" formControlName="status" class="form-control">
-        <option value="">All</option>
-        <option *ngFor="let status of vehicleStatus" [value]="status">
-          {{ status }}
-        </option>
-      </select>
+  <!-- Desktop View -->
+  <div class="desktop-filters" *ngIf="!isMobile">
+    <div class="filters-header">
+      <div class="header-content">
+        <h3>Vehicle Filters</h3>
+      </div>
+      <button class="toggle-button" 
+              (click)="toggleCollapse()"
+              [attr.aria-expanded]="!isCollapsed"
+              aria-label="Toggle filters panel">
+        <i class="fas" [ngClass]="isCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+      </button>
     </div>
 
-    <!-- Brand and Model Filters -->
-    <div class="filter-group">
-      <label for="brand">Brand</label>
-      <input type="text" id="brand" formControlName="brand" class="form-control" placeholder="Enter brand">
-    </div>
+    <div class="filters-content" [hidden]="isCollapsed">
+      <form [formGroup]="filterForm" class="filters-form">
+        <!-- Status Filter -->
+        <div class="filter-group">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status" class="form-control" aria-describedby="statusHelp">
+            <option value="">All Statuses</option>
+            <option *ngFor="let status of vehicleStatus" [value]="status">
+              <i class="fas fa-circle"></i> {{ status | titlecase }}
+            </option>
+          </select>
+          <small id="statusHelp" class="help-text">Select vehicle availability status</small>
+        </div>
 
-    <div class="filter-group">
-      <label for="model">Model</label>
-      <input type="text" id="model" formControlName="model" class="form-control" placeholder="Enter model">
-    </div>
+        <!-- Brand and Model Filters -->
+        <div class="filter-group">
+          <label for="brand">Brand</label>
+          <input type="text" 
+                 id="brand" 
+                 formControlName="brand" 
+                 class="form-control" 
+                 placeholder="Enter brand"
+                 aria-describedby="brandError">
+          <small *ngIf="filterForm.get('brand')?.touched && filterForm.get('brand')?.errors?.['pattern']"
+                 id="brandError"
+                 class="error-text">
+            Only letters and spaces allowed
+          </small>
+        </div>
 
-    <!-- Year Range -->
-    <div class="filter-group">
-      <label>Year Range</label>
-      <div class="range-inputs">
-        <input type="number" formControlName="minYear" class="form-control" placeholder="Min" min="1900" [max]="currentYear">
-        <span>to</span>
-        <input type="number" formControlName="maxYear" class="form-control" placeholder="Max" min="1900" [max]="currentYear">
+        <div class="filter-group">
+          <label for="model">Model</label>
+          <input type="text" 
+                 id="model" 
+                 formControlName="model" 
+                 class="form-control" 
+                 placeholder="Enter model"
+                 aria-describedby="modelError">
+          <small *ngIf="filterForm.get('model')?.touched && filterForm.get('model')?.errors?.['pattern']"
+                 id="modelError"
+                 class="error-text">
+            Only letters, numbers, and spaces allowed
+          </small>
+        </div>
+
+        <!-- Year Range -->
+        <div class="filter-group range-group">
+          <label>Year Range</label>
+          <div class="range-inputs">
+            <input type="number" 
+                   formControlName="minYear" 
+                   class="form-control" 
+                   placeholder="Min"
+                   [min]="minYear"
+                   [max]="currentYear"
+                   aria-describedby="yearError">
+            <span>to</span>
+            <input type="number" 
+                   formControlName="maxYear" 
+                   class="form-control" 
+                   placeholder="Max"
+                   [min]="minYear"
+                   [max]="currentYear"
+                   aria-describedby="yearError">
+          </div>
+          <small *ngIf="yearRangeInvalid" 
+                 id="yearError"
+                 class="error-text">
+            Minimum year must be less than or equal to maximum year
+          </small>
+        </div>
+
+        <!-- Fuel Type and Transmission -->
+        <div class="filter-group">
+          <label for="fuelType">Fuel Type</label>
+          <select id="fuelType" formControlName="fuelType" class="form-control">
+            <option value="">All Fuel Types</option>
+            <option *ngFor="let type of fuelTypes" [value]="type">
+              <i class="fas fa-gas-pump"></i> {{ type | titlecase }}
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="transmission">Transmission</label>
+          <select id="transmission" formControlName="transmission" class="form-control">
+            <option value="">All Transmissions</option>
+            <option *ngFor="let type of transmissions" [value]="type">
+              <i class="fas fa-cogs"></i> {{ type | titlecase }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-group range-group">
+          <label>Price Range (per day)</label>
+          <div class="range-inputs">
+            <input type="number" 
+                   formControlName="minPrice" 
+                   class="form-control" 
+                   placeholder="Min"
+                   min="0"
+                   aria-describedby="priceError">
+            <span>to</span>
+            <input type="number" 
+                   formControlName="maxPrice" 
+                   class="form-control" 
+                   placeholder="Max"
+                   min="0"
+                   aria-describedby="priceError">
+          </div>
+          <small *ngIf="priceRangeInvalid" 
+                 id="priceError"
+                 class="error-text">
+            Minimum price must be less than or equal to maximum price
+          </small>
+        </div>
+      </form>
+
+      <div class="filters-footer">
+        <button type="button" 
+                class="reset-button" 
+                (click)="resetFilters()"
+                aria-label="Reset all filters">
+          <i class="fas fa-undo"></i> Reset
+        </button>
+        <button type="button" 
+                class="apply-button" 
+                (click)="applyFilters()"
+                [disabled]="filterForm.invalid"
+                aria-label="Apply filters">
+          <i class="fas fa-filter"></i> Apply Filters
+        </button>
       </div>
     </div>
-
-    <!-- Fuel Type and Transmission -->
-    <div class="filter-group">
-      <label for="fuelType">Fuel Type</label>
-      <select id="fuelType" formControlName="fuelType" class="form-control">
-        <option value="">All</option>
-        <option *ngFor="let type of fuelTypes" [value]="type">
-          {{ type }}
-        </option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="transmission">Transmission</label>
-      <select id="transmission" formControlName="transmission" class="form-control">
-        <option value="">All</option>
-        <option *ngFor="let type of transmissions" [value]="type">
-          {{ type }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Price Range -->
-    <div class="filter-group">
-      <label>Price Range (per day)</label>
-      <div class="range-inputs">
-        <input type="number" formControlName="minPrice" class="form-control" placeholder="Min" min="0">
-        <span>to</span>
-        <input type="number" formControlName="maxPrice" class="form-control" placeholder="Max" min="0">
-      </div>
-    </div>
-
-    <!-- Features -->
-    <div class="filter-group features-group">
-      <label>Features</label>
-      <div class="feature-checkboxes">
-        <div class="feature-checkbox">
-          <input type="checkbox" id="hasGPS" formControlName="hasGPS">
-          <label for="hasGPS">GPS</label>
-        </div>
-        <div class="feature-checkbox">
-          <input type="checkbox" id="hasBluetooth" formControlName="hasBluetooth">
-          <label for="hasBluetooth">Bluetooth</label>
-        </div>
-        <div class="feature-checkbox">
-          <input type="checkbox" id="hasAirConditioning" formControlName="hasAirConditioning">
-          <label for="hasAirConditioning">Air Conditioning</label>
-        </div>
-        <div class="feature-checkbox">
-          <input type="checkbox" id="hasUSBCable" formControlName="hasUSBCable">
-          <label for="hasUSBCable">USB Cable</label>
-        </div>
-      </div>
-    </div>
-  </form>
-
-  <div class="filters-footer">
-    <button class="reset-button" (click)="resetFilters()">
-      <i class="fas fa-undo"></i> Reset
-    </button>
-    <button class="apply-button" (click)="applyFilters()">
-      <i class="fas fa-filter"></i> Apply Filters
-    </button>
   </div>
-</div> 
+</div>
