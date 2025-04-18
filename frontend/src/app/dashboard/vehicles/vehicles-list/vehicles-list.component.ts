@@ -11,6 +11,7 @@ import { Vehicle } from '../../../core/models/vehicle.model';
 import { Office } from '../../../core/models/office.model';
 import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
 import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
+import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 
@@ -109,7 +110,19 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(vehicle: Vehicle) {
-    // Implement edit logic
+    const dialogRef = this.dialog.open(EditVehicleComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      data: { vehicle }
+    });
+
+    dialogRef.componentInstance.vehicleUpdated.subscribe(updatedVehicle => {
+      // Update the vehicle in the list
+      const index = this.vehicles.findIndex(v => v.id === updatedVehicle.id);
+      if (index !== -1) {
+        this.vehicles[index] = updatedVehicle;
+      }
+    });
   }
 
   onDelete(vehicle: Vehicle) {
