@@ -30,7 +30,9 @@ export class UpdateReservationStatusComponent {
   reservation: Reservation;
   newStatus: ReservationStatus;
   isLoading = false;
-  readonly statusOptions = Object.values(ReservationStatus);
+  readonly statusOptions = Object.values(ReservationStatus).filter(
+    status => status !== 'CANCELLED'
+  );
 
   constructor(
     private reservationService: ReservationService,
