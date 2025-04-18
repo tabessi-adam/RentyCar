@@ -37,7 +37,7 @@ export class AddVehicleComponent {
   @Output() vehicleAdded = new EventEmitter<Vehicle>();
   
   vehicle: Partial<Vehicle> = {
-    status: VehicleStatus.AVAILABLE,
+    baseStatus: VehicleStatus.AVAILABLE,
     hasGPS: false,
     hasBluetooth: false,
     hasAirConditioning: false,

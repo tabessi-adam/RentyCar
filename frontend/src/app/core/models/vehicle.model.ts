@@ -19,7 +19,8 @@ export enum Transmission {
 // Interface representing the Vehicle entity
 export interface Vehicle {
   id: string;
-  status: VehicleStatus;
+  baseStatus: VehicleStatus;
+  currentStatus: VehicleStatus;
   brand: string;
   model: string;
   year: number;
@@ -38,7 +39,7 @@ export interface Vehicle {
 
 // Based on backend CreateVehicleDto
 export interface CreateVehiclePayload {
-  status?: VehicleStatus;
+  baseStatus?: VehicleStatus;
   brand: string;
   model: string;
   year: number;
@@ -49,7 +50,7 @@ export interface CreateVehiclePayload {
   hasBluetooth?: boolean;
   hasAirConditioning?: boolean;
   hasUSBCable?: boolean;
-  officeId: string; // Required by DTO
+  officeId: string;
 }
 
 // Based on backend UpdateVehicleDto (Partial of Create)

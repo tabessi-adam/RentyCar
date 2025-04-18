@@ -2,10 +2,11 @@
 <mat-dialog-content>
   <div *ngIf="vehicle">
     <p><strong>ID:</strong> {{vehicle.id}}</p>
+    <p><strong>Base Status:</strong> {{vehicle.baseStatus}}</p>
+    <p><strong>Current Status:</strong> {{vehicle.currentStatus}}</p>
     <p><strong>Brand:</strong> {{vehicle.brand}}</p>
     <p><strong>Model:</strong> {{vehicle.model}}</p>
     <p><strong>Year:</strong> {{vehicle.year}}</p>
-    <p><strong>Status:</strong> {{vehicle.status}}</p>
     <p><strong>Fuel Type:</strong> {{vehicle.fuelType}}</p>
     <p><strong>Transmission:</strong> {{vehicle.transmission}}</p>
     <p><strong>Price per Day:</strong> {{vehicle.pricePerDay | currency}}</p>

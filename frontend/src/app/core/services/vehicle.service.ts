@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Vehicle, CreateVehiclePayload, UpdateVehiclePayload } from '../models/vehicle.model';
+import { Vehicle, CreateVehiclePayload, UpdateVehiclePayload, VehicleStatus } from '../models/vehicle.model';
 import { AuthService } from './auth.service';
 import { Role } from '../models/role.enum';
 import { environment } from '../../../environments/environment';
@@ -71,12 +71,31 @@ export class VehicleService {
       });
     }
 
-    console.log('VehicleService - Sending request with params:', params.toString());
+    console.log('VehicleService - Sending request to:', apiUrl);
+    console.log('VehicleService - With headers:', this.getAuthHeaders());
     return this.http.get<Vehicle[]>(apiUrl, { 
       headers: this.getAuthHeaders(),
       params
     }).pipe(
-      tap(response => console.log('VehicleService - Received response:', response)),
+      tap(response => {
+        console.log('VehicleService - Raw response:', response);
+        console.log('VehicleService - Response type:', typeof response);
+        console.log('VehicleService - Response length:', Array.isArray(response) ? response.length : 'Not an array');
+      }),
+      map(response => {
+        if (!Array.isArray(response)) {
+          console.error('VehicleService - Response is not an array:', response);
+          return [];
+        }
+        return response.map(vehicle => ({
+          ...vehicle,
+          baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
+          currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
+        }));
+      }),
+      tap(mappedResponse => {
+        console.log('VehicleService - Mapped response:', mappedResponse);
+      }),
       catchError(error => {
         console.error('VehicleService - Error:', error);
         return this.handleError(error);

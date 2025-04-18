@@ -16,15 +16,35 @@ export class ReservationsService {
   ) {}
 
   async create(createReservationDto: CreateReservationDto, clientId: string) {
+    console.log('Creating reservation with data:', {
+      vehicleId: createReservationDto.vehicleId,
+      startDate: createReservationDto.startDate,
+      totalDays: createReservationDto.totalDays,
+      clientId
+    });
+
     const vehicle = await this.vehiclesRepository.findOne({
-      where: { id: createReservationDto.vehicleId }
+      where: { id: createReservationDto.vehicleId },
+      relations: ['reservations']
     });
 
     if (!vehicle) {
       throw new NotFoundException('Vehicle not found');
     }
 
-    if (vehicle.status !== 'AVAILABLE') {
+    console.log('Found vehicle:', {
+      id: vehicle.id,
+      status: vehicle.status,
+      currentStatus: vehicle.currentStatus,
+      reservations: vehicle.reservations?.length || 0
+    });
+
+    if (vehicle.currentStatus !== 'AVAILABLE') {
+      console.log('Vehicle status check failed:', {
+        expected: 'AVAILABLE',
+        actual: vehicle.status,
+        currentStatus: vehicle.currentStatus
+      });
       throw new BadRequestException('Vehicle is not available for reservation');
     }
 
@@ -183,8 +203,8 @@ export class ReservationsService {
         where: { id: reservation.vehicleId }
       });
 
-      if (vehicle.status !== 'AVAILABLE') {
-        throw new BadRequestException('Vehicle is not available');
+      if (!vehicle) {
+        throw new NotFoundException('Vehicle not found');
       }
 
       // Check for overlapping reservations
@@ -200,8 +220,6 @@ export class ReservationsService {
       if (overlappingReservation) {
         throw new BadRequestException('Vehicle is already reserved for this period');
       }
-
-      await this.vehiclesRepository.update(reservation.vehicleId, { status: VehicleStatus.RENTED });
     }
 
     await this.reservationsRepository.update(id, { status });

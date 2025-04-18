@@ -77,7 +77,9 @@ export class ReservationsListComponent implements OnInit {
     this.isLoading = true;
     this.reservationService.getAllReservations().subscribe({
       next: (reservations) => {
-        this.reservations = reservations;
+        this.reservations = reservations.filter(reservation => 
+          reservation.status !== 'CANCELLED'
+        );
         this.isLoading = false;
       },
       error: (error) => {

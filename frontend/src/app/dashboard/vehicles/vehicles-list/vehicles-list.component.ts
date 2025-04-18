@@ -70,7 +70,7 @@ export class VehiclesListComponent implements OnInit {
 
   getOfficeName(officeId: string): string {
     const office = this.offices.find(o => o.id === officeId);
-    return office ? office.name : 'Unknown';
+    return office ? office.name : 'Unknown Office';
   }
 
   getStatusClass(status: string): string {

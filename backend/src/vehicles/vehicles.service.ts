@@ -31,11 +31,22 @@ export class VehiclesService {
   }
 
   async findAll(filters?: VehicleFiltersDto) {
-    const queryBuilder = this.vehiclesRepository.createQueryBuilder('vehicle');
+    const queryBuilder = this.vehiclesRepository.createQueryBuilder('vehicle')
+      .leftJoinAndSelect('vehicle.reservations', 'reservation');
 
     if (filters) {
       if (filters.status) {
-        queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
+        // For status filter, we need to check both status and current reservations
+        if (filters.status === 'AVAILABLE') {
+          queryBuilder.andWhere('vehicle.status = :status', { status: filters.status })
+            .andWhere('(reservation.id IS NULL OR NOT (reservation.status = :accepted AND :today BETWEEN reservation.startDate AND reservation.endDate))', 
+              { accepted: 'ACCEPTED', today: new Date() });
+        } else if (filters.status === 'RENTED') {
+          queryBuilder.andWhere('reservation.status = :accepted AND :today BETWEEN reservation.startDate AND reservation.endDate',
+            { accepted: 'ACCEPTED', today: new Date() });
+        } else {
+          queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
+        }
       }
 
       if (filters.brand) {
@@ -101,7 +112,13 @@ export class VehiclesService {
       }
     }
 
-    return queryBuilder.getMany();
+    const vehicles = await queryBuilder.getMany();
+    
+    // Add currentStatus to each vehicle
+    return vehicles.map(vehicle => ({
+      ...vehicle,
+      currentStatus: vehicle.currentStatus
+    }));
   }
 
   async findOne(id: string) {

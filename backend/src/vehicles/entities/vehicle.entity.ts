@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Office } from '../../offices/entities/office.entity';
+import { Reservation } from '../../reservations/entities/reservation.entity';
 
 export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
@@ -79,4 +80,18 @@ export class Vehicle {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Reservation, reservation => reservation.vehicle)
+  reservations: Reservation[];
+
+  get currentStatus(): VehicleStatus {
+    const today = new Date();
+    const activeReservation = this.reservations?.find(reservation => 
+      reservation.status === 'ACCEPTED' &&
+      new Date(reservation.startDate) <= today &&
+      new Date(reservation.endDate) >= today
+    );
+
+    return activeReservation ? VehicleStatus.RENTED : this.status;
+  }
 } 
