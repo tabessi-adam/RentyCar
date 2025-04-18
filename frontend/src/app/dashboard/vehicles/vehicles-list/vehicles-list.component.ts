@@ -100,6 +100,8 @@ export class VehiclesListComponent implements OnInit {
   onDelete(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(DeleteVehicleComponent, {
       width: '500px',
+      maxWidth: '90vw',
+      panelClass: 'delete-dialog-container',
       data: { vehicle }
     });
 
