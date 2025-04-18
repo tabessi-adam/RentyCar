@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Reservation Details</h2>
+<mat-dialog-content>
+  <div *ngIf="data.reservation" class="reservation-details">
+    <div class="detail-row">
+      <span class="label">ID:</span>
+      <span class="value">{{data.reservation.id}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Client:</span>
+      <span class="value">{{data.reservation.client?.name || 'Unknown'}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Vehicle:</span>
+      <span class="value">{{data.reservation.vehicle?.brand}} {{data.reservation.vehicle?.model}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Start Date:</span>
+      <span class="value">{{formatDate(data.reservation.startDate)}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">End Date:</span>
+      <span class="value">{{formatDate(data.reservation.endDate)}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Total Days:</span>
+      <span class="value">{{data.reservation.totalDays}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Total Price:</span>
+      <span class="value">{{data.reservation.totalPrice | currency}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Status:</span>
+      <span class="value">
+        <span class="status-badge" [ngClass]="getStatusClass(data.reservation.status)">
+          {{data.reservation.status}}
+        </span>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Created At:</span>
+      <span class="value">{{formatDate(data.reservation.createdAt)}}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Last Updated:</span>
+      <span class="value">{{formatDate(data.reservation.updatedAt)}}</span>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions> 
