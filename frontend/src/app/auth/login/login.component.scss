@@ -46,6 +46,33 @@
     width: 100%;
     box-sizing: border-box;
 
+    .password-input-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #7f8c8d;
+      padding: 0;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #54d155;
+      }
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+
     label {
       display: block;
       margin-bottom: 0.5rem;
