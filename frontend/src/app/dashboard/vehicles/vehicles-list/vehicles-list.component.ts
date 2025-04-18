@@ -5,6 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { OfficeService } from '../../../core/services/office.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
@@ -22,7 +23,8 @@ import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
     MatProgressSpinnerModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss'
@@ -45,7 +47,8 @@ export class VehiclesListComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private officeService: OfficeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -60,6 +63,7 @@ export class VehiclesListComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading offices:', error);
+        this.snackBar.open('Error loading offices', 'Close', { duration: 3000 });
       }
     });
   }
@@ -115,6 +119,7 @@ export class VehiclesListComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading vehicles:', error);
+        this.snackBar.open('Error loading vehicles', 'Close', { duration: 3000 });
         this.isLoading = false;
       }
     });

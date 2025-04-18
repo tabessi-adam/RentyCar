@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
@@ -17,11 +17,18 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss'
 })
-export class VehiclesComponent {
+export class VehiclesComponent implements AfterViewInit {
   @ViewChild(VehiclesListComponent) vehiclesList!: VehiclesListComponent;
   isSidebarExpanded = true;
 
   constructor(private dialog: MatDialog) {}
+
+  ngAfterViewInit() {
+    // Ensure the vehicles list is loaded initially
+    if (this.vehiclesList) {
+      this.vehiclesList.loadVehicles();
+    }
+  }
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
@@ -33,7 +40,7 @@ export class VehiclesComponent {
       maxWidth: '600px',
       height: 'auto',
       maxHeight: '100vh',
-      disableClose: false,
+      disableClose: true,
       autoFocus: false,
       panelClass: 'responsive-dialog'
     });
@@ -46,8 +53,11 @@ export class VehiclesComponent {
   }
 
   onVehicleAdded(vehicle: Vehicle) {
-    if (this.vehiclesList) {
-      this.vehiclesList.loadVehicles();
-    }
+    // Ensure we refresh the list after adding a vehicle
+    setTimeout(() => {
+      if (this.vehiclesList) {
+        this.vehiclesList.loadVehicles();
+      }
+    });
   }
 }
