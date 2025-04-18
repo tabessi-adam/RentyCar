@@ -1,107 +1,256 @@
-@use '../../../styles.scss' as *;
-
 .login-container {
+  min-height: calc(100vh - 120px);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 120px);
-  padding: 2rem;
-  padding-top: 7rem;
-  padding-bottom: 8rem;
-  background-color: $background-light;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f0f7f0 0%, #e0f0e0 100%);
+  margin: 4rem 0 2rem 0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .login-card {
-  background-color: $white;
-  border-radius: 1rem;
-  padding: 2rem;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 480px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+.heading-underline {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #54d155;
+  }
 }
 
 .login-form {
-  margin-top: 2rem;
-}
+  .form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
 
-.form-group {
-  margin-bottom: 1.5rem;
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: $text-dark;
-    font-weight: 500;
-  }
-}
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
 
-.form-control {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: $text-dark;
-  background-color: $white;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      &:focus {
+        outline: none;
+        border-color: #54d155;
+        box-shadow: 0 0 0 3px rgba(84, 209, 85, 0.1);
+      }
 
-  &:focus {
-    border-color: $primary-color;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
-  }
+      &.is-invalid {
+        border-color: #e74c3c;
+      }
+    }
 
-  &.is-invalid {
-    border-color: #dc3545;
-    
-    &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    .invalid-feedback {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
     }
   }
-}
-
-.invalid-feedback {
-  display: block;
-  width: 100%;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #dc3545;
 }
 
 .form-actions {
   margin-top: 2rem;
   text-align: center;
+
+  .btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &--primary {
+      background: #54d155;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: #48b749;
+      }
+
+      &:disabled {
+        background: #bdc3c7;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
 
 .auth-links {
   margin-top: 1.5rem;
   text-align: center;
-  
-  p {
-    margin-bottom: 0;
-    color: $text-muted;
-  }
-  
+  color: #7f8c8d;
+
   a {
-    color: $primary-color;
+    color: #54d155;
     text-decoration: none;
     font-weight: 500;
-    
+    transition: color 0.3s ease;
+
     &:hover {
-      text-decoration: underline;
+      color: #48b749;
     }
+  }
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  &-danger {
+    background-color: #fde8e8;
+    color: #e74c3c;
+    border: 1px solid #fad5d5;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1200px) {
+  .login-container {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .login-container {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .login-card {
+    padding: 2rem;
   }
 }
 
 @media (max-width: 768px) {
   .login-container {
-    padding: 1rem;
-    padding-top: 7rem;
-    padding-bottom: 6rem;
+    padding: 2rem 1rem;
+    margin: 5rem 0 1.5rem 0;
   }
-  
+
+  .login-card {
+    padding: 1.75rem;
+  }
+
+  .heading-underline {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+
+    .form-control {
+      padding: 0.625rem 0.875rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  .btn {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-container {
+    padding: 1.5rem 1rem;
+    margin: 6rem 0 1rem 0;
+    width: 100%;
+  }
+
   .login-card {
     padding: 1.5rem;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .heading-underline {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+
+    .form-control {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+    }
+  }
+
+  .btn {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .auth-links {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .login-container {
+    padding: 1rem 0.75rem;
+    margin: 6rem 0 1rem 0;
+    width: 100%;
+  }
+
+  .login-card {
+    padding: 1.25rem;
+    width: 100%;
+  }
+
+  .heading-underline {
+    font-size: 1.25rem;
+  }
+
+  .form-group {
+    width: 100%;
+
+    .form-control {
+      width: 100%;
+      padding: 0.5rem 0.625rem;
+      box-sizing: border-box;
+    }
   }
 }
