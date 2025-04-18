@@ -122,7 +122,10 @@ export class VehiclesService {
   }
 
   async findOne(id: string) {
-    const vehicle = await this.vehiclesRepository.findOne({ where: { id } });
+    const vehicle = await this.vehiclesRepository.findOne({ 
+      where: { id },
+      relations: ['reservations']
+    });
     if (!vehicle) {
       throw new NotFoundException(`Vehicle with ID ${id} not found`);
     }
@@ -131,7 +134,26 @@ export class VehiclesService {
 
   async update(id: string, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.findOne(id);
-    Object.assign(vehicle, updateVehicleDto);
+    // Create a new object with only the properties that can be updated
+    const updateData = {
+      status: updateVehicleDto.status,
+      brand: updateVehicleDto.brand,
+      model: updateVehicleDto.model,
+      year: updateVehicleDto.year,
+      fuelType: updateVehicleDto.fuelType,
+      transmission: updateVehicleDto.transmission,
+      pricePerDay: updateVehicleDto.pricePerDay,
+      hasGPS: updateVehicleDto.hasGPS,
+      hasBluetooth: updateVehicleDto.hasBluetooth,
+      hasAirConditioning: updateVehicleDto.hasAirConditioning,
+      hasUSBCable: updateVehicleDto.hasUSBCable,
+      officeId: updateVehicleDto.officeId
+    };
+    
+    // Remove undefined values
+    Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
+    
+    Object.assign(vehicle, updateData);
     return this.vehiclesRepository.save(vehicle);
   }
 
