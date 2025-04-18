@@ -35,10 +35,10 @@ export class VehiclesListComponent implements OnInit {
   isLoading = true;
   displayedColumns: string[] = [
     'id',
+    'status',
     'brand',
     'model',
     'year',
-    'status',
     'pricePerDay',
     'office',
     'actions'

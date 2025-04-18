@@ -74,59 +74,59 @@ table {
   color: rgba(0, 0, 0, 0.87);
   font-size: 14px;
   line-height: 1.5;
+  text-align: left;
 }
 
 // Column specific styles
 .mat-column-id {
-  width: 25%;
-  padding-left: 24px;
+  width: 15%;
   color: rgba(0, 0, 0, 0.6);
   font-family: monospace;
-
-  @media (max-width: 768px) {
-    padding-left: 16px;
-  }
+  padding-left: 24px;
 }
 
 .mat-column-brand {
-  width: 10%;
+  width: 12%;
+  text-align: center;
 }
 
 .mat-column-model {
-  width: 10%;
+  width: 12%;
+  text-align: center;
 }
 
 .mat-column-year {
   width: 8%;
+  text-align: center;
 }
 
 .mat-column-status {
-  width: 10%;
- margin-left: -10em;
- margin-right: 10em;
+  width: 12%;
+  text-align: center;
 }
 
 .mat-column-pricePerDay {
-  width: 12%;
+  width: 18%;
+  text-align: center;
 }
 
-.mat-column-officeId {
-  width: 15%;
+.mat-column-office {
+  width: 9%;
+  text-align: center;
 }
 
 .mat-column-actions {
-  width: 10%;
-  padding-right: 24px;
+  width: 12%;
   white-space: nowrap;
-
-  @media (max-width: 768px) {
-    padding-right: 16px;
-  }
+  padding-right: 24px;
+  text-align: center;
 }
 
 // Action buttons container
 .mat-cell.mat-column-actions {
-  padding: 16px 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 // Action buttons
@@ -230,7 +230,7 @@ table {
   display: inline-block;
   min-width: 80px;
   text-align: center;
-  margin-left: -8px;
+  margin: 0 auto;
 
   &.available {
     background-color: #e6f4ea;
@@ -256,7 +256,6 @@ table {
     padding: 4px 8px;
     min-width: 70px;
     font-size: 11px;
-    margin-left: -4px;
   }
 }
 
@@ -275,7 +274,6 @@ table {
 
 // Responsive styles
 @media (max-width: 768px) {
-  .mat-column-id,
   .mat-column-year {
     display: none;
   }

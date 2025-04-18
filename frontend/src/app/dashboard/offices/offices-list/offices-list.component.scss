@@ -255,3 +255,54 @@
         margin-right: 16px !important;
     }
     }
+
+    // Cell styles
+    .mat-cell {
+    padding: 16px 12px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    }
+
+    // Column specific styles
+    .mat-column-id {
+    width: 15%;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: monospace;
+    padding-left: 24px;
+    }
+
+    .mat-column-name {
+    width: 12%;
+    text-align: center;
+    }
+
+    .mat-column-address {
+    width: 12%;
+    text-align: center;
+    }
+
+    .mat-column-phoneNumber {
+    width: 12%;
+    text-align: center;
+    }
+
+    .mat-column-createdAt {
+    width: 12%;
+    text-align: center;
+    }
+
+    .mat-column-actions {
+    width: 12%;
+    white-space: nowrap;
+    padding-right: 24px;
+    text-align: center;
+    }
+
+    // Action buttons container
+    .mat-cell.mat-column-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    }
