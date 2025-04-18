@@ -1,0 +1,45 @@
+<div class="view-dialog">
+  <h2>Review Details</h2>
+  
+  <div class="review-info">
+    <div class="info-row">
+      <span class="label">Rating:</span>
+      <span class="value">
+        <div class="rating-stars">
+          <i *ngFor="let star of getStars()" 
+             class="fas" 
+             [ngClass]="{
+               'fa-star': star.type === 'full',
+               'fa-star-half-alt': star.type === 'half',
+               'fa-star-o': star.type === 'empty'
+             }">
+          </i>
+        </div>
+      </span>
+    </div>
+    
+    <div class="info-row">
+      <span class="label">Comment:</span>
+      <span class="value">{{ review.comment }}</span>
+    </div>
+    
+    <div class="info-row">
+      <span class="label">Vehicle ID:</span>
+      <span class="value">{{ review.vehicleId }}</span>
+    </div>
+    
+    <div class="info-row">
+      <span class="label">Client ID:</span>
+      <span class="value">{{ review.clientId }}</span>
+    </div>
+    
+    <div class="info-row">
+      <span class="label">Created At:</span>
+      <span class="value">{{ review.createdAt | date:'medium' }}</span>
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="dialogRef.close()">Close</button>
+  </div>
+</div>

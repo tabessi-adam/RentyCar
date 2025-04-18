@@ -220,6 +220,10 @@ export class ReservationsService {
       if (overlappingReservation) {
         throw new BadRequestException('Vehicle is already reserved for this period');
       }
+
+      // Update vehicle status to RENTED and save to database
+      vehicle.status = VehicleStatus.RENTED;
+      await this.vehiclesRepository.save(vehicle);
     }
 
     await this.reservationsRepository.update(id, { status });
@@ -246,9 +250,8 @@ export class ReservationsService {
       where: {
         clientId,
         vehicleId,
-        status: ReservationStatus.ACCEPTED,
-        endDate: LessThan(new Date()),
-      },
+        status: ReservationStatus.ACCEPTED
+      }
     });
 
     return !!reservation;

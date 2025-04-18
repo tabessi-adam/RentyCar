@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, Like } from 'typeorm';
 import { Vehicle } from './entities/vehicle.entity';
@@ -6,6 +6,7 @@ import { Office } from '../offices/entities/office.entity';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { VehicleFiltersDto } from './dto/vehicle-filters.dto';
+import { VehicleStatus } from './entities/vehicle.entity';
 
 @Injectable()
 export class VehiclesService {
@@ -159,6 +160,12 @@ export class VehiclesService {
 
   async remove(id: string) {
     const vehicle = await this.findOne(id);
+    
+    // Check if vehicle is currently rented
+    if (vehicle.currentStatus === VehicleStatus.RENTED) {
+      throw new BadRequestException('Cannot delete a vehicle that is currently rented');
+    }
+
     return this.vehiclesRepository.remove(vehicle);
   }
 } 

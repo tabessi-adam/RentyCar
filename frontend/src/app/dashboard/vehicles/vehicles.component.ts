@@ -11,7 +11,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   imports: [
     SidebarComponent, 
     VehiclesListComponent, 
-    AddVehicleComponent,
     MatDialogModule
   ],
   templateUrl: './vehicles.component.html',

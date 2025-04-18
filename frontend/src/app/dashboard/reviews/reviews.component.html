@@ -4,8 +4,11 @@
     (expandedChange)="onSidebarExpandedChange($event)">
   </app-sidebar>
   <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-    <div class="reservations-container">
-      <h1>Reviews Management</h1>
+    <div class="reviews-container">
+      <div class="header-actions">
+        <h1>Reviews Management</h1>
+      </div>
+      <app-reviews-list></app-reviews-list>
     </div>
   </main>
 </div>

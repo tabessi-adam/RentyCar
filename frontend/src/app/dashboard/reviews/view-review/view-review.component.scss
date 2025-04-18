@@ -1,0 +1,66 @@
+.view-dialog {
+  padding: 24px;
+  max-width: 500px;
+
+  h2 {
+    margin: 0 0 24px;
+    color: #343a40;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .review-info {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .info-row {
+      display: flex;
+      margin-bottom: 16px;
+      align-items: center;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        font-weight: 500;
+        color: #495057;
+        width: 120px;
+        flex-shrink: 0;
+      }
+
+      .value {
+        color: #212529;
+        flex: 1;
+
+        .rating-stars {
+          display: flex;
+          gap: 4px;
+
+          i {
+            color: #FFD700;
+            font-size: 18px;
+
+            &.fa-star-o {
+              color: #FFD700;
+              opacity: 0.5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+
+    button {
+      min-width: 100px;
+    }
+  }
+}
