@@ -33,6 +33,13 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Load the saved state from localStorage
+    const savedState = localStorage.getItem('sidebarExpanded');
+    if (savedState !== null) {
+      this.isExpanded = savedState === 'true';
+      this.expandedChange.emit(this.isExpanded);
+    }
+    
     const userRole = this.authService.userRole();
     this.setNavItems(userRole);
   }
@@ -90,6 +97,8 @@ export class SidebarComponent implements OnInit {
 
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
+    // Save the state to localStorage
+    localStorage.setItem('sidebarExpanded', this.isExpanded.toString());
     this.expandedChange.emit(this.isExpanded);
   }
 
