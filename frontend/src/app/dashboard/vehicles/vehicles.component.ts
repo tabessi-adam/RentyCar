@@ -1,49 +1,54 @@
-import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
-import { VehicleService } from '../../core/services/vehicle.service';
-import { CreateVehiclePayload, Vehicle } from '../../core/models/vehicle.model';
+import { Vehicle } from '../../core/models/vehicle.model';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-vehicles',
   standalone: true,
   imports: [
-    CommonModule, 
     SidebarComponent, 
-    VehiclesListComponent,
-    AddVehicleComponent
+    VehiclesListComponent, 
+    AddVehicleComponent,
+    MatDialogModule
   ],
   templateUrl: './vehicles.component.html',
-  styleUrls: ['./vehicles.component.scss']
+  styleUrl: './vehicles.component.scss'
 })
 export class VehiclesComponent {
-  @ViewChild(AddVehicleComponent) addVehicleComponent!: AddVehicleComponent;
-  @ViewChild(VehiclesListComponent) vehiclesListComponent!: VehiclesListComponent;
   isSidebarExpanded = true;
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private dialog: MatDialog) {}
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
   }
 
   openAddVehicleModal() {
-    this.addVehicleComponent.open();
-  }
+    const dialogRef = this.dialog.open(AddVehicleComponent, {
+      width: '100%',
+      maxWidth: '600px',
+      height: 'auto',
+      maxHeight: '100vh',
+      disableClose: false,
+      autoFocus: false,
+      panelClass: 'responsive-dialog'
+    });
 
-  onVehicleAdded(vehicleData: CreateVehiclePayload) {
-    this.vehicleService.createVehicle(vehicleData).subscribe({
-      next: (createdVehicle) => {
-        console.log('Vehicle created successfully:', createdVehicle);
-        // Refresh the vehicles list
-        this.vehiclesListComponent.loadVehicles();
-      },
-      error: (error) => {
-        console.error('Error creating vehicle:', error);
-        // Handle error appropriately (show error message to user)
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onVehicleAdded(result);
       }
     });
+  }
+
+  onVehicleAdded(vehicle: Vehicle) {
+    // Refresh the vehicles list when a new vehicle is added
+    const vehiclesList = document.querySelector('app-vehicles-list');
+    if (vehiclesList) {
+      (vehiclesList as any).loadVehicles();
+    }
   }
 }

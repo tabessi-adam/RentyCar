@@ -1,209 +1,142 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { VehicleService } from '../../../core/services/vehicle.service';
-import { Vehicle, VehicleStatus } from '../../../core/models/vehicle.model';
-import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
-import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
+import { OfficeService } from '../../../core/services/office.service';
+import { Vehicle } from '../../../core/models/vehicle.model';
+import { Office } from '../../../core/models/office.model';
 import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
-import { VehicleFiltersComponent } from '../vehicle-filters/vehicle-filters.component';
-
-interface SortConfig {
-  key: keyof Vehicle;
-  direction: 'asc' | 'desc' | null;
-}
-
-// Define the VehicleFilter interface (same as in VehicleFiltersComponent)
-interface VehicleFilter extends Partial<Vehicle> {
-  minYear?: number;
-  maxYear?: number;
-  minPrice?: number;
-  maxPrice?: number;
-}
+import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
+import { interval, Subscription } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-list',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    EditVehicleComponent,
-    DeleteVehicleComponent,
-    ViewVehicleComponent,
-    VehicleFiltersComponent
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './vehicles-list.component.html',
-  styleUrls: ['./vehicles-list.component.scss']
+  styleUrl: './vehicles-list.component.scss'
 })
-export class VehiclesListComponent implements OnInit {
-  @ViewChild(EditVehicleComponent) editVehicleComponent!: EditVehicleComponent;
-  @ViewChild(DeleteVehicleComponent) deleteVehicleComponent!: DeleteVehicleComponent;
-  @ViewChild(ViewVehicleComponent) viewVehicleComponent!: ViewVehicleComponent;
-
+export class VehiclesListComponent implements OnInit, OnDestroy {
   vehicles: Vehicle[] = [];
-  paginatedVehicles: Vehicle[] = [];
-  loading = false;
-  error: string | null = null;
-  vehicleToDelete: Vehicle | null = null;
-  currentFilters: VehicleFilter = {};
-  
-  // Pagination
-  currentPage = 1;
-  itemsPerPage = 10;
-  totalPages = 1;
-  
-  // Sorting
-  sortConfig: SortConfig = { key: 'brand', direction: null };
+  offices: Office[] = [];
+  isLoading = true;
+  displayedColumns: string[] = [
+    'id',
+    'brand',
+    'model',
+    'year',
+    'status',
+    'pricePerDay',
+    'office',
+    'actions'
+  ];
 
-  constructor(private vehicleService: VehicleService) {}
+  private updateSubscription?: Subscription;
+  private readonly REFRESH_INTERVAL = 30000; // 30 seconds
 
-  ngOnInit(): void {
-    this.loadVehicles();
+  constructor(
+    private vehicleService: VehicleService,
+    private officeService: OfficeService,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnInit() {
+    this.loadOffices();
+    this.setupAutoRefresh();
   }
 
-  loadVehicles(): void {
-    this.loading = true;
-    this.error = null;
+  ngOnDestroy() {
+    if (this.updateSubscription) {
+      this.updateSubscription.unsubscribe();
+    }
+  }
 
-    this.vehicleService.getAllVehicles(this.currentFilters).subscribe({
+  private setupAutoRefresh() {
+    this.updateSubscription = interval(this.REFRESH_INTERVAL)
+      .pipe(
+        startWith(0), // Start immediately
+        switchMap(() => this.vehicleService.getAllVehicles())
+      )
+      .subscribe({
+        next: (vehicles) => {
+          this.vehicles = vehicles;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading vehicles:', error);
+          this.isLoading = false;
+        }
+      });
+  }
+
+  loadOffices() {
+    this.officeService.getAllOffices().subscribe({
+      next: (offices) => {
+        this.offices = offices;
+      },
+      error: (error) => {
+        console.error('Error loading offices:', error);
+      }
+    });
+  }
+
+  getOfficeName(officeId: string): string {
+    const office = this.offices.find(o => o.id === officeId);
+    return office ? office.name : 'Unknown Office';
+  }
+
+  getStatusClass(status: string): string {
+    return status.toLowerCase();
+  }
+
+  onView(vehicle: Vehicle) {
+    this.dialog.open(ViewVehicleComponent, {
+      width: '500px',
+      data: { vehicle }
+    });
+  }
+
+  onEdit(vehicle: Vehicle) {
+    // Implement edit logic
+  }
+
+  onDelete(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(DeleteVehicleComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      panelClass: 'delete-dialog-container',
+      data: { vehicle }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadVehicles();
+      }
+    });
+  }
+
+  private loadVehicles() {
+    this.isLoading = true;
+    this.vehicleService.getAllVehicles().subscribe({
       next: (vehicles) => {
         this.vehicles = vehicles;
-        this.sortVehicles();
-        this.updatePagination();
-        this.loading = false;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error loading vehicles:', error);
-        this.error = 'Failed to load vehicles. Please try again.';
-        this.loading = false;
-      }
-    });
-  }
-
-  onFiltersChanged(filters: VehicleFilter): void {
-    this.currentFilters = filters;
-    this.currentPage = 1;
-    this.loadVehicles();
-  }
-
-  // Sorting
-  sortBy(key: keyof Vehicle): void {
-    if (this.sortConfig.key === key) {
-      this.sortConfig.direction = 
-        this.sortConfig.direction === 'asc' ? 'desc' : 
-        this.sortConfig.direction === 'desc' ? null : 'asc';
-    } else {
-      this.sortConfig = { key, direction: 'asc' };
-    }
-    this.sortVehicles();
-    this.updatePagination();
-  }
-
-  sortVehicles(): void {
-    if (!this.sortConfig.direction) {
-      this.vehicles = [...this.vehicles];
-      return;
-    }
-
-    this.vehicles.sort((a, b) => {
-      const valueA = a[this.sortConfig.key];
-      const valueB = b[this.sortConfig.key];
-      
-      if (valueA === null || valueB === null) {
-        return 0;
-      }
-
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return this.sortConfig.direction === 'asc' 
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return this.sortConfig.direction === 'asc'
-        ? (valueA < valueB ? -1 : 1)
-        : (valueA > valueB ? -1 : 1);
-    });
-  }
-
-  getSortIcon(key: keyof Vehicle): string {
-    if (this.sortConfig.key !== key || !this.sortConfig.direction) {
-      return 'fa-sort';
-    }
-    return this.sortConfig.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down';
-  }
-
-  // Pagination
-  updatePagination(): void {
-    this.totalPages = Math.ceil(this.vehicles.length / this.itemsPerPage);
-    this.currentPage = Math.min(this.currentPage, this.totalPages || 1);
-    
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedVehicles = this.vehicles.slice(
-      startIndex,
-      startIndex + this.itemsPerPage
-    );
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePagination();
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
-  }
-
-  // Status handling
-  getStatusClass(status: VehicleStatus): string {
-    return `status-${status.toLowerCase()}`;
-  }
-
-  // Action handlers
-  onView(vehicle: Vehicle): void {
-    this.viewVehicleComponent.open(vehicle);
-  }
-
-  onEdit(vehicle: Vehicle): void {
-    this.editVehicleComponent.open(vehicle);
-  }
-
-  onDelete(vehicle: Vehicle): void {
-    this.vehicleToDelete = vehicle;
-    this.deleteVehicleComponent.open(`${vehicle.brand} ${vehicle.model} (${vehicle.year})`);
-  }
-
-  onDeleteConfirmed(): void {
-    if (!this.vehicleToDelete) return;
-
-    this.loading = true;
-    this.vehicleService.deleteVehicle(this.vehicleToDelete.id).subscribe({
-      next: () => {
-        this.vehicleToDelete = null;
-        this.loadVehicles();
-      },
-      error: (error) => {
-        console.error('Error deleting vehicle:', error);
-        this.error = 'Failed to delete vehicle. Please try again.';
-        this.loading = false;
-      }
-    });
-  }
-
-  onVehicleUpdated(updatedVehicle: Vehicle): void {
-    this.loading = true;
-    this.vehicleService.updateVehicle(updatedVehicle.id, updatedVehicle).subscribe({
-      next: () => {
-        this.loadVehicles();
-      },
-      error: (error) => {
-        console.error('Error updating vehicle:', error);
-        this.error = 'Failed to update vehicle. Please try again.';
-        this.loading = false;
+        this.isLoading = false;
       }
     });
   }

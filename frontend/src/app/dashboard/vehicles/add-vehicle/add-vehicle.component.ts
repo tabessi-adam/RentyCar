@@ -1,57 +1,85 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { VehicleService } from '../../../core/services/vehicle.service';
+import { Vehicle, VehicleStatus, FuelType, Transmission } from '../../../core/models/vehicle.model';
+import { OfficeService } from '../../../core/services/office.service';
+import { Office } from '../../../core/models/office.model';
 
 @Component({
   selector: 'app-add-vehicle',
-  templateUrl: './add-vehicle.component.html',
-  styleUrls: ['./add-vehicle.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule
+  ],
+  templateUrl: './add-vehicle.component.html',
+  styleUrl: './add-vehicle.component.scss'
 })
 export class AddVehicleComponent {
-  @Output() vehicleAdded = new EventEmitter<any>();
-  isOpen = false;
-  vehicleForm: FormGroup;
+  @Output() vehicleAdded = new EventEmitter<Vehicle>();
+  
+  vehicle: Partial<Vehicle> = {
+    status: VehicleStatus.AVAILABLE,
+    hasGPS: false,
+    hasBluetooth: false,
+    hasAirConditioning: false,
+    hasUSBCable: false
+  };
+  
+  offices: Office[] = [];
+  isLoading = false;
+  currentYear = new Date().getFullYear();
+  
+  readonly statusOptions = Object.values(VehicleStatus);
+  readonly fuelTypeOptions = Object.values(FuelType);
+  readonly transmissionOptions = Object.values(Transmission);
 
-  constructor(private fb: FormBuilder) {
-    this.vehicleForm = this.fb.group({
-      brand: ['', Validators.required],
-      model: ['', Validators.required],
-      year: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
-      fuelType: ['PETROL', Validators.required],
-      transmission: ['MANUAL', Validators.required],
-      pricePerDay: ['', [Validators.required, Validators.min(0)]],
-      hasGPS: [true],
-      hasBluetooth: [true],
-      hasAirConditioning: [true],
-      hasUSBCable: [true],
-      officeId: ['', Validators.required],
-      status: ['AVAILABLE', Validators.required]
-    });
+  constructor(
+    private vehicleService: VehicleService,
+    private officeService: OfficeService,
+    public dialogRef: MatDialogRef<AddVehicleComponent>
+  ) {
+    this.loadOffices();
   }
 
-  open() {
-    this.isOpen = true;
-  }
-
-  close() {
-    this.isOpen = false;
-    this.vehicleForm.reset({
-      fuelType: 'PETROL',
-      transmission: 'MANUAL',
-      hasGPS: true,
-      hasBluetooth: true,
-      hasAirConditioning: true,
-      hasUSBCable: true,
-      status: 'AVAILABLE'
+  loadOffices() {
+    this.officeService.getAllOffices().subscribe(offices => {
+      this.offices = offices;
     });
   }
 
   onSubmit() {
-    if (this.vehicleForm.valid) {
-      this.vehicleAdded.emit(this.vehicleForm.value);
-      this.close();
-    }
+    this.isLoading = true;
+    this.vehicleService.createVehicle(this.vehicle as Vehicle).subscribe({
+      next: (newVehicle) => {
+        this.vehicleAdded.emit(newVehicle);
+        this.dialogRef.close();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error creating vehicle:', error);
+        this.isLoading = false;
+      }
+    });
   }
-} 
+
+  onCancel() {
+    this.dialogRef.close();
+  }
+}

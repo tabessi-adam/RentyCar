@@ -1,17 +1,18 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="close()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>Delete Vehicle</h2>
-      <button class="close-button" (click)="close()">&times;</button>
-    </div>
-    
-    <div class="delete-content">
-      <p>Are you sure you want to delete the {{ vehicleName }}? This action cannot be undone.</p>
-      
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="onConfirm()">Delete</button>
-      </div>
-    </div>
+<div class="delete-dialog">
+  <div class="dialog-header">
+    <h2>Delete Vehicle</h2>
+    <button class="close-button" (click)="close()" aria-label="Close dialog">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
-</div> 
+
+  <div class="dialog-content">
+    <p>Are you sure you want to delete the vehicle "{{ data.vehicle.brand }} {{ data.vehicle.model }}"?</p>
+    <p class="warning">This action cannot be undone.</p>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="close()">Cancel</button>
+    <button mat-raised-button class="delete-btn" color="warn" (click)="onDelete()">Delete</button>
+  </div>
+</div>

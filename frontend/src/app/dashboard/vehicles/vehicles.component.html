@@ -1,20 +1,18 @@
 <div class="dashboard-container">
-  <app-sidebar 
-    [isExpanded]="isSidebarExpanded"
-    (expandedChange)="onSidebarExpandedChange($event)">
-  </app-sidebar>
-  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-    <div class="vehicles-container">
-      <div class="header-actions">
-        <h1>Vehicles Management</h1>
-        <button class="add-vehicle-button" (click)="openAddVehicleModal()">
-          <i class="fas fa-plus"></i> Add New Vehicle
-        </button>
+    <app-sidebar 
+      [isExpanded]="isSidebarExpanded"
+      (expandedChange)="onSidebarExpandedChange($event)">
+    </app-sidebar>
+    <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+      <div class="vehicles-container">
+        <div class="header-actions">
+          <h1>Vehicles Management</h1>
+          <button class="add-vehicle-button" (click)="openAddVehicleModal()">
+            <i class="fas fa-plus"></i> Add New Vehicle
+          </button>
+        </div>
+        <app-vehicles-list></app-vehicles-list>
       </div>
-      <app-vehicles-list></app-vehicles-list>
-      <app-add-vehicle 
-        (vehicleAdded)="onVehicleAdded($event)">
-      </app-add-vehicle>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
+  

@@ -1,125 +1,80 @@
-<div class="vehicles-list-container">
-  <div *ngIf="loading" class="loading-overlay">
-    <div class="spinner"></div>
-    <span>Loading vehicles...</span>
-  </div>
-
-  <div *ngIf="error" class="error-alert" role="alert">
-    <span>{{ error }}</span>
-    <button class="retry-button" (click)="loadVehicles()">Retry</button>
-  </div>
-
-  <app-vehicle-filters 
-    (filtersChanged)="onFiltersChanged($event)"
-    aria-label="Vehicle filters">
-  </app-vehicle-filters>
-
-  <div *ngIf="!loading && !error" class="table-container">
-    <div class="table-responsive">
-      <table class="vehicles-table" role="grid">
-        <thead>
-          <tr>
-            <th scope="col">
-              <button class="sort-button" (click)="sortBy('brand')">
-                Brand
-                <i class="fas" [ngClass]="getSortIcon('brand')"></i>
-              </button>
-            </th>
-            <th scope="col">
-              <button class="sort-button" (click)="sortBy('model')">
-                Model
-                <i class="fas" [ngClass]="getSortIcon('model')"></i>
-              </button>
-            </th>
-            <th scope="col">
-              <button class="sort-button" (click)="sortBy('year')">
-                Year
-                <i class="fas" [ngClass]="getSortIcon('year')"></i>
-              </button>
-            </th>
-            <th scope="col">Fuel Type</th>
-            <th scope="col">Transmission</th>
-            <th scope="col">
-              <button class="sort-button" (click)="sortBy('pricePerDay')">
-                Price/Day
-                <i class="fas" [ngClass]="getSortIcon('pricePerDay')"></i>
-              </button>
-            </th>
-            <th scope="col">Office ID</th>
-            <th scope="col">Status</th>
-            <th scope="col" class="actions-header">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let vehicle of paginatedVehicles" role="row">
-            <td>{{ vehicle.brand }}</td>
-            <td>{{ vehicle.model }}</td>
-            <td>{{ vehicle.year }}</td>
-            <td>{{ vehicle.fuelType }}</td>
-            <td>{{ vehicle.transmission }}</td>
-            <td>{{ vehicle.pricePerDay | currency }}</td>
-            <td>{{ vehicle.officeId }}</td>
-            <td>
-              <span class="status-badge" [ngClass]="getStatusClass(vehicle.status)"
-                    [attr.aria-label]="vehicle.status + ' status'">
-                {{ vehicle.status }}
-              </span>
-            </td>
-            <td class="actions">
-              <button class="action-button view" 
-                      (click)="onView(vehicle)"
-                      aria-label="View vehicle details">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button class="action-button edit" 
-                      (click)="onEdit(vehicle)"
-                      aria-label="Edit vehicle">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="action-button delete" 
-                      (click)="onDelete(vehicle)"
-                      aria-label="Delete vehicle">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="paginatedVehicles.length === 0">
-            <td colspan="9" class="no-data">No vehicles match your criteria</td>
-          </tr>
-        </tbody>
+<div class="container">
+    <div class="table-container">
+      <table mat-table [dataSource]="vehicles">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.id}}</td>
+        </ng-container>
+  
+        <!-- Brand Column -->
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef>Brand</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.brand}}</td>
+        </ng-container>
+  
+        <!-- Model Column -->
+        <ng-container matColumnDef="model">
+          <th mat-header-cell *matHeaderCellDef>Model</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.model}}</td>
+        </ng-container>
+  
+        <!-- Year Column -->
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef>Year</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.year}}</td>
+        </ng-container>
+  
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let vehicle">
+            <span class="status-badge" [ngClass]="vehicle.status.toLowerCase()">
+              {{vehicle.status}}
+            </span>
+          </td>
+        </ng-container>
+  
+        <!-- Price per Day Column -->
+        <ng-container matColumnDef="pricePerDay">
+          <th mat-header-cell *matHeaderCellDef>Price/Day</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.pricePerDay | currency}}</td>
+        </ng-container>
+  
+        <!-- Office Column -->
+        <ng-container matColumnDef="office">
+          <th mat-header-cell *matHeaderCellDef>Office</th>
+          <td mat-cell *matCellDef="let vehicle">{{getOfficeName(vehicle.officeId)}}</td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let vehicle">
+            <button class="action-button view" (click)="onView(vehicle)" aria-label="View vehicle details">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="action-button edit" (click)="onEdit(vehicle)" aria-label="Edit vehicle">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="action-button delete" (click)="onDelete(vehicle)" aria-label="Delete vehicle">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-    </div>
-
-    <div class="pagination-container" *ngIf="vehicles.length > itemsPerPage">
-      <div class="items-per-page">
-        <label for="itemsPerPage">Items per page:</label>
-        <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="updatePagination()">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-        </select>
+  
+      <!-- Loading State -->
+      <div class="loading-overlay" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
       </div>
-      <div class="pagination-controls">
-        <button [disabled]="currentPage === 1" 
-                (click)="previousPage()"
-                aria-label="Previous page">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-        <button [disabled]="currentPage === totalPages" 
-                (click)="nextPage()"
-                aria-label="Next page">
-          <i class="fas fa-chevron-right"></i>
-        </button>
+  
+      <!-- No Data State -->
+      <div class="no-data" *ngIf="!isLoading && vehicles.length === 0">
+        <p>No vehicles found</p>
       </div>
     </div>
   </div>
-
-  <app-edit-vehicle (vehicleUpdated)="onVehicleUpdated($event)"></app-edit-vehicle>
-  <app-delete-vehicle
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="vehicleToDelete = null">
-  </app-delete-vehicle>
-  <app-view-vehicle></app-view-vehicle>
-</div>

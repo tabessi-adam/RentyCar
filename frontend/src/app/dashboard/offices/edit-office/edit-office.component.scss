@@ -70,11 +70,11 @@
     color: white;
 
     &:hover {
-      background-color: darken(#FF6B00, 10%);
+      background-color: #e55c00;
     }
 
     &:disabled {
-      background-color: rgba(#FF6B00, 0.5);
+      background-color: rgba(255, 107, 0, 0.5);
     }
   }
 }

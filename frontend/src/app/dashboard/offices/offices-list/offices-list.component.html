@@ -1,9 +1,7 @@
 <div class="container">
   <div class="table-container">
-    <div class="vertical-line"></div>
-    <div class="vertical-line"></div>
-    <div class="vertical-line"></div>
-    <table mat-table [dataSource]="offices" class="mat-elevation-z8">
+   
+    <table mat-table [dataSource]="offices">
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -63,5 +61,3 @@
     </div>
   </div>
 </div>
-
-<app-view-offices></app-view-offices>
