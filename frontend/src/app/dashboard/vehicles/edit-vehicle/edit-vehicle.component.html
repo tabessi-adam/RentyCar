@@ -1,5 +1,10 @@
 <div class="edit-vehicle-dialog">
-  <h2 mat-dialog-title>Edit Vehicle</h2>
+  <div class="dialog-header">
+    <h2>Edit Vehicle</h2>
+    <button class="close-button" (click)="onCancel()" aria-label="Close dialog">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
   
   <form (ngSubmit)="onSubmit()" #vehicleForm="ngForm">
     <mat-dialog-content>
