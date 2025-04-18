@@ -12,6 +12,7 @@ import { Office } from '../../../core/models/office.model';
 import { ViewOfficesComponent } from '../view-offices/view-offices.component';
 import { EditOfficeComponent } from '../edit-office/edit-office.component';
 import { DeleteOfficeComponent } from '../delete-office/delete-office.component';
+import { AddOfficeComponent } from '../add-office/add-office.component';
 
 @Component({
   selector: 'app-offices-list',
@@ -44,17 +45,15 @@ export class OfficesListComponent implements OnInit {
     this.loadOffices();
   }
 
-  loadOffices(): void {
-    this.isLoading = true;
-    this.officeService.getAllOffices().subscribe({
-      next: (offices) => {
-        this.offices = offices;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading offices:', error);
-        this.snackBar.open('Error loading offices', 'Close', { duration: 3000 });
-        this.isLoading = false;
+  onAdd(): void {
+    const dialogRef = this.dialog.open(AddOfficeComponent, {
+      width: '500px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe((result: Office) => {
+      if (result) {
+        this.loadOffices();
       }
     });
   }
@@ -72,7 +71,7 @@ export class OfficesListComponent implements OnInit {
       data: { office }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: Office) => {
       if (result) {
         this.loadOffices();
       }
@@ -87,9 +86,24 @@ export class OfficesListComponent implements OnInit {
       data: { office }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.loadOffices();
+      }
+    });
+  }
+
+  loadOffices(): void {
+    this.isLoading = true;
+    this.officeService.getAllOffices().subscribe({
+      next: (offices) => {
+        this.offices = offices;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading offices:', error);
+        this.snackBar.open('Error loading offices', 'Close', { duration: 3000 });
+        this.isLoading = false;
       }
     });
   }

@@ -1,25 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { OfficesListComponent } from './offices-list/offices-list.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AddOfficeComponent } from './add-office/add-office.component';
 import { Office } from '../../core/models/office.model';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-offices',
   standalone: true,
-  imports: [
-    SidebarComponent, 
-    OfficesListComponent, 
-    AddOfficeComponent,
-    MatDialogModule
-  ],
+  imports: [CommonModule, SidebarComponent, OfficesListComponent],
   providers: [provideAnimations()],
   templateUrl: './offices.component.html',
-  styleUrl: './offices.component.scss'
+  styleUrls: ['./offices.component.scss']
 })
 export class OfficesComponent {
+  @ViewChild(OfficesListComponent) officesList!: OfficesListComponent;
   isSidebarExpanded = true;
 
   constructor(private dialog: MatDialog) {}
@@ -30,13 +27,8 @@ export class OfficesComponent {
 
   openAddOfficeModal() {
     const dialogRef = this.dialog.open(AddOfficeComponent, {
-      width: '100%',
-      maxWidth: '600px',
-      height: 'auto',
-      maxHeight: '100vh',
-      disableClose: false,
-      autoFocus: false,
-      panelClass: 'responsive-dialog'
+      width: '500px',
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -46,11 +38,9 @@ export class OfficesComponent {
     });
   }
 
-  onOfficeAdded(office: Office) {
-    // Refresh the offices list when a new office is added
-    const officesList = document.querySelector('app-offices-list');
-    if (officesList) {
-      (officesList as any).loadOffices();
+  onOfficeAdded(office: Office): void {
+    if (this.officesList) {
+      this.officesList.loadOffices();
     }
   }
 }

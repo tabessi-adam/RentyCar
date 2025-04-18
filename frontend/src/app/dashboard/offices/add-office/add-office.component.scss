@@ -1,77 +1,128 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.add-office-dialog {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 24px;
-  border-radius: 8px;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100vh;
+  padding: 0;
   width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    margin: 16px;
-  }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
 
   h2 {
     margin: 0;
-    font-size: 24px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.87);
-  }
+    padding: 20px 24px;
+    background: white;
+    font-size: 1.5rem;
 
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.54);
-    padding: 0;
-    line-height: 1;
-
-    &:hover {
-      color: rgba(0, 0, 0, 0.87);
+    @media (max-width: 480px) {
+      padding: 16px 20px;
+      font-size: 1.25rem;
     }
   }
 }
 
-.office-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+mat-dialog-content {
+  flex: 1;
+  margin: 0;
+  padding: 20px 24px;
+  max-height: unset;
+  overflow-y: auto;
 
-  mat-form-field {
+  @media (max-width: 480px) {
+    padding: 16px 20px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
     width: 100%;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
   }
 }
 
-.form-actions {
+mat-dialog-actions {
+  padding: 16px 24px;
+  margin: 0;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   display: flex;
-  justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
+
+  @media (max-width: 480px) {
+    padding: 12px 20px;
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
 
   button {
-    min-width: 100px;
+    &.mat-primary {
+      background-color: black !important;
+      color: white !important;
+
+      &:disabled {
+        background-color: rgba(0, 0, 0, 0.12) !important;
+        color: rgba(0, 0, 0, 0.38) !important;
+      }
+    }
+
+    &.mat-button {
+      color: black !important;
+    }
   }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-spinner {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+::ng-deep .mat-mdc-form-field {
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+  border-bottom-color: black !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled):hover .mdc-line-ripple::before {
+  border-bottom-color: black !important;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::before {
+  border-bottom-color: black !important;
+}
+
+::ng-deep .mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
+}
+
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: black !important;
+}
+
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: black !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: black !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label--float-above {
+  color: black !important;
 }

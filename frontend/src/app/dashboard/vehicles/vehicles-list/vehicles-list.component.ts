@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -12,8 +12,6 @@ import { Office } from '../../../core/models/office.model';
 import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
 import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
-import { interval, Subscription } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -29,7 +27,7 @@ import { startWith, switchMap } from 'rxjs/operators';
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss'
 })
-export class VehiclesListComponent implements OnInit, OnDestroy {
+export class VehiclesListComponent implements OnInit {
   vehicles: Vehicle[] = [];
   offices: Office[] = [];
   isLoading = true;
@@ -44,9 +42,6 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
     'actions'
   ];
 
-  private updateSubscription?: Subscription;
-  private readonly REFRESH_INTERVAL = 30000; // 30 seconds
-
   constructor(
     private vehicleService: VehicleService,
     private officeService: OfficeService,
@@ -54,35 +49,11 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loadVehicles();
     this.loadOffices();
-    this.setupAutoRefresh();
   }
 
-  ngOnDestroy() {
-    if (this.updateSubscription) {
-      this.updateSubscription.unsubscribe();
-    }
-  }
-
-  private setupAutoRefresh() {
-    this.updateSubscription = interval(this.REFRESH_INTERVAL)
-      .pipe(
-        startWith(0), // Start immediately
-        switchMap(() => this.vehicleService.getAllVehicles())
-      )
-      .subscribe({
-        next: (vehicles) => {
-          this.vehicles = vehicles;
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Error loading vehicles:', error);
-          this.isLoading = false;
-        }
-      });
-  }
-
-  loadOffices() {
+  private loadOffices() {
     this.officeService.getAllOffices().subscribe({
       next: (offices) => {
         this.offices = offices;
@@ -95,7 +66,7 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
 
   getOfficeName(officeId: string): string {
     const office = this.offices.find(o => o.id === officeId);
-    return office ? office.name : 'Unknown Office';
+    return office ? office.name : 'Unknown';
   }
 
   getStatusClass(status: string): string {
@@ -111,16 +82,13 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
 
   onEdit(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(EditVehicleComponent, {
-      width: '600px',
-      maxWidth: '90vw',
+      width: '500px',
       data: { vehicle }
     });
 
-    dialogRef.componentInstance.vehicleUpdated.subscribe(updatedVehicle => {
-      // Update the vehicle in the list
-      const index = this.vehicles.findIndex(v => v.id === updatedVehicle.id);
-      if (index !== -1) {
-        this.vehicles[index] = updatedVehicle;
+    dialogRef.afterClosed().subscribe((result: Vehicle) => {
+      if (result) {
+        this.loadVehicles();
       }
     });
   }
@@ -128,19 +96,17 @@ export class VehiclesListComponent implements OnInit, OnDestroy {
   onDelete(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(DeleteVehicleComponent, {
       width: '500px',
-      maxWidth: '90vw',
-      panelClass: 'delete-dialog-container',
       data: { vehicle }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.loadVehicles();
       }
     });
   }
 
-  private loadVehicles() {
+  loadVehicles() {
     this.isLoading = true;
     this.vehicleService.getAllVehicles().subscribe({
       next: (vehicles) => {

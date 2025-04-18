@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
@@ -18,6 +18,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   styleUrl: './vehicles.component.scss'
 })
 export class VehiclesComponent {
+  @ViewChild(VehiclesListComponent) vehiclesList!: VehiclesListComponent;
   isSidebarExpanded = true;
 
   constructor(private dialog: MatDialog) {}
@@ -45,10 +46,8 @@ export class VehiclesComponent {
   }
 
   onVehicleAdded(vehicle: Vehicle) {
-    // Refresh the vehicles list when a new vehicle is added
-    const vehiclesList = document.querySelector('app-vehicles-list');
-    if (vehiclesList) {
-      (vehiclesList as any).loadVehicles();
+    if (this.vehiclesList) {
+      this.vehiclesList.loadVehicles();
     }
   }
 }

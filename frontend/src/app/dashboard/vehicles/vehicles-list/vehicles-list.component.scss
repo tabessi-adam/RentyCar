@@ -14,12 +14,18 @@
 
 .table-container {
   position: relative;
-  min-height: 200px;
+  min-height: 100px;
+  max-height: calc(100vh - 200px);
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  transition: all 0.3s ease;
+
+  &:empty {
+    min-height: 100px;
+  }
 
   @media (max-width: 768px) {
     border-radius: 4px;

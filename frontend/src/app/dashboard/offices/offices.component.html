@@ -1,21 +1,18 @@
 <div class="dashboard-container">
-    <app-sidebar 
-      [isExpanded]="isSidebarExpanded"
-      (expandedChange)="onSidebarExpandedChange($event)">
-    </app-sidebar>
-    <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-      <div class="offices-container">
-        <div class="header-actions">
-          <h1>Offices Management</h1>
-          <button class="add-office-button" (click)="openAddOfficeModal()">
-            <i class="fas fa-plus"></i> Add New Office
-          </button>
-        </div>
-        <app-offices-list></app-offices-list>
-        <app-add-office 
-          (officeAdded)="onOfficeAdded($event)">
-        </app-add-office>
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (expandedChange)="onSidebarExpandedChange($event)">
+  </app-sidebar>
+  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+    <div class="offices-container">
+      <div class="header-actions">
+        <h1>Offices Management</h1>
+        <button class="add-office-button" (click)="openAddOfficeModal()">
+          <i class="fas fa-plus"></i> Add New Office
+        </button>
       </div>
-    </main>
-  </div>
+      <app-offices-list></app-offices-list>
+    </div>
+  </main>
+</div>
   
