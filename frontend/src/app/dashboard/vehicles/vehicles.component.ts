@@ -36,13 +36,7 @@ export class VehiclesComponent implements AfterViewInit {
 
   openAddVehicleModal() {
     const dialogRef = this.dialog.open(AddVehicleComponent, {
-      width: '100%',
-      maxWidth: '600px',
-      height: 'auto',
-      maxHeight: '100vh',
-      disableClose: true,
-      autoFocus: false,
-      panelClass: 'responsive-dialog'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

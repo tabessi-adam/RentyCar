@@ -27,8 +27,7 @@ export class OfficesComponent {
 
   openAddOfficeModal() {
     const dialogRef = this.dialog.open(AddOfficeComponent, {
-      width: '500px',
-      disableClose: true
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
