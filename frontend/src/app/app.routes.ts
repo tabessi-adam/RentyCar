@@ -51,14 +51,7 @@ export const routes: Routes = [
         path: 'reviews',
         loadComponent: () => import('./dashboard/reviews/reviews.component').then(m => m.ReviewsComponent)
       },
-      {
-        path: 'clients',
-        loadComponent: () => import('./dashboard/clients/clients.component').then(m => m.ClientsComponent)
-      },
-      {
-        path: 'agents',
-        loadComponent: () => import('./dashboard/agents/agents.component').then(m => m.AgentsComponent)
-      },
+    
       {
         path: 'offices',
         loadComponent: () => import('./dashboard/offices/offices.component').then(m => m.OfficesComponent)
@@ -94,10 +87,7 @@ export const routes: Routes = [
         path: 'reviews',
         loadComponent: () => import('./dashboard/reviews/reviews.component').then(m => m.ReviewsComponent)
       },
-      {
-        path: 'clients',
-        loadComponent: () => import('./dashboard/clients/clients.component').then(m => m.ClientsComponent)
-      },
+   
       {
         path: 'profile',
         loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent)
