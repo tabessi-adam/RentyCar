@@ -1,3 +1,5 @@
+import { Reservation } from './reservation.model';
+
 export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
   RENTED = 'RENTED',
@@ -19,6 +21,7 @@ export enum Transmission {
 // Interface representing the Vehicle entity
 export interface Vehicle {
   id: string;
+  status: VehicleStatus;
   baseStatus: VehicleStatus;
   currentStatus: VehicleStatus;
   brand: string;
@@ -34,12 +37,13 @@ export interface Vehicle {
   officeId: string;
   createdAt: string; // Use string for dates from JSON
   updatedAt: string; // Use string for dates from JSON
+  reservations?: Reservation[];
   // office?: any; // Relation data usually not sent/needed in list/detail views
 }
 
 // Based on backend CreateVehicleDto
 export interface CreateVehiclePayload {
-  baseStatus?: VehicleStatus;
+  status: VehicleStatus;
   brand: string;
   model: string;
   year: number;
@@ -54,4 +58,30 @@ export interface CreateVehiclePayload {
 }
 
 // Based on backend UpdateVehicleDto (Partial of Create)
-export type UpdateVehiclePayload = Partial<CreateVehiclePayload>; 
+export type UpdateVehiclePayload = Partial<CreateVehiclePayload>;
+
+export function isVehicleCurrentlyRented(vehicle: Vehicle): boolean {
+  if (!vehicle.reservations) return false;
+  
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to midnight for accurate date comparison
+
+  return vehicle.reservations.some(reservation => {
+    if (reservation.status !== 'ACCEPTED') return false;
+    
+    const startDate = new Date(reservation.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    
+    const endDate = new Date(reservation.endDate);
+    endDate.setHours(0, 0, 0, 0);
+    
+    return startDate <= today && endDate >= today;
+  });
+}
+
+export function getVehicleCurrentStatus(vehicle: Vehicle): VehicleStatus {
+  if (vehicle.status === VehicleStatus.MAINTENANCE) {
+    return VehicleStatus.MAINTENANCE;
+  }
+  return isVehicleCurrentlyRented(vehicle) ? VehicleStatus.RENTED : VehicleStatus.AVAILABLE;
+} 

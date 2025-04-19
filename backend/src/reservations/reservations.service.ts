@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, Not, LessThan } from 'typeorm';
+import { Repository, Between, Not, LessThan, MoreThan } from 'typeorm';
 import { Reservation } from './entities/reservation.entity';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto, ReservationStatus } from './dto/update-reservation.dto';
@@ -198,15 +198,15 @@ export class ReservationsService {
   async updateStatus(id: string, status: ReservationStatus) {
     const reservation = await this.findOne(id);
 
+    const vehicle = await this.vehiclesRepository.findOne({
+      where: { id: reservation.vehicleId }
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found');
+    }
+
     if (status === ReservationStatus.ACCEPTED) {
-      const vehicle = await this.vehiclesRepository.findOne({
-        where: { id: reservation.vehicleId }
-      });
-
-      if (!vehicle) {
-        throw new NotFoundException('Vehicle not found');
-      }
-
       // Check for overlapping reservations
       const overlappingReservation = await this.reservationsRepository.findOne({
         where: {
@@ -221,9 +221,28 @@ export class ReservationsService {
         throw new BadRequestException('Vehicle is already reserved for this period');
       }
 
-      // Update vehicle status to RENTED and save to database
-      vehicle.status = VehicleStatus.RENTED;
-      await this.vehiclesRepository.save(vehicle);
+      // Only update vehicle status to RENTED if the reservation period has started
+      const today = new Date();
+      if (new Date(reservation.startDate) <= today && new Date(reservation.endDate) >= today) {
+        vehicle.status = VehicleStatus.RENTED;
+        await this.vehiclesRepository.save(vehicle);
+      }
+    } else if (status === ReservationStatus.CANCELLED || status === ReservationStatus.DECLINED) {
+      // Check if there are no other active reservations for this vehicle
+      const activeReservation = await this.reservationsRepository.findOne({
+        where: {
+          vehicleId: reservation.vehicleId,
+          status: ReservationStatus.ACCEPTED,
+          startDate: LessThan(new Date()),
+          endDate: MoreThan(new Date()),
+          id: Not(id),
+        },
+      });
+
+      if (!activeReservation) {
+        vehicle.status = VehicleStatus.AVAILABLE;
+        await this.vehiclesRepository.save(vehicle);
+      }
     }
 
     await this.reservationsRepository.update(id, { status });

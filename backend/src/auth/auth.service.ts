@@ -10,6 +10,8 @@ import { Office } from '../offices/entities/office.entity';
 import { RegisterDto } from './dto/register.dto';
 import { Role } from './enums/role.enum';
 
+type User = Client | Admin | Agent;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -125,11 +127,11 @@ export class AuthService {
     };
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<User> {
     console.log('Validating user:', email);
     
     // Check in clients table first
-    let user = await this.clientRepository.findOne({ where: { email } });
+    let user: User | null = await this.clientRepository.findOne({ where: { email } });
     
     // If not found in clients, check in admins table
     if (!user) {
@@ -152,7 +154,7 @@ export class AuthService {
     }
     
     const { password: _, ...result } = user;
-    return result;
+    return result as User;
   }
 
   async validateAdmin(email: string, password: string): Promise<any> {

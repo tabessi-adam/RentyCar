@@ -26,8 +26,8 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Base Status</mat-label>
-          <mat-select [(ngModel)]="vehicle.baseStatus" name="baseStatus" required>
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="vehicle.status" name="status" required>
             <mat-option *ngFor="let status of statusOptions" [value]="status">
               {{status}}
             </mat-option>

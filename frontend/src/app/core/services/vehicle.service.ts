@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Vehicle, CreateVehiclePayload, UpdateVehiclePayload, VehicleStatus } from '../models/vehicle.model';
+import { Vehicle, CreateVehiclePayload, UpdateVehiclePayload, VehicleStatus, getVehicleCurrentStatus } from '../models/vehicle.model';
 import { AuthService } from './auth.service';
 import { Role } from '../models/role.enum';
 import { environment } from '../../../environments/environment';
@@ -131,6 +131,15 @@ export class VehicleService {
     }
     return this.http.delete<any>(`${apiUrl}/${id}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
+  }
+
+  mapVehicle(vehicle: any): Vehicle {
+    const mappedVehicle = {
+      ...vehicle,
+      baseStatus: vehicle.status || VehicleStatus.AVAILABLE,
+      currentStatus: getVehicleCurrentStatus(vehicle)
+    };
+    return mappedVehicle;
   }
 
   private handleError(error: any): Observable<never> {

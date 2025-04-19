@@ -37,11 +37,18 @@ export class AddVehicleComponent {
   @Output() vehicleAdded = new EventEmitter<Vehicle>();
   
   vehicle: Partial<Vehicle> = {
-    baseStatus: VehicleStatus.AVAILABLE,
+    status: VehicleStatus.AVAILABLE,
+    brand: '',
+    model: '',
+    year: new Date().getFullYear(),
+    fuelType: FuelType.PETROL,
+    transmission: Transmission.MANUAL,
+    pricePerDay: 0,
     hasGPS: false,
     hasBluetooth: false,
     hasAirConditioning: false,
-    hasUSBCable: false
+    hasUSBCable: false,
+    officeId: ''
   };
   
   offices: Office[] = [];

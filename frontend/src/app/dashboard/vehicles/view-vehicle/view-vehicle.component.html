@@ -1,23 +1,23 @@
 <h2 mat-dialog-title>Vehicle Details</h2>
 <mat-dialog-content>
   <div *ngIf="vehicle">
-    <p><strong>ID:</strong> {{vehicle.id}}</p>
-    <p><strong>Base Status:</strong> {{vehicle.baseStatus}}</p>
-    <p><strong>Current Status:</strong> {{vehicle.currentStatus}}</p>
-    <p><strong>Brand:</strong> {{vehicle.brand}}</p>
-    <p><strong>Model:</strong> {{vehicle.model}}</p>
-    <p><strong>Year:</strong> {{vehicle.year}}</p>
-    <p><strong>Fuel Type:</strong> {{vehicle.fuelType}}</p>
-    <p><strong>Transmission:</strong> {{vehicle.transmission}}</p>
-    <p><strong>Price per Day:</strong> {{vehicle.pricePerDay | currency}}</p>
-    <p><strong>Office ID:</strong> {{vehicle.officeId}}</p>
-    <p><strong>Features:</strong></p>
-    <ul>
-      <li *ngIf="vehicle.hasGPS">GPS</li>
-      <li *ngIf="vehicle.hasBluetooth">Bluetooth</li>
-      <li *ngIf="vehicle.hasAirConditioning">Air Conditioning</li>
-      <li *ngIf="vehicle.hasUSBCable">USB Cable</li>
-    </ul>
+    <div class="vehicle-details">
+      <p><strong>Status:</strong> {{vehicle.status}}</p>
+      <p><strong>Current Status:</strong> {{vehicle.currentStatus}}</p>
+      <p><strong>Brand:</strong> {{vehicle.brand}}</p>
+      <p><strong>Model:</strong> {{vehicle.model}}</p>
+      <p><strong>Year:</strong> {{vehicle.year}}</p>
+      <p><strong>Fuel Type:</strong> {{vehicle.fuelType}}</p>
+      <p><strong>Transmission:</strong> {{vehicle.transmission}}</p>
+      <p><strong>Price Per Day:</strong> {{vehicle.pricePerDay}} DT</p>
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li *ngIf="vehicle.hasGPS">GPS</li>
+        <li *ngIf="vehicle.hasBluetooth">Bluetooth</li>
+        <li *ngIf="vehicle.hasAirConditioning">Air Conditioning</li>
+        <li *ngIf="vehicle.hasUSBCable">USB Cable</li>
+      </ul>
+    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -86,11 +86,19 @@ export class Vehicle {
 
   get currentStatus(): VehicleStatus {
     const today = new Date();
-    const activeReservation = this.reservations?.find(reservation => 
-      reservation.status === 'ACCEPTED' &&
-      new Date(reservation.startDate) <= today &&
-      new Date(reservation.endDate) >= today
-    );
+    today.setHours(0, 0, 0, 0); // Set time to midnight for accurate date comparison
+
+    const activeReservation = this.reservations?.find(reservation => {
+      if (reservation.status !== 'ACCEPTED') return false;
+      
+      const startDate = new Date(reservation.startDate);
+      startDate.setHours(0, 0, 0, 0);
+      
+      const endDate = new Date(reservation.endDate);
+      endDate.setHours(0, 0, 0, 0);
+      
+      return startDate <= today && endDate >= today;
+    });
 
     return activeReservation ? VehicleStatus.RENTED : this.status;
   }
