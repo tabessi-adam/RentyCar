@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ReservationsListComponent } from './reservations-list/reservations-list.component';
@@ -18,14 +18,18 @@ export class ReservationsComponent implements AfterViewInit {
   @ViewChild(ReservationsListComponent) reservationsList!: ReservationsListComponent;
   isSidebarExpanded = true;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
     // Ensure the reservations list is loaded initially
     if (this.reservationsList) {
       this.reservationsList.loadReservations();
     }
+    this.cdr.detectChanges();
   }
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
+    this.cdr.detectChanges();
   }
 }

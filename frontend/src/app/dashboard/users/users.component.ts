@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, AfterContentChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { UsersListComponent } from './users-list/users-list.component';
@@ -24,7 +24,7 @@ type User = Client | Agent;
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements AfterViewInit {
+export class UsersComponent implements OnInit, AfterViewInit, AfterContentChecked {
   @ViewChild(UsersListComponent) usersList!: UsersListComponent;
   isSidebarExpanded = true;
   isAdmin = false;
@@ -32,7 +32,9 @@ export class UsersComponent implements AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.isAdmin = this.authService.hasRole(Role.ADMIN);
   }
 
@@ -41,6 +43,11 @@ export class UsersComponent implements AfterViewInit {
     if (this.usersList) {
       this.usersList.loadUsers();
     }
+  }
+
+  ngAfterContentChecked() {
+    // This hook is called after every change detection cycle
+    // No need to manually trigger change detection
   }
 
   onSidebarExpandedChange(expanded: boolean) {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
@@ -20,17 +20,22 @@ export class VehiclesComponent implements AfterViewInit {
   @ViewChild(VehiclesListComponent) vehiclesList!: VehiclesListComponent;
   isSidebarExpanded = true;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
     // Ensure the vehicles list is loaded initially
     if (this.vehiclesList) {
       this.vehiclesList.loadVehicles();
     }
+    this.cdr.detectChanges();
   }
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
+    this.cdr.detectChanges();
   }
 
   openAddVehicleModal() {
