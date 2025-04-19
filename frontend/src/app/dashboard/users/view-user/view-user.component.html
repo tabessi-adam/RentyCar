@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>User Details</h2>
+<mat-dialog-content>
+  <div *ngIf="user">
+    <p><strong>ID:</strong> {{user.id}}</p>
+    <p><strong>Name:</strong> {{user.name}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <p><strong>Phone:</strong> {{user.phoneNumber}}</p>
+    <p><strong>Role:</strong> {{user.role}}</p>
+    <p><strong>Created At:</strong> {{user.createdAt | date:'medium'}}</p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Close</button>
+</mat-dialog-actions>

@@ -48,7 +48,16 @@ export class ClientsService {
   }
 
   async remove(id: string): Promise<void> {
-    const client = await this.findOne(id);
+    const client = await this.clientRepository.findOne({
+      where: { id },
+      relations: ['reviews', 'reservations']
+    });
+
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${id} not found`);
+    }
+
+    // Delete the client and all related entities will be deleted due to cascade
     await this.clientRepository.remove(client);
   }
 } 

@@ -36,6 +36,10 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
       },
       {
+        path: 'users',
+        loadComponent: () => import('./dashboard/users/users.component').then(m => m.UsersComponent)
+      },
+      {
         path: 'vehicles',
         loadComponent: () => import('./dashboard/vehicles/vehicles.component').then(m => m.VehiclesComponent)
       },
@@ -73,6 +77,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./dashboard/users/users.component').then(m => m.UsersComponent)
       },
       {
         path: 'vehicles',

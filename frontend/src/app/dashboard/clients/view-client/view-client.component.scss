@@ -1,0 +1,42 @@
+.client-details {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  font-weight: 600;
+  color: #666;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.value {
+  color: #333;
+  flex-grow: 1;
+}
+
+h2 {
+  margin: 0;
+  padding: 20px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+mat-dialog-actions {
+  padding: 20px;
+  margin: 0;
+}

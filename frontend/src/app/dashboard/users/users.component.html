@@ -4,14 +4,14 @@
     (expandedChange)="onSidebarExpandedChange($event)">
   </app-sidebar>
   <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-    <div class="clients-container">
+    <div class="users-container">
       <div class="header-actions">
-        <h1>Clients Management</h1>
-        <button class="add-client-button" (click)="openAddClientModal()">
-          <i class="fas fa-plus"></i> Add New Client
+        <h1>Users Management</h1>
+        <button class="add-user-button" (click)="openAddUserModal()">
+          <i class="fas fa-plus"></i> Add New User
         </button>
       </div>
-      <app-clients-list></app-clients-list>
+      <app-users-list></app-users-list>
     </div>
   </main>
 </div>

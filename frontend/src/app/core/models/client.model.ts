@@ -16,4 +16,14 @@ export interface UpdateClientPayload {
   password?: string; // Consider a dedicated password change flow
   phoneNumber?: string;
   // Role changes might be restricted
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string | null;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
 } 

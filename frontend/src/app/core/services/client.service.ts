@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { Client } from '../models/client.model';
 
 export interface ClientProfile {
   id: string;
@@ -70,5 +71,18 @@ export class ClientService {
   clearUserName() {
     this.userName.set('');
     localStorage.removeItem('userName');
+  }
+
+  // Client management methods
+  getAllClients(): Observable<Client[]> {
+    return this.http.get<Client[]>(`${this.apiUrl}`);
+  }
+
+  updateClient(clientId: string, clientData: Partial<Client>): Observable<Client> {
+    return this.http.patch<Client>(`${this.apiUrl}/${clientId}`, clientData);
+  }
+
+  deleteClient(clientId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${clientId}`);
   }
 } 

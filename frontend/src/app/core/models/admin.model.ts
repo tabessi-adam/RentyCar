@@ -1,19 +1,25 @@
 import { Role } from "./role.enum";
 
-// Based on backend Admin entity for creation payload
+// Interface representing the Admin entity (subset of User)
+// Re-using the User interface from auth.model might be sufficient if needed.
+export interface Admin {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber?: string;
+  role: 'admin'; // Explicitly admin
+  // Add createdAt/updatedAt if needed
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// Based on backend CreateAdminDto
 export interface CreateAdminPayload {
   name: string;
   email: string;
-  password: string; // Handled by backend hashing
+  password: string;
   phoneNumber?: string;
-  role: Role.ADMIN; // Should always be ADMIN
 }
 
-// Based on backend Admin entity for update payload (partial)
-export interface UpdateAdminPayload {
-  name?: string;
-  email?: string;
-  password?: string; // Consider separate password change flow
-  phoneNumber?: string;
-  // Role change likely not applicable/allowed
-} 
+// Based on backend UpdateAdminDto (Partial of Create)
+export type UpdateAdminPayload = Partial<Omit<CreateAdminPayload, 'password'>>; // Usually exclude password from direct update payload 

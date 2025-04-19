@@ -63,8 +63,7 @@ export class SidebarComponent implements OnInit {
     if (role === Role.ADMIN) {
       this.navItems = [
         { path: '/admin/dashboard', icon: 'home', label: 'Dashboard' },
-        { path: '/admin/agents', icon: 'agents', label: 'Agents' },
-        { path: '/admin/clients', icon: 'users', label: 'Clients' },
+        { path: '/admin/users', icon: 'users', label: 'User Management' },
         { path: '/admin/vehicles', icon: 'vehicles', label: 'Vehicles' },
         { path: '/admin/offices', icon: 'offices', label: 'Offices' },
         { path: '/admin/reservations', icon: 'reservations', label: 'Reservations' },
@@ -80,7 +79,7 @@ export class SidebarComponent implements OnInit {
     } else if (role === Role.AGENT) {
       this.navItems = [
         { path: '/agent/dashboard', icon: 'home', label: 'Dashboard' },
-        { path: '/agent/clients', icon: 'users', label: 'Clients' },
+        { path: '/agent/users', icon: 'users', label: 'User Management' },
         { path: '/agent/vehicles', icon: 'vehicles', label: 'Vehicles' },
         { path: '/agent/reservations', icon: 'reservations', label: 'Reservations' },
         { path: '/agent/reviews', icon: 'reviews', label: 'Reviews' },

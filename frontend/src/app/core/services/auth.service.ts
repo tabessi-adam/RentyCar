@@ -1,6 +1,6 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { LoginDto, RegisterDto, User as AuthUser } from '../models/auth.model';
@@ -179,5 +179,11 @@ export class AuthService {
 
   get isClient(): boolean {
     return this.currentUser?.role === Role.CLIENT;
+  }
+
+  checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${encodeURIComponent(email)}`).pipe(
+      catchError(() => of(false))
+    );
   }
 }

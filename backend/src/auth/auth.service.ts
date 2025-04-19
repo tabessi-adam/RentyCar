@@ -30,20 +30,10 @@ export class AuthService {
     console.log('Registering user with role:', role);
     console.log('Role type:', typeof role);
 
-    // Check if user already exists with more specific error messages
-    const existingClient = await this.clientRepository.findOne({ where: { email } });
-    if (existingClient) {
-      throw new ConflictException('This email is already registered ');
-    }
-
-    const existingAdmin = await this.adminRepository.findOne({ where: { email } });
-    if (existingAdmin) {
-      throw new ConflictException('This email is already registered ');
-    }
-
-    const existingAgent = await this.agentRepository.findOne({ where: { email } });
-    if (existingAgent) {
-      throw new ConflictException('This email is already registered ');
+    // Check if email exists in any role first
+    const emailExists = await this.checkEmailExists(email);
+    if (emailExists) {
+      throw new ConflictException('This email is already registered');
     }
 
     // Hash the password
@@ -281,5 +271,27 @@ export class AuthService {
       console.error('Error checking database structure:', error);
       return { success: false, error: error.message };
     }
+  }
+
+  async checkEmailExists(email: string): Promise<boolean> {
+    // Check in clients table
+    const existingClient = await this.clientRepository.findOne({ where: { email } });
+    if (existingClient) {
+      return true;
+    }
+
+    // Check in admins table
+    const existingAdmin = await this.adminRepository.findOne({ where: { email } });
+    if (existingAdmin) {
+      return true;
+    }
+
+    // Check in agents table
+    const existingAgent = await this.agentRepository.findOne({ where: { email } });
+    if (existingAgent) {
+      return true;
+    }
+
+    return false;
   }
 } 

@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Role } from '../../auth/enums/role.enum';
+import { Review } from '../../reviews/entities/review.entity';
+import { Reservation } from '../../reservations/entities/reservation.entity';
 
 @Entity('clients')
 export class Client {
@@ -30,4 +32,10 @@ export class Client {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Review, review => review.client, { cascade: true })
+  reviews: Review[];
+
+  @OneToMany(() => Reservation, reservation => reservation.client, { cascade: true })
+  reservations: Reservation[];
 } 

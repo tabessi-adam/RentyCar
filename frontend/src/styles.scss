@@ -147,6 +147,7 @@ p {
 .delete-dialog-container {
   .mat-mdc-dialog-container {
     padding: 0;
+    overflow: hidden;
   }
 
   .mat-mdc-dialog-surface {
