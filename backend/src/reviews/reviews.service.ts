@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -41,10 +41,28 @@ export class ReviewsService {
     return this.reviewsRepository.save(review);
   }
 
-  async findAll(filters?: { vehicleId?: string; clientId?: string }) {
+  async findAll(filters?: { vehicleId?: string | string[]; clientId?: string }) {
+    const where: any = {};
+    
+    if (filters) {
+      if (filters.vehicleId) {
+        if (Array.isArray(filters.vehicleId)) {
+          where.vehicleId = In(filters.vehicleId);
+        } else {
+          where.vehicleId = filters.vehicleId;
+        }
+      }
+      if (filters.clientId) {
+        where.clientId = filters.clientId;
+      }
+    }
+
     return this.reviewsRepository.find({
-      where: filters,
+      where,
       relations: ['client', 'vehicle'],
+      order: {
+        createdAt: 'DESC'
+      }
     });
   }
 

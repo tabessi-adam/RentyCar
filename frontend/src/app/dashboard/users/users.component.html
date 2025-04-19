@@ -7,7 +7,7 @@
     <div class="users-container">
       <div class="header-actions">
         <h1>Users Management</h1>
-        <button class="add-user-button" (click)="openAddUserModal()">
+        <button *ngIf="isAdmin" class="add-user-button" (click)="openAddUserModal()">
           <i class="fas fa-plus"></i> Add New User
         </button>
       </div>

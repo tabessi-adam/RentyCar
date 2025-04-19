@@ -15,6 +15,7 @@ import { Role } from '../../../core/models/role.enum';
 import { ViewUserComponent } from '../view-user/view-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 type User = Client | Agent;
 
@@ -42,6 +43,7 @@ export class UsersListComponent implements OnInit {
   selectedRole: Role | '' = '';
   isLoading = true;
   Role = Role; // Make Role enum available in template
+  isAdmin = false;
   displayedColumns: string[] = [
     'id',
     'name',
@@ -54,23 +56,34 @@ export class UsersListComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private agentService: AgentService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
+    this.isAdmin = this.authService.hasRole(Role.ADMIN);
     this.loadUsers();
   }
 
   loadUsers() {
     this.isLoading = true;
-    Promise.all([
-      this.loadClients(),
-      this.loadAgents()
-    ]).finally(() => {
-      this.isLoading = false;
-      this.filterUsers();
-    });
+    if (this.isAdmin) {
+      // Admin can see both clients and agents
+      Promise.all([
+        this.loadClients(),
+        this.loadAgents()
+      ]).finally(() => {
+        this.isLoading = false;
+        this.filterUsers();
+      });
+    } else {
+      // Agent can only see clients
+      this.loadClients().add(() => {
+        this.isLoading = false;
+        this.filterUsers();
+      });
+    }
   }
 
   loadClients() {
@@ -100,7 +113,11 @@ export class UsersListComponent implements OnInit {
   }
 
   private updateUsers() {
-    this.users = [...this.clients, ...this.agents];
+    if (this.isAdmin) {
+      this.users = [...this.clients, ...this.agents];
+    } else {
+      this.users = [...this.clients];
+    }
     this.filterUsers();
   }
 

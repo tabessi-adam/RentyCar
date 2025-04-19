@@ -1,10 +1,11 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Client } from '../models/client.model';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface ClientProfile {
   id: string;
@@ -22,16 +23,22 @@ export interface ClientProfile {
 export class ClientService {
   userName = signal<string>('');
   private apiUrl = `${environment.apiUrl}/clients`;
+  private isBrowser: boolean;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
     // Initialize with the name from localStorage if available
-    const storedName = localStorage.getItem('userName');
-    if (storedName) {
-      this.userName.set(storedName);
+    if (this.isBrowser) {
+      const storedName = localStorage.getItem('userName');
+      if (storedName) {
+        this.userName.set(storedName);
+      }
     }
   }
 
@@ -65,12 +72,16 @@ export class ClientService {
   // User name methods
   updateUserName(name: string) {
     this.userName.set(name);
-    localStorage.setItem('userName', name);
+    if (this.isBrowser) {
+      localStorage.setItem('userName', name);
+    }
   }
 
   clearUserName() {
     this.userName.set('');
-    localStorage.removeItem('userName');
+    if (this.isBrowser) {
+      localStorage.removeItem('userName');
+    }
   }
 
   // Client management methods

@@ -38,8 +38,8 @@ export class DeleteReviewComponent {
       },
       error: (error) => {
         console.error('Error deleting review:', error);
-        this.snackBar.open('Error deleting review', 'Close', {
-          duration: 3000,
+        this.snackBar.open(error.message || 'Error deleting review', 'Close', {
+          duration: 5000,
           panelClass: ['error-snackbar']
         });
       }

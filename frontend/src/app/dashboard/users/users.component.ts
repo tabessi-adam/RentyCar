@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddUserComponent } from './add-user/add-user.component';
 import { Client } from '../../core/models/client.model';
 import { Agent } from '../../core/models/agent.model';
+import { AuthService } from '../../core/services/auth.service';
+import { Role } from '../../core/models/role.enum';
 
 type User = Client | Agent;
 
@@ -25,8 +27,14 @@ type User = Client | Agent;
 export class UsersComponent implements AfterViewInit {
   @ViewChild(UsersListComponent) usersList!: UsersListComponent;
   isSidebarExpanded = true;
+  isAdmin = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {
+    this.isAdmin = this.authService.hasRole(Role.ADMIN);
+  }
 
   ngAfterViewInit() {
     // Ensure the users list is loaded initially

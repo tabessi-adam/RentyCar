@@ -33,11 +33,12 @@ export class ReservationService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET / (Admin only, with filters)
+  // GET / (Admin and Agent only, with filters)
   getAllReservations(filters?: { vehicleId?: string; clientId?: string }): Observable<Reservation[]> {
-    // Client-side check for admin role before making the call
-    if (this.authService.userRole() !== Role.ADMIN) {
-      console.error('Attempted to call admin-only getAllReservations without admin role.');
+    // Client-side check for admin or agent role before making the call
+    const userRole = this.authService.userRole();
+    if (userRole !== Role.ADMIN && userRole !== Role.AGENT) {
+      console.error('Attempted to call getAllReservations without proper role.');
       return throwError(() => new Error('Operation not permitted for this role'));
     }
     let params = new HttpParams();
@@ -71,11 +72,12 @@ export class ReservationService {
       .pipe(catchError(this.handleError));
   }
 
-  // PATCH /:id/status (Admin only)
+  // PATCH /:id/status (Admin and Agent only)
   updateReservationStatus(id: string, status: ReservationStatus): Observable<Reservation> {
-    // Client-side check for admin role
-    if (this.authService.userRole() !== Role.ADMIN) {
-      console.error('Attempted to call admin-only updateReservationStatus without admin role.');
+    // Client-side check for admin or agent role
+    const userRole = this.authService.userRole();
+    if (userRole !== Role.ADMIN && userRole !== Role.AGENT) {
+      console.error('Attempted to call updateReservationStatus without proper role.');
       return throwError(() => new Error('Operation not permitted for this role'));
     }
     const payload: UpdateReservationStatusPayload = { status };

@@ -24,13 +24,15 @@
     </div>
     
     <div class="info-row">
-      <span class="label">Vehicle ID:</span>
-      <span class="value">{{ review.vehicleId }}</span>
+      <span class="label">Vehicle:</span>
+      <span class="value">
+        {{ review.vehicle?.brand }} {{ review.vehicle?.model }} ({{ review.vehicleId }})
+      </span>
     </div>
     
     <div class="info-row">
-      <span class="label">Client ID:</span>
-      <span class="value">{{ review.clientId }}</span>
+      <span class="label">Client:</span>
+      <span class="value">{{ review.client?.name || review.clientId }}</span>
     </div>
     
     <div class="info-row">

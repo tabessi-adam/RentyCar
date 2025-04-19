@@ -32,9 +32,10 @@ export class ReviewService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET / (Admin only, with filters)
+  // GET / (Admin and Agent only, with filters)
   getAllReviews(filters?: { vehicleId?: string; clientId?: string }): Observable<Review[]> {
-    if (this.authService.userRole() !== Role.ADMIN) {
+    const userRole = this.authService.userRole();
+    if (userRole !== Role.ADMIN && userRole !== Role.AGENT) {
       return throwError(() => new Error('Operation not permitted for this role'));
     }
     let params = new HttpParams();
@@ -48,9 +49,10 @@ export class ReviewService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET /:id (Admin only)
+  // GET /:id (Admin and Agent only)
   getReviewById(id: string): Observable<Review> {
-    if (this.authService.userRole() !== Role.ADMIN) {
+    const userRole = this.authService.userRole();
+    if (userRole !== Role.ADMIN && userRole !== Role.AGENT) {
       return throwError(() => new Error('Operation not permitted for this role'));
     }
     return this.http.get<Review>(`${API_URL}/${id}`, { headers: this.getAuthHeaders() })
@@ -73,6 +75,20 @@ export class ReviewService {
 
   private handleError(error: any): Observable<never> {
     console.error('ReviewService Error:', error);
-    return throwError(() => error);
+    let errorMessage = 'An unknown error occurred';
+    
+    if (error.error?.message) {
+      errorMessage = error.error.message;
+    } else if (error.status === 403) {
+      errorMessage = 'You do not have permission to perform this action';
+    } else if (error.status === 404) {
+      errorMessage = 'The review could not be found';
+    }
+    
+    return throwError(() => ({
+      message: errorMessage,
+      status: error.status,
+      error: error.error
+    }));
   }
 }

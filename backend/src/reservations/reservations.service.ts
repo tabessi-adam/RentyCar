@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, Not, LessThan, MoreThan } from 'typeorm';
+import { Repository, Between, Not, LessThan, MoreThan, In } from 'typeorm';
 import { Reservation } from './entities/reservation.entity';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto, ReservationStatus } from './dto/update-reservation.dto';
@@ -117,9 +117,24 @@ export class ReservationsService {
     return this.reservationsRepository.save(reservation);
   }
 
-  async findAll(filters?: { vehicleId?: string; clientId?: string }) {
+  async findAll(filters?: { vehicleId?: string | string[]; clientId?: string }) {
+    const where: any = {};
+    
+    if (filters) {
+      if (filters.vehicleId) {
+        if (Array.isArray(filters.vehicleId)) {
+          where.vehicleId = In(filters.vehicleId);
+        } else {
+          where.vehicleId = filters.vehicleId;
+        }
+      }
+      if (filters.clientId) {
+        where.clientId = filters.clientId;
+      }
+    }
+
     return this.reservationsRepository.find({
-      where: filters,
+      where,
       relations: ['client', 'vehicle'],
     });
   }

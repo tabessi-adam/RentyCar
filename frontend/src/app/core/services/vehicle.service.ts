@@ -71,6 +71,9 @@ export class VehicleService {
       });
     }
 
+    // For agents, we don't need to add officeId filter as the backend already handles it
+    // The backend will automatically filter vehicles based on the agent's office
+
     console.log('VehicleService - Sending request to:', apiUrl);
     console.log('VehicleService - With headers:', this.getAuthHeaders());
     return this.http.get<Vehicle[]>(apiUrl, { 

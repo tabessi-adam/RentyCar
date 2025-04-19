@@ -19,7 +19,7 @@ export class ClientsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.AGENT)
   findAll() {
     return this.clientsService.findAll();
   }
