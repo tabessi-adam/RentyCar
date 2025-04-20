@@ -115,14 +115,15 @@ export class EditProfileComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.clientService.updateProfile(updateData).subscribe({
-      next: (updatedProfile) => {
-        this.profile = updatedProfile;
+    this.clientService.updatePassword(updateData).subscribe({
+      next: () => {
         this.editingField = null;
         this.isLoading = false;
         this.oldPassword = '';
         this.newPassword = '';
         this.confirmPassword = '';
+        // Show success message
+        this.error = 'Password updated successfully!';
       },
       error: (err) => {
         this.error = 'Failed to update password. Please check your current password and try again.';

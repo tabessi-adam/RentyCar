@@ -58,6 +58,13 @@ export class ClientService {
       );
   }
 
+  updatePassword(data: { id: string; oldPassword: string; newPassword: string }): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${data.id}/password`, {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword
+    });
+  }
+
   deleteProfile(): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/profile/delete`)
       .pipe(

@@ -52,6 +52,21 @@ export class ClientsController {
     return this.clientsService.update(id, updateClientDto);
   }
 
+  @Patch(':id/password')
+  @Roles(Role.CLIENT)
+  async updatePassword(
+    @Param('id') id: string,
+    @Body() updatePasswordDto: { oldPassword: string; newPassword: string },
+    @Request() req
+  ) {
+    // Clients can only update their own password
+    if (req.user.id !== id) {
+      throw new ForbiddenException('You can only update your own password');
+    }
+    
+    return this.clientsService.updatePassword(id, updatePasswordDto);
+  }
+
   @Delete(':id')
   @Roles(Role.ADMIN)
   remove(@Param('id') id: string) {
