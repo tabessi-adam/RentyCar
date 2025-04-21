@@ -1,0 +1,116 @@
+<div class="dashboard-container">
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (expandedChange)="onSidebarExpandedChange($event)">
+  </app-sidebar>
+
+  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
+    <div class="vehicle-details-container">
+      <div class="header-actions">
+        <div class="header-left">
+          <button class="btn-icon" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <h1>{{ vehicle?.brand }} {{ vehicle?.model }} Details</h1>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-primary" (click)="editVehicle()">
+            <i class="fas fa-edit"></i>
+            Edit
+          </button>
+          <button class="btn btn-danger" (click)="deleteVehicle()">
+            <i class="fas fa-trash"></i>
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="!isLoading; else loading">
+        <div class="details-content">
+          <div class="image-section">
+            <div class="main-image" *ngIf="vehicle?.images?.length; else noImage">
+              <img [src]="currentImage?.url" [alt]="vehicle?.brand + ' ' + vehicle?.model">
+              <div class="image-navigation" *ngIf="hasMultipleImages">
+                <button class="nav-button prev" (click)="previousImage()">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-button next" (click)="nextImage()">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+              <div class="image-indicators" *ngIf="hasMultipleImages">
+                <span *ngFor="let image of images; let i = index"
+                      [class.active]="i === currentImageIndex"
+                      (click)="selectImage(i)">
+                </span>
+              </div>
+            </div>
+            <ng-template #noImage>
+              <div class="no-image">
+                <i class="fas fa-image"></i>
+                <p>No images available</p>
+              </div>
+            </ng-template>
+
+            <div class="thumbnail-container" *ngIf="hasMultipleImages">
+              <div class="thumbnail" 
+                   *ngFor="let image of images; let i = index"
+                   [class.active]="i === currentImageIndex"
+                   (click)="selectImage(i)">
+                <img [src]="image.url" [alt]="'Thumbnail ' + (i + 1)">
+              </div>
+            </div>
+          </div>
+
+          <div class="details-section">
+            <div class="detail-row">
+              <span class="label">Status:</span>
+              <span class="value" [class]="getStatusClass(vehicle?.status || VehicleStatus.AVAILABLE)">
+                {{ vehicle?.status }}
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Year:</span>
+              <span class="value">{{ vehicle?.year }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Fuel Type:</span>
+              <span class="value">{{ vehicle?.fuelType }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Transmission:</span>
+              <span class="value">{{ vehicle?.transmission }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Daily Rate:</span>
+              <span class="value">${{ vehicle?.pricePerDay }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Features:</span>
+              <span class="value features">
+                <span *ngIf="vehicle?.hasGPS" class="feature">
+                  <i class="fas fa-satellite-dish"></i> GPS
+                </span>
+                <span *ngIf="vehicle?.hasBluetooth" class="feature">
+                  <i class="fab fa-bluetooth-b"></i> Bluetooth
+                </span>
+                <span *ngIf="vehicle?.hasAirConditioning" class="feature">
+                  <i class="fas fa-snowflake"></i> Air Conditioning
+                </span>
+                <span *ngIf="vehicle?.hasUSBCable" class="feature">
+                  <i class="fas fa-usb"></i> USB Cable
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #loading>
+        <div class="loading-container">
+          <div class="spinner"></div>
+        </div>
+      </ng-template>
+    </div>
+  </main>
+</div>

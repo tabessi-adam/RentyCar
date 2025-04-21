@@ -62,11 +62,10 @@ export class AgentVehiclesController {
       throw new NotFoundException('Agent not found');
     }
     
-    const vehicle = await this.vehicleRepository.findOne({ 
-      where: { id, officeId: agent.officeId } 
-    });
+    const vehicle = await this.vehiclesService.findOne(id);
     
-    if (!vehicle) {
+    // Check if the vehicle belongs to the agent's office
+    if (vehicle.officeId !== agent.officeId) {
       throw new NotFoundException('Vehicle not found in your office');
     }
     

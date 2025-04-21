@@ -44,6 +44,10 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/vehicles/vehicles.component').then(m => m.VehiclesComponent)
       },
       {
+        path: 'vehicles/:id',
+        loadComponent: () => import('./dashboard/vehicles/vehicle-details-page/vehicle-details-page.component').then(m => m.VehicleDetailsPageComponent)
+      },
+      {
         path: 'reservations',
         loadComponent: () => import('./dashboard/reservations/reservations.component').then(m => m.ReservationsComponent)
       },
@@ -98,6 +102,10 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/vehicles/vehicles.component').then(m => m.VehiclesComponent)
       },
       {
+        path: 'vehicles/:id',
+        loadComponent: () => import('./dashboard/vehicles/vehicle-details-page/vehicle-details-page.component').then(m => m.VehicleDetailsPageComponent)
+      },
+      {
         path: 'reservations',
         loadComponent: () => import('./dashboard/reservations/reservations.component').then(m => m.ReservationsComponent)
       },
@@ -142,6 +150,10 @@ export const routes: Routes = [
       {
         path: 'vehicles',
         loadComponent: () => import('./dashboard/vehicles/vehicles.component').then(m => m.VehiclesComponent)
+      },
+      {
+        path: 'vehicles/:id',
+        loadComponent: () => import('./dashboard/vehicles/vehicle-details-page/vehicle-details-page.component').then(m => m.VehicleDetailsPageComponent)
       },
       {
         path: 'reservations',

@@ -70,6 +70,17 @@ CREATE TABLE IF NOT EXISTS vehicles (
   FOREIGN KEY (officeId) REFERENCES offices(id) ON DELETE CASCADE
 );
 
+-- Create vehicle_images table (depends on vehicles)
+CREATE TABLE IF NOT EXISTS vehicle_images (
+  id VARCHAR(36) PRIMARY KEY,
+  url VARCHAR(255) NOT NULL,
+  publicId VARCHAR(255) NOT NULL,
+  vehicleId VARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (vehicleId) REFERENCES vehicles(id) ON DELETE CASCADE
+);
+
 -- Create reservations table (depends on clients and vehicles)
 CREATE TABLE IF NOT EXISTS reservations (
   id VARCHAR(36) PRIMARY KEY,

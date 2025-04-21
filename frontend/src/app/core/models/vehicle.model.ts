@@ -18,6 +18,14 @@ export enum Transmission {
   AUTOMATIC = 'AUTOMATIC',
 }
 
+export interface VehicleImage {
+  id: string;
+  url: string;
+  publicId: string;
+  vehicleId: string;
+  createdAt: string; // Use string for dates from JSON
+}
+
 // Interface representing the Vehicle entity
 export interface Vehicle {
   id: string;
@@ -38,7 +46,10 @@ export interface Vehicle {
   createdAt: string; // Use string for dates from JSON
   updatedAt: string; // Use string for dates from JSON
   reservations?: Reservation[];
-  // office?: any; // Relation data usually not sent/needed in list/detail views
+  images?: VehicleImage[];
+  // Legacy fields for backward compatibility
+  imageUrl?: string;
+  imagePublicId?: string;
 }
 
 // Based on backend CreateVehicleDto

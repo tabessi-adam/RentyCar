@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Office } from '../../offices/entities/office.entity';
 import { Reservation } from '../../reservations/entities/reservation.entity';
+import { VehicleImage } from './vehicle-image.entity';
 
 export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
@@ -89,6 +90,9 @@ export class Vehicle {
 
   @OneToMany(() => Reservation, reservation => reservation.vehicle)
   reservations: Reservation[];
+
+  @OneToMany(() => VehicleImage, image => image.vehicle)
+  images: VehicleImage[];
 
   get currentStatus(): VehicleStatus {
     const today = new Date();

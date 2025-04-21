@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { OfficeService } from '../../../core/services/office.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
@@ -13,6 +14,7 @@ import { Office } from '../../../core/models/office.model';
 import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
 import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -24,7 +26,8 @@ import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    RouterModule
   ],
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss'
@@ -48,7 +51,8 @@ export class VehiclesListComponent implements OnInit {
     private vehicleService: VehicleService,
     private officeService: OfficeService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -75,6 +79,11 @@ export class VehiclesListComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return status.toLowerCase();
+  }
+
+  getVehicleDetailsRoute(vehicleId: string): string[] {
+    const role = this.authService.userRole();
+    return [`/${role}/vehicles/${vehicleId}`];
   }
 
   onView(vehicle: Vehicle) {

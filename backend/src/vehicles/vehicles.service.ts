@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, Like } from 'typeorm';
 import { Vehicle } from './entities/vehicle.entity';
+import { VehicleImage } from './entities/vehicle-image.entity';
 import { Office } from '../offices/entities/office.entity';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
@@ -13,6 +14,8 @@ export class VehiclesService {
   constructor(
     @InjectRepository(Vehicle)
     private vehiclesRepository: Repository<Vehicle>,
+    @InjectRepository(VehicleImage)
+    private vehicleImagesRepository: Repository<VehicleImage>,
     @InjectRepository(Office)
     private officeRepository: Repository<Office>,
   ) {}
@@ -33,7 +36,8 @@ export class VehiclesService {
 
   async findAll(filters?: VehicleFiltersDto) {
     const queryBuilder = this.vehiclesRepository.createQueryBuilder('vehicle')
-      .leftJoinAndSelect('vehicle.reservations', 'reservation');
+      .leftJoinAndSelect('vehicle.reservations', 'reservation')
+      .leftJoinAndSelect('vehicle.images', 'image');
 
     if (filters) {
       if (filters.status) {
@@ -123,10 +127,13 @@ export class VehiclesService {
   }
 
   async findOne(id: string) {
-    const vehicle = await this.vehiclesRepository.findOne({ 
-      where: { id },
-      relations: ['reservations']
-    });
+    const vehicle = await this.vehiclesRepository
+      .createQueryBuilder('vehicle')
+      .leftJoinAndSelect('vehicle.reservations', 'reservation')
+      .leftJoinAndSelect('vehicle.images', 'image')
+      .where('vehicle.id = :id', { id })
+      .getOne();
+
     if (!vehicle) {
       throw new NotFoundException(`Vehicle with ID ${id} not found`);
     }
@@ -167,5 +174,22 @@ export class VehiclesService {
     }
 
     return this.vehiclesRepository.remove(vehicle);
+  }
+
+  async addImage(vehicleId: string, imageData: { url: string; publicId: string }) {
+    const vehicle = await this.findOne(vehicleId);
+    const image = this.vehicleImagesRepository.create({
+      ...imageData,
+      vehicleId: vehicle.id
+    });
+    return this.vehicleImagesRepository.save(image);
+  }
+
+  async removeImage(imageId: string) {
+    const image = await this.vehicleImagesRepository.findOne({ where: { id: imageId } });
+    if (!image) {
+      throw new NotFoundException(`Image with ID ${imageId} not found`);
+    }
+    return this.vehicleImagesRepository.remove(image);
   }
 } 

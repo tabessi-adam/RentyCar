@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vehicle } from './entities/vehicle.entity';
+import { VehicleImage } from './entities/vehicle-image.entity';
 import { VehiclesService } from './vehicles.service';
 import { AdminVehiclesController } from './controllers/admin-vehicles.controller';
 import { ClientVehiclesController } from './controllers/client-vehicles.controller';
@@ -11,7 +12,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Vehicle, Agent, Office]),
+    TypeOrmModule.forFeature([Vehicle, VehicleImage, Agent, Office]),
     CloudinaryModule,
   ],
   controllers: [AdminVehiclesController, ClientVehiclesController, AgentVehiclesController],

@@ -112,8 +112,32 @@ export class VehicleService {
     if (!apiUrl) {
       return throwError(() => new Error('User role unknown'));
     }
+    console.log('Fetching vehicle with ID:', id);
+    console.log('API URL:', `${apiUrl}/${id}`);
     return this.http.get<Vehicle>(`${apiUrl}/${id}`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        tap(response => {
+          console.log('Vehicle response:', response);
+          console.log('Vehicle images:', response.images);
+          if (response.images) {
+            console.log('Image URLs:', response.images.map(img => img.url));
+          }
+        }),
+        map(response => {
+          // If we have a single image but no images array, convert it to the new format
+          if (response.imageUrl && (!response.images || response.images.length === 0)) {
+            response.images = [{
+              id: 'legacy',
+              url: response.imageUrl,
+              publicId: response.imagePublicId || '', // Provide empty string as fallback
+              vehicleId: response.id,
+              createdAt: response.createdAt
+            }];
+          }
+          return response;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   // PATCH /<role>/vehicles/:id

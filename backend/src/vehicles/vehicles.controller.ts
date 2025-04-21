@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
@@ -13,56 +13,68 @@ export class VehiclesController {
   ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('images', 5)) // Allow up to 5 images
   async create(
     @Body() createVehicleDto: CreateVehicleDto,
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB per file
           new FileTypeValidator({ fileType: /(jpg|jpeg|png|webp)$/ }),
         ],
         fileIsRequired: false,
       }),
     )
-    file?: Express.Multer.File,
+    files?: Express.Multer.File[],
   ) {
-    if (file) {
-      const result = await this.cloudinaryService.uploadImage(file);
-      createVehicleDto.imageUrl = result.secure_url;
-      createVehicleDto.imagePublicId = result.public_id;
+    const vehicle = await this.vehiclesService.create(createVehicleDto);
+    
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const result = await this.cloudinaryService.uploadImage(file);
+        await this.vehiclesService.addImage(vehicle.id, {
+          url: result.secure_url,
+          publicId: result.public_id
+        });
+      }
     }
-    return this.vehiclesService.create(createVehicleDto);
+    
+    return this.vehiclesService.findOne(vehicle.id);
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('images', 5))
   async update(
     @Param('id') id: string,
     @Body() updateVehicleDto: UpdateVehicleDto,
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
           new FileTypeValidator({ fileType: /(jpg|jpeg|png|webp)$/ }),
         ],
         fileIsRequired: false,
       }),
     )
-    file?: Express.Multer.File,
+    files?: Express.Multer.File[],
   ) {
     const vehicle = await this.vehiclesService.findOne(id);
     
-    if (file) {
-      // Delete old image if exists
-      if (vehicle.imagePublicId) {
-        await this.cloudinaryService.deleteImage(vehicle.imagePublicId);
+    if (files && files.length > 0) {
+      // Delete old images
+      for (const image of vehicle.images) {
+        await this.cloudinaryService.deleteImage(image.publicId);
+        await this.vehiclesService.removeImage(image.id);
       }
       
-      // Upload new image
-      const result = await this.cloudinaryService.uploadImage(file);
-      updateVehicleDto.imageUrl = result.secure_url;
-      updateVehicleDto.imagePublicId = result.public_id;
+      // Upload new images
+      for (const file of files) {
+        const result = await this.cloudinaryService.uploadImage(file);
+        await this.vehiclesService.addImage(vehicle.id, {
+          url: result.secure_url,
+          publicId: result.public_id
+        });
+      }
     }
     
     return this.vehiclesService.update(id, updateVehicleDto);
@@ -72,9 +84,9 @@ export class VehiclesController {
   async remove(@Param('id') id: string) {
     const vehicle = await this.vehiclesService.findOne(id);
     
-    // Delete image from Cloudinary if exists
-    if (vehicle.imagePublicId) {
-      await this.cloudinaryService.deleteImage(vehicle.imagePublicId);
+    // Delete images from Cloudinary
+    for (const image of vehicle.images) {
+      await this.cloudinaryService.deleteImage(image.publicId);
     }
     
     return this.vehiclesService.remove(id);
