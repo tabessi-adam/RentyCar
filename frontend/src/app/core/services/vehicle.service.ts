@@ -173,6 +173,27 @@ export class VehicleService {
     return this.http.patch<Vehicle>(`${this.getApiPath()}/${vehicleId}`, formData);
   }
 
+  deleteImage(imageId: string, vehicleId: string): Observable<void> {
+    const apiUrl = this.getApiPath();
+    if (!apiUrl || this.authService.userRole() === Role.CLIENT) {
+      return throwError(() => new Error('Operation not permitted for this role or role unknown'));
+    }
+    
+    // If it's a legacy image, we need to update the vehicle instead of deleting the image
+    if (imageId === 'legacy') {
+      return this.http.patch<Vehicle>(`${apiUrl}/${vehicleId}`, { 
+        imageUrl: null,
+        imagePublicId: null 
+      }, { headers: this.getAuthHeaders() }).pipe(
+        map(() => undefined),
+        catchError(this.handleError)
+      );
+    }
+    
+    return this.http.delete<void>(`${apiUrl}/images/${imageId}`, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any): Observable<never> {
     console.error('VehicleService Error:', error);
     return throwError(() => error);

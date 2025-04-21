@@ -7,7 +7,22 @@
   </div>
 
   <div class="dialog-content" style="overflow: visible;">
+    <!-- Existing Images Section -->
+    <div class="existing-images" *ngIf="existingImages.length > 0">
+      <h3>Current Images</h3>
+      <div class="selected-files">
+        <div class="file-preview" *ngFor="let image of existingImages">
+          <img [src]="image.url" [alt]="'Vehicle image'">
+          <button class="remove-file" (click)="deleteExistingImage(image)" title="Delete image">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Area -->
     <div class="upload-area" 
+         *ngIf="canAddMoreImages"
          (dragover)="onDragOver($event)" 
          (dragleave)="onDragLeave($event)"
          (drop)="onDrop($event)"
@@ -26,16 +41,21 @@
           Browse Files
         </button>
         <p class="hint">Supported formats: JPG, PNG, WebP (max 5MB each)</p>
+        <p class="hint">{{ 5 - totalImagesCount }} slots remaining</p>
       </div>
 
       <div class="selected-files" *ngIf="selectedFiles.length">
         <div class="file-preview" *ngFor="let file of selectedFiles; let i = index">
           <img [src]="previewUrls[i]" [alt]="file.name">
-          <button class="remove-file" (click)="removeFile(i)">
-            <i class="fas fa-times"></i>
+          <button class="remove-file" (click)="removeFile(i)" title="Remove image">
+            <i class="fas fa-trash-alt"></i>
           </button>
         </div>
       </div>
+    </div>
+
+    <div class="max-images-message" *ngIf="!canAddMoreImages">
+      <p>Maximum number of images (5) reached. Delete some images to add more.</p>
     </div>
 
     <mat-progress-bar *ngIf="isUploading" mode="determinate" [value]="uploadProgress">

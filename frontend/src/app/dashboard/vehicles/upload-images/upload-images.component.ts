@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VehicleService } from '../../../core/services/vehicle.service';
-import { Vehicle } from '../../../core/models/vehicle.model';
+import { Vehicle, VehicleImage } from '../../../core/models/vehicle.model';
 
 @Component({
   selector: 'app-upload-images',
@@ -26,13 +26,18 @@ export class UploadImagesComponent {
   isDragOver = false;
   isUploading = false;
   uploadProgress = 0;
+  existingImages: VehicleImage[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<UploadImagesComponent>,
     private vehicleService: VehicleService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { vehicle: Vehicle }
-  ) {}
+  ) {
+    if (data.vehicle.images) {
+      this.existingImages = [...data.vehicle.images];
+    }
+  }
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -64,8 +69,9 @@ export class UploadImagesComponent {
   }
 
   addFiles(files: File[]): void {
-    // Limit total files to 5
-    const remainingSlots = 5 - this.selectedFiles.length;
+    // Calculate remaining slots considering both existing and selected images
+    const totalImages = this.existingImages.length + this.selectedFiles.length;
+    const remainingSlots = 5 - totalImages;
     const filesToAdd = files.slice(0, remainingSlots);
 
     filesToAdd.forEach(file => {
@@ -95,6 +101,39 @@ export class UploadImagesComponent {
     this.previewUrls.splice(index, 1);
   }
 
+  deleteExistingImage(image: VehicleImage): void {
+    if (confirm('Are you sure you want to delete this image?')) {
+      if (image.id === 'legacy') {
+        // For legacy images, update the vehicle to remove the image
+        this.vehicleService.updateVehicle(this.data.vehicle.id, {
+          imageUrl: null,
+          imagePublicId: null
+        }).subscribe({
+          next: (updatedVehicle) => {
+            this.existingImages = this.existingImages.filter(img => img.id !== image.id);
+            this.snackBar.open('Image deleted successfully', 'Close', { duration: 3000 });
+          },
+          error: (error) => {
+            console.error('Error deleting legacy image:', error);
+            this.snackBar.open('Error deleting image', 'Close', { duration: 3000 });
+          }
+        });
+      } else {
+        // For regular images, use the delete endpoint
+        this.vehicleService.deleteImage(image.id, this.data.vehicle.id).subscribe({
+          next: () => {
+            this.existingImages = this.existingImages.filter(img => img.id !== image.id);
+            this.snackBar.open('Image deleted successfully', 'Close', { duration: 3000 });
+          },
+          error: (error) => {
+            console.error('Error deleting image:', error);
+            this.snackBar.open('Error deleting image', 'Close', { duration: 3000 });
+          }
+        });
+      }
+    }
+  }
+
   async onUpload(): Promise<void> {
     if (!this.selectedFiles.length) return;
 
@@ -118,5 +157,13 @@ export class UploadImagesComponent {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  get totalImagesCount(): number {
+    return this.existingImages.length + this.selectedFiles.length;
+  }
+
+  get canAddMoreImages(): boolean {
+    return this.totalImagesCount < 5;
   }
 } 

@@ -192,4 +192,12 @@ export class VehiclesService {
     }
     return this.vehicleImagesRepository.remove(image);
   }
+
+  async findImage(id: string): Promise<VehicleImage> {
+    return this.vehicleImagesRepository.findOne({ where: { id } });
+  }
+
+  async deleteImage(id: string): Promise<void> {
+    await this.vehicleImagesRepository.delete(id);
+  }
 } 

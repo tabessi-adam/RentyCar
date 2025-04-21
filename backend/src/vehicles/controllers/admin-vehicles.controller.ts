@@ -102,4 +102,16 @@ export class AdminVehiclesController {
     
     return this.vehiclesService.remove(id);
   }
+
+  @Delete('images/:id')
+  async deleteImage(@Param('id') id: string) {
+    const image = await this.vehiclesService.findImage(id);
+    if (image) {
+      // Delete from Cloudinary first
+      await this.cloudinaryService.deleteImage(image.publicId);
+      // Then delete from database
+      await this.vehiclesService.deleteImage(id);
+    }
+    return { message: 'Image deleted successfully' };
+  }
 } 

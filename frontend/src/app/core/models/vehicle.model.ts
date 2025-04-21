@@ -69,7 +69,10 @@ export interface CreateVehiclePayload {
 }
 
 // Based on backend UpdateVehicleDto (Partial of Create)
-export type UpdateVehiclePayload = Partial<CreateVehiclePayload>;
+export type UpdateVehiclePayload = Partial<CreateVehiclePayload> & {
+  imageUrl?: string | null;
+  imagePublicId?: string | null;
+};
 
 export function isVehicleCurrentlyRented(vehicle: Vehicle): boolean {
   if (!vehicle.reservations) return false;
