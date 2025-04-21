@@ -1,7 +1,7 @@
 <div class="profile-container">
   <div class="profile-card" *ngIf="profile">
     <div class="profile-header">
-      <h2>Profile Information</h2>
+      <h2>{{ isAdmin ? 'Admin Profile' : 'Agent Profile' }}</h2>
     </div>
     <div class="profile-content">
       <div class="profile-field">
@@ -16,9 +16,13 @@
         <label>Phone Number</label>
         <span>{{ profile.phoneNumber || 'Not provided' }}</span>
       </div>
+      <div class="profile-field" *ngIf="!isAdmin">
+        <label>Agent ID</label>
+        <span>{{ profile.agentId }}</span>
+      </div>
       <div class="profile-field">
         <label>Role</label>
-        <span class="role-badge">{{ profile.role }}</span>
+        <span class="role-badge">{{ isAdmin ? 'Admin' : 'Agent' }}</span>
       </div>
     </div>
   </div>

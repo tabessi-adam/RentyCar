@@ -24,8 +24,11 @@ export class AgentsController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN)
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Request() req) {
+    // Allow access if user is admin or accessing their own profile
+    if (req.user.role !== Role.ADMIN && req.user.id !== id) {
+      throw new Error('Operation requires Admin role or own profile access');
+    }
     return this.agentsService.findOne(id);
   }
 

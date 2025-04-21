@@ -40,19 +40,18 @@ export class AgentService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET /:id (Admin only)
+  // GET /:id (Admin or own profile)
   getAgentById(id: string): Observable<Agent> {
-    this.checkAdminRole();
     return this.http.get<Agent>(`${API_URL}/${id}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   // GET /office/:officeId (Admin only)
   getAgentsByOffice(officeId: string): Observable<Agent[]> {
-      this.checkAdminRole();
-      return this.http.get<Agent[]>(`${API_URL}/office/${officeId}`, { headers: this.getAuthHeaders() })
-        .pipe(catchError(this.handleError));
-    }
+    this.checkAdminRole();
+    return this.http.get<Agent[]>(`${API_URL}/office/${officeId}`, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
   // PATCH /:id (Admin only)
   updateAgent(id: string, payload: UpdateAgentPayload): Observable<Agent> {
