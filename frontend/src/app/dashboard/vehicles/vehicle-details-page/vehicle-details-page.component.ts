@@ -11,6 +11,7 @@ import { VehicleService } from '../../../core/services/vehicle.service';
 import { Vehicle, VehicleStatus, VehicleImage } from '../../../core/models/vehicle.model';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
+import { UploadImagesComponent } from '../upload-images/upload-images.component';
 
 @Component({
   selector: 'app-vehicle-details-page',
@@ -179,5 +180,22 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
 
   get images(): VehicleImage[] {
     return this.vehicle?.images || [];
+  }
+
+  uploadImages(): void {
+    if (!this.vehicle) return;
+
+    const dialogRef = this.dialog.open(UploadImagesComponent, {
+      width: '600px',
+      data: { vehicle: this.vehicle }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vehicle = result;
+        this.cdr.detectChanges();
+        this.startAutoRotate();
+      }
+    });
   }
 }

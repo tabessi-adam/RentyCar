@@ -169,6 +169,10 @@ export class VehicleService {
     return mappedVehicle;
   }
 
+  uploadImages(vehicleId: string, formData: FormData): Observable<Vehicle> {
+    return this.http.patch<Vehicle>(`${this.getApiPath()}/${vehicleId}`, formData);
+  }
+
   private handleError(error: any): Observable<never> {
     console.error('VehicleService Error:', error);
     return throwError(() => error);

@@ -1,0 +1,53 @@
+<div class="upload-dialog">
+  <div class="dialog-header">
+    <h2>Upload Vehicle Images</h2>
+    <button class="close-button" (click)="onCancel()" aria-label="Close dialog">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="dialog-content">
+    <div class="upload-area" 
+         (dragover)="onDragOver($event)" 
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         [class.drag-over]="isDragOver">
+      <input type="file" 
+             #fileInput 
+             (change)="onFileSelected($event)"
+             accept="image/jpeg,image/png,image/webp"
+             multiple
+             style="display: none">
+      
+      <div class="upload-placeholder" *ngIf="!selectedFiles.length">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag and drop images here or</p>
+        <button class="btn btn-primary" (click)="fileInput.click()">
+          Browse Files
+        </button>
+        <p class="hint">Supported formats: JPG, PNG, WebP (max 5MB each)</p>
+      </div>
+
+      <div class="selected-files" *ngIf="selectedFiles.length">
+        <div class="file-preview" *ngFor="let file of selectedFiles; let i = index">
+          <img [src]="previewUrls[i]" [alt]="file.name">
+          <button class="remove-file" (click)="removeFile(i)">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-progress-bar *ngIf="isUploading" mode="determinate" [value]="uploadProgress">
+    </mat-progress-bar>
+  </div>
+
+  <div class="dialog-actions">
+    <button class="btn" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-primary" 
+            (click)="onUpload()"
+            [disabled]="!selectedFiles.length || isUploading">
+      Upload
+    </button>
+  </div>
+</div> 

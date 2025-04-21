@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { UsersListComponent } from './users-list/users-list.component';
@@ -24,34 +24,38 @@ type User = Client | Agent;
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit, AfterViewInit, AfterContentChecked {
+export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(UsersListComponent) usersList!: UsersListComponent;
   isSidebarExpanded = true;
   isAdmin = false;
 
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.isAdmin = this.authService.hasRole(Role.ADMIN);
+    // Move isAdmin check to a promise to ensure it runs after initial change detection
+    Promise.resolve().then(() => {
+      this.isAdmin = this.authService.hasRole(Role.ADMIN);
+      this.cdr.detectChanges();
+    });
   }
 
   ngAfterViewInit() {
     // Ensure the users list is loaded initially
-    if (this.usersList) {
-      this.usersList.loadUsers();
-    }
-  }
-
-  ngAfterContentChecked() {
-    // This hook is called after every change detection cycle
-    // No need to manually trigger change detection
+    Promise.resolve().then(() => {
+      if (this.usersList) {
+        this.usersList.loadUsers();
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
+    this.cdr.detectChanges();
   }
 
   openAddUserModal() {
@@ -71,9 +75,10 @@ export class UsersComponent implements OnInit, AfterViewInit, AfterContentChecke
 
   onUserAdded(user: User) {
     // Ensure we refresh the list after adding a user
-    setTimeout(() => {
+    Promise.resolve().then(() => {
       if (this.usersList) {
         this.usersList.loadUsers();
+        this.cdr.detectChanges();
       }
     });
   }

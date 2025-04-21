@@ -78,13 +78,7 @@ export class AdminVehiclesController {
     const vehicle = await this.vehiclesService.findOne(id);
     
     if (files && files.length > 0) {
-      // Delete old images
-      for (const image of vehicle.images) {
-        await this.cloudinaryService.deleteImage(image.publicId);
-        await this.vehiclesService.removeImage(image.id);
-      }
-      
-      // Upload new images
+      // Upload new images without deleting existing ones
       for (const file of files) {
         const result = await this.cloudinaryService.uploadImage(file);
         await this.vehiclesService.addImage(vehicle.id, {
