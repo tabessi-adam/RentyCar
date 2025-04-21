@@ -51,14 +51,32 @@ export const routes: Routes = [
         path: 'reviews',
         loadComponent: () => import('./dashboard/reviews/reviews.component').then(m => m.ReviewsComponent)
       },
-    
       {
         path: 'offices',
         loadComponent: () => import('./dashboard/offices/offices.component').then(m => m.OfficesComponent)
       },
       {
         path: 'profile',
-        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent)
+        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent),
+        children: [
+          {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full'
+          },
+          {
+            path: 'view',
+            loadComponent: () => import('./dashboard/profile/view-profile/view-profile.component').then(m => m.ViewProfileComponent)
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./dashboard/profile/edit-profile/edit-profile.component').then(m => m.EditProfileComponent)
+          },
+          {
+            path: 'delete',
+            loadComponent: () => import('./dashboard/profile/delete-profile/delete-profile.component').then(m => m.DeleteProfileComponent)
+          }
+        ]
       }
     ]
   },
@@ -87,10 +105,28 @@ export const routes: Routes = [
         path: 'reviews',
         loadComponent: () => import('./dashboard/reviews/reviews.component').then(m => m.ReviewsComponent)
       },
-   
       {
         path: 'profile',
-        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent)
+        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent),
+        children: [
+          {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full'
+          },
+          {
+            path: 'view',
+            loadComponent: () => import('./dashboard/profile/view-profile/view-profile.component').then(m => m.ViewProfileComponent)
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./dashboard/profile/edit-profile/edit-profile.component').then(m => m.EditProfileComponent)
+          },
+          {
+            path: 'delete',
+            loadComponent: () => import('./dashboard/profile/delete-profile/delete-profile.component').then(m => m.DeleteProfileComponent)
+          }
+        ]
       }
     ]
   },
@@ -121,7 +157,26 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent)
+        loadComponent: () => import('./dashboard/profile/profile.component').then(m => m.ProfileComponent),
+        children: [
+          {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full'
+          },
+          {
+            path: 'view',
+            loadComponent: () => import('./dashboard/profile/view-profile/view-profile.component').then(m => m.ViewProfileComponent)
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./dashboard/profile/edit-profile/edit-profile.component').then(m => m.EditProfileComponent)
+          },
+          {
+            path: 'delete',
+            loadComponent: () => import('./dashboard/profile/delete-profile/delete-profile.component').then(m => m.DeleteProfileComponent)
+          }
+        ]
       }
     ]
   },

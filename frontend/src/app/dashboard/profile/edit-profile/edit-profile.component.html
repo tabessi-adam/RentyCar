@@ -1,0 +1,56 @@
+<div class="profile-container">
+  <div class="profile-card" *ngIf="profile">
+    <div class="profile-header">
+      <h2>Edit Profile</h2>
+    </div>
+    <div class="profile-content">
+      <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+        <div class="profile-field">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="profile.name"
+            required
+          >
+        </div>
+
+        <div class="profile-field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="profile.email"
+            required
+          >
+        </div>
+
+        <div class="profile-field">
+          <label for="phoneNumber">Phone Number</label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="profile.phoneNumber"
+          >
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="!profileForm.form.valid || isSubmitting">
+            {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="message" *ngIf="message" [class.error]="isError">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+  <div class="loading" *ngIf="!profile">
+    <div class="spinner"></div>
+    <p>Loading profile information...</p>
+  </div>
+</div>

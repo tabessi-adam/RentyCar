@@ -4,8 +4,32 @@
     (expandedChange)="onSidebarExpandedChange($event)">
   </app-sidebar>
   <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-    <div class="reservations-container">
-      <h1>Profile</h1>
+    <div class="profile-container">
+      <div class="header-actions">
+        <h1>Profile Management</h1>
+      </div>
+      <div class="profile-nav">
+        <a [routerLink]="['view']" 
+           routerLinkActive="active" 
+           [routerLinkActiveOptions]="{exact: true}"
+           class="nav-link">
+          <fa-icon [icon]="icons.user" class="nav-icon"></fa-icon>
+          <span>View Profile</span>
+        </a>
+        <a [routerLink]="['edit']" 
+           routerLinkActive="active"
+           class="nav-link">
+          <fa-icon [icon]="icons.edit" class="nav-icon"></fa-icon>
+          <span>Edit Profile</span>
+        </a>
+        <a [routerLink]="['delete']" 
+           routerLinkActive="active"
+           class="nav-link">
+          <fa-icon [icon]="icons.trash" class="nav-icon"></fa-icon>
+          <span>Delete Profile</span>
+        </a>
+      </div>
+      <router-outlet></router-outlet>
     </div>
   </main>
 </div>

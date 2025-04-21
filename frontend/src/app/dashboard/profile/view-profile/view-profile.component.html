@@ -1,0 +1,29 @@
+<div class="profile-container">
+  <div class="profile-card" *ngIf="profile">
+    <div class="profile-header">
+      <h2>Profile Information</h2>
+    </div>
+    <div class="profile-content">
+      <div class="profile-field">
+        <label>Name</label>
+        <span>{{ profile.name }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Email</label>
+        <span>{{ profile.email }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Phone Number</label>
+        <span>{{ profile.phoneNumber || 'Not provided' }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Role</label>
+        <span class="role-badge">{{ profile.role }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="loading" *ngIf="!profile">
+    <div class="spinner"></div>
+    <p>Loading profile information...</p>
+  </div>
+</div>

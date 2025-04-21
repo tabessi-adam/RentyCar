@@ -26,17 +26,76 @@
   }
 }
 
-.reservations-container {
+.profile-container {
   background-color: white;
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 100%;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
 
   h1 {
-    margin: 0 0 24px;
+    margin: 0;
     font-size: 24px;
     font-weight: 600;
     color: #343a40;
+  }
+}
+
+.profile-nav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #4a5568;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    .nav-icon {
+      font-size: 16px;
+      color: #4a5568;
+    }
+
+    &.active {
+      background-color: #1A1A1A;
+      color: #FFFFFF;
+
+      .nav-icon {
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .profile-nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 16px;
   }
 }

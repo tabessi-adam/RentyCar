@@ -1,0 +1,34 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>Delete Profile</h2>
+    </div>
+    <div class="profile-content">
+      <div class="warning-message">
+        <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+        <p>All your data will be permanently removed from the system.</p>
+      </div>
+
+      <div class="confirmation">
+        <label>
+          <input type="checkbox" [(ngModel)]="isConfirmed">
+          I understand that this action cannot be undone
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          class="delete-button"
+          [disabled]="!isConfirmed || isDeleting"
+          (click)="onDelete()"
+        >
+          {{ isDeleting ? 'Deleting...' : 'Delete Profile' }}
+        </button>
+      </div>
+
+      <div class="message" *ngIf="message" [class.error]="isError">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>
