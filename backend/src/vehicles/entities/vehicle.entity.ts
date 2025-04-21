@@ -68,6 +68,12 @@ export class Vehicle {
   @Column({ default: false })
   hasUSBCable: boolean;
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
+  @Column({ nullable: true })
+  imagePublicId: string;
+
   @Column()
   officeId: string;
 

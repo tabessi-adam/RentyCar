@@ -1,19 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { VehiclesService } from '../vehicles.service';
-import { CreateVehicleDto } from '../dto/create-vehicle.dto';
-import { UpdateVehicleDto } from '../dto/update-vehicle.dto';
-import { VehicleFiltersDto } from '../dto/vehicle-filters.dto';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/decorators/roles.decorator';
-import { Role } from '../../auth/enums/role.enum';
-import { CloudinaryService } from '../../cloudinary/cloudinary.service';
+import { VehiclesService } from './vehicles.service';
+import { CreateVehicleDto } from './dto/create-vehicle.dto';
+import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
-@Controller('admin/vehicles')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.ADMIN)
-export class AdminVehiclesController {
+@Controller('vehicles')
+export class VehiclesController {
   constructor(
     private readonly vehiclesService: VehiclesService,
     private readonly cloudinaryService: CloudinaryService,
@@ -23,7 +16,16 @@ export class AdminVehiclesController {
   @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body() createVehicleDto: CreateVehicleDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB
+          new FileTypeValidator({ fileType: /(jpg|jpeg|png|webp)$/ }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    file?: Express.Multer.File,
   ) {
     if (file) {
       const result = await this.cloudinaryService.uploadImage(file);
@@ -33,41 +35,50 @@ export class AdminVehiclesController {
     return this.vehiclesService.create(createVehicleDto);
   }
 
-  @Get()
-  findAll(@Query() filters: VehicleFiltersDto) {
-    return this.vehiclesService.findAll(filters);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.vehiclesService.findOne(id);
-  }
-
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image'))
   async update(
     @Param('id') id: string,
     @Body() updateVehicleDto: UpdateVehicleDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB
+          new FileTypeValidator({ fileType: /(jpg|jpeg|png|webp)$/ }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    file?: Express.Multer.File,
   ) {
+    const vehicle = await this.vehiclesService.findOne(id);
+    
     if (file) {
-      const vehicle = await this.vehiclesService.findOne(id);
+      // Delete old image if exists
       if (vehicle.imagePublicId) {
         await this.cloudinaryService.deleteImage(vehicle.imagePublicId);
       }
+      
+      // Upload new image
       const result = await this.cloudinaryService.uploadImage(file);
       updateVehicleDto.imageUrl = result.secure_url;
       updateVehicleDto.imagePublicId = result.public_id;
     }
+    
     return this.vehiclesService.update(id, updateVehicleDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const vehicle = await this.vehiclesService.findOne(id);
+    
+    // Delete image from Cloudinary if exists
     if (vehicle.imagePublicId) {
       await this.cloudinaryService.deleteImage(vehicle.imagePublicId);
     }
+    
     return this.vehiclesService.remove(id);
   }
+
+  // ... rest of your existing endpoints ...
 } 

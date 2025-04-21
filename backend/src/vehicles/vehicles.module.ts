@@ -7,9 +7,13 @@ import { ClientVehiclesController } from './controllers/client-vehicles.controll
 import { AgentVehiclesController } from './controllers/agent-vehicles.controller';
 import { Agent } from '../agents/entities/agent.entity';
 import { Office } from '../offices/entities/office.entity';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Vehicle, Agent, Office])],
+  imports: [
+    TypeOrmModule.forFeature([Vehicle, Agent, Office]),
+    CloudinaryModule,
+  ],
   controllers: [AdminVehiclesController, ClientVehiclesController, AgentVehiclesController],
   providers: [VehiclesService],
   exports: [VehiclesService],

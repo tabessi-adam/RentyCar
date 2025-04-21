@@ -17,6 +17,7 @@ import { Agent } from './agents/entities/agent.entity';
 import { Office } from './offices/entities/office.entity';
 import { AgentsModule } from './agents/agents.module';
 import { OfficesModule } from './offices/offices.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { OfficesModule } from './offices/offices.module';
     ReviewsModule,
     AgentsModule,
     OfficesModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

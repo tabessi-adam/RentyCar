@@ -43,6 +43,14 @@ export class CreateVehicleDto {
   @IsBoolean()
   hasUSBCable?: boolean;
 
+  @IsString()
+  @IsOptional()
+  imageUrl?: string;
+
+  @IsString()
+  @IsOptional()
+  imagePublicId?: string;
+
   @IsUUID()
   @IsNotEmpty()
   officeId: string;
