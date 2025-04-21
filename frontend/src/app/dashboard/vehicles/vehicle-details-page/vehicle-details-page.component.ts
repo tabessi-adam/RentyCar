@@ -186,7 +186,11 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
     if (!this.vehicle) return;
 
     const dialogRef = this.dialog.open(UploadImagesComponent, {
-      width: '600px',
+      width: '700px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      panelClass: ['upload-dialog-container'],
       data: { vehicle: this.vehicle }
     });
 

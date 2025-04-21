@@ -155,3 +155,25 @@ p {
     overflow: hidden;
   }
 }
+
+.upload-dialog-container {
+  .mat-mdc-dialog-surface {
+    overflow: hidden !important;
+    border-radius: 8px !important;
+  }
+  
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .mdc-dialog__surface {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .mdc-dialog__content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
