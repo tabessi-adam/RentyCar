@@ -35,8 +35,6 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
   currentImageIndex = 0;
   isLoading = true;
   VehicleStatus = VehicleStatus;
-  private autoRotateInterval: any;
-  private readonly ROTATE_INTERVAL = 5000; // 5 seconds
 
   constructor(
     private route: ActivatedRoute,
@@ -59,23 +57,6 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.stopAutoRotate();
-  }
-
-  startAutoRotate(): void {
-    if (this.hasMultipleImages) {
-      this.stopAutoRotate();
-      this.autoRotateInterval = setInterval(() => {
-        this.nextImage();
-      }, this.ROTATE_INTERVAL);
-    }
-  }
-
-  stopAutoRotate(): void {
-    if (this.autoRotateInterval) {
-      clearInterval(this.autoRotateInterval);
-      this.autoRotateInterval = null;
-    }
   }
 
   loadVehicle(id: string): void {
@@ -87,7 +68,6 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
         this.vehicle = vehicle;
         this.isLoading = false;
         this.cdr.detectChanges();
-        this.startAutoRotate();
       },
       error: (error: any) => {
         console.error('Error loading vehicle:', error);
@@ -153,8 +133,7 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
 
   selectImage(index: number): void {
     this.currentImageIndex = index;
-    this.stopAutoRotate();
-    this.startAutoRotate();
+    this.cdr.detectChanges();
   }
 
   getStatusClass(status: VehicleStatus): string {
@@ -198,7 +177,6 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
       if (result) {
         this.vehicle = result;
         this.cdr.detectChanges();
-        this.startAutoRotate();
       }
     });
   }
