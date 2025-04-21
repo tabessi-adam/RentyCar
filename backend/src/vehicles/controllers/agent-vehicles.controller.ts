@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, NotFoundException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, NotFoundException, Query, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { VehiclesService } from '../vehicles.service';
 import { CreateVehicleDto } from '../dto/create-vehicle.dto';
 import { UpdateVehicleDto } from '../dto/update-vehicle.dto';
@@ -11,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Agent } from '../../agents/entities/agent.entity';
 import { Vehicle, VehicleStatus } from '../entities/vehicle.entity';
+import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 
 @Controller('agent/vehicles')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -18,6 +20,7 @@ import { Vehicle, VehicleStatus } from '../entities/vehicle.entity';
 export class AgentVehiclesController {
   constructor(
     private readonly vehiclesService: VehiclesService,
+    private readonly cloudinaryService: CloudinaryService,
     @InjectRepository(Agent)
     private agentRepository: Repository<Agent>,
     @InjectRepository(Vehicle)
@@ -73,10 +76,21 @@ export class AgentVehiclesController {
   }
 
   @Patch(':id')
+  @UseInterceptors(FilesInterceptor('images', 5))
   async update(
     @Param('id') id: string, 
     @Body() updateVehicleDto: UpdateVehicleDto,
-    @Request() req
+    @Request() req,
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /(jpg|jpeg|png|webp)$/ }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    files?: Express.Multer.File[],
   ) {
     const agent = await this.agentRepository.findOne({ where: { id: req.user.id } });
     if (!agent) {
@@ -89,6 +103,17 @@ export class AgentVehiclesController {
     
     if (!vehicle) {
       throw new NotFoundException('Vehicle not found in your office');
+    }
+    
+    if (files && files.length > 0) {
+      // Upload new images without deleting existing ones
+      for (const file of files) {
+        const result = await this.cloudinaryService.uploadImage(file);
+        await this.vehiclesService.addImage(vehicle.id, {
+          url: result.secure_url,
+          publicId: result.public_id
+        });
+      }
     }
     
     return this.vehiclesService.update(id, updateVehicleDto);
@@ -110,5 +135,34 @@ export class AgentVehiclesController {
     }
     
     return this.vehiclesService.remove(id);
+  }
+
+  @Delete('images/:id')
+  async deleteImage(@Param('id') id: string, @Request() req) {
+    const agent = await this.agentRepository.findOne({ where: { id: req.user.id } });
+    if (!agent) {
+      throw new NotFoundException('Agent not found');
+    }
+
+    const image = await this.vehiclesService.findImage(id);
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    // Verify the image belongs to a vehicle in the agent's office
+    const vehicle = await this.vehicleRepository.findOne({
+      where: { id: image.vehicleId, officeId: agent.officeId }
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found in your office');
+    }
+
+    // Delete from Cloudinary first
+    await this.cloudinaryService.deleteImage(image.publicId);
+    // Then delete from database
+    await this.vehiclesService.deleteImage(id);
+    
+    return { message: 'Image deleted successfully' };
   }
 } 
