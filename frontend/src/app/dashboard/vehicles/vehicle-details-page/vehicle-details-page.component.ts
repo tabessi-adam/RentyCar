@@ -170,14 +170,27 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
       maxHeight: '90vh',
       autoFocus: false,
       panelClass: ['upload-dialog-container'],
-      data: { vehicle: this.vehicle }
+      data: { 
+        vehicle: this.vehicle,
+        onImageDeleted: () => this.refreshVehicleData()
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.vehicle = result;
+        const imagesLength = this.vehicle?.images?.length || 0;
+        if (this.currentImageIndex >= imagesLength) {
+          this.currentImageIndex = 0;
+        }
         this.cdr.detectChanges();
       }
     });
+  }
+
+  refreshVehicleData(): void {
+    if (this.vehicle?.id) {
+      this.loadVehicle(this.vehicle.id);
+    }
   }
 }

@@ -32,7 +32,10 @@ export class UploadImagesComponent {
     private dialogRef: MatDialogRef<UploadImagesComponent>,
     private vehicleService: VehicleService,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: { vehicle: Vehicle }
+    @Inject(MAT_DIALOG_DATA) public data: { 
+      vehicle: Vehicle,
+      onImageDeleted?: () => void 
+    }
   ) {
     if (data.vehicle.images) {
       this.existingImages = [...data.vehicle.images];
@@ -112,6 +115,7 @@ export class UploadImagesComponent {
           next: (updatedVehicle) => {
             this.existingImages = this.existingImages.filter(img => img.id !== image.id);
             this.snackBar.open('Image deleted successfully', 'Close', { duration: 3000 });
+            this.data.onImageDeleted?.();
           },
           error: (error) => {
             console.error('Error deleting legacy image:', error);
@@ -124,6 +128,7 @@ export class UploadImagesComponent {
           next: () => {
             this.existingImages = this.existingImages.filter(img => img.id !== image.id);
             this.snackBar.open('Image deleted successfully', 'Close', { duration: 3000 });
+            this.data.onImageDeleted?.();
           },
           error: (error) => {
             console.error('Error deleting image:', error);
