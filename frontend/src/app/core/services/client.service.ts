@@ -1,6 +1,6 @@
 import { Injectable, signal, Inject, PLATFORM_ID } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -15,6 +15,8 @@ export interface ClientProfile {
   role: string;
   createdAt: string;
   updatedAt: string;
+  profilePictureUrl?: string;
+  profilePicturePublicId?: string;
 }
 
 @Injectable({
@@ -102,5 +104,41 @@ export class ClientService {
 
   deleteClient(clientId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${clientId}`);
+  }
+
+  // Upload profile picture
+  uploadProfilePicture(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${environment.apiUrl}/profile-picture/client`, formData, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Delete profile picture
+  deleteProfilePicture(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/profile-picture/client`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Helper to get auth headers
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.currentToken();
+    if (!token) {
+      console.error('Auth token is missing for ClientService request');
+      return new HttpHeaders();
+    }
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('ClientService Error:', error);
+    return throwError(() => error);
   }
 } 

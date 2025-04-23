@@ -19,6 +19,7 @@ import { Office } from './offices/entities/office.entity';
 import { AgentsModule } from './agents/agents.module';
 import { OfficesModule } from './offices/offices.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ProfilePictureModule } from './shared/profile-picture.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     AgentsModule,
     OfficesModule,
     CloudinaryModule,
+    ProfilePictureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

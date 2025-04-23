@@ -83,6 +83,27 @@ export class AdminService {
       .pipe(catchError(this.handleError));
   }
 
+  // Upload profile picture
+  uploadProfilePicture(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${environment.apiUrl}/profile-picture/admin`, formData, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Delete profile picture
+  deleteProfilePicture(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/profile-picture/admin`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // Helper for formatting user responses to match frontend User model structure
   private formatUserResponse(adminData: any): User {
     return {

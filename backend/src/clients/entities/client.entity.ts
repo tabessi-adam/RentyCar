@@ -20,6 +20,12 @@ export class Client {
   @Column({ nullable: true })
   phoneNumber: string;
 
+  @Column({ nullable: true })
+  profilePictureUrl: string;
+
+  @Column({ nullable: true })
+  profilePicturePublicId: string;
+
   @Column({
     type: 'enum',
     enum: Role,

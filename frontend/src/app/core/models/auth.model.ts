@@ -8,6 +8,8 @@ export interface User {
   phoneNumber?: string;
   accessToken?: string;
   officeId?: string;
+  profilePictureUrl?: string;
+  profilePicturePublicId?: string;
 }
 
 export interface LoginDto {
