@@ -1,0 +1,17 @@
+<section class="why-choose-us">
+  <div class="container">
+    <h2 class="section-title">How it works</h2>
+    
+    <div class="features-grid">
+      <div class="feature-item" *ngFor="let feature of features">
+        <div class="icon-container">
+          <fa-icon [icon]="feature.icon"></fa-icon>
+        </div>
+        <div class="content">
+          <h3>{{feature.title}}</h3>
+          <p>{{feature.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
