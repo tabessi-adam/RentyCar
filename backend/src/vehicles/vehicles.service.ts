@@ -148,6 +148,8 @@ export class VehiclesService {
       brand: updateVehicleDto.brand,
       model: updateVehicleDto.model,
       year: updateVehicleDto.year,
+      color: updateVehicleDto.color,
+      kilometersDriven: updateVehicleDto.kilometersDriven,
       fuelType: updateVehicleDto.fuelType,
       transmission: updateVehicleDto.transmission,
       pricePerDay: updateVehicleDto.pricePerDay,

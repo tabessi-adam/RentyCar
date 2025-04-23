@@ -17,6 +17,15 @@ export class CreateVehicleDto {
   @Max(new Date().getFullYear() + 1)
   year: number;
 
+  @IsString()
+  @IsNotEmpty()
+  color: string;
+
+  @IsNumber()
+  @Min(0)
+  @IsNotEmpty()
+  kilometersDriven: number;
+
   @IsEnum(FuelType)
   fuelType: FuelType;
 
