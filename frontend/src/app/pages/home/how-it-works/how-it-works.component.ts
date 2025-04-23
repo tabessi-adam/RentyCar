@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 // Font Awesome imports
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTruck, faCar, faCheckCircle, faRoute } from '@fortawesome/free-solid-svg-icons';
+import { faCarSide, faCalendar, faClipboardCheck, faBell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-how-it-works',
@@ -15,32 +15,32 @@ export class HowItWorksComponent {
   primaryColor = '#36c63c';
   
   // Font Awesome icons
-  faTruck = faTruck;
-  faCar = faCar;
-  faCheckCircle = faCheckCircle;
-  faRoute = faRoute;
+  faCarSide = faCarSide;
+  faCalendar = faCalendar;
+  faClipboardCheck = faClipboardCheck;
+  faBell = faBell;
   
   // Features array
   features = [
     {
-      icon: this.faTruck,
-      title: 'Choose a Location',
-      description: 'Select the ideal destination to begin your journey with.'
+      icon: this.faCarSide,
+      title: 'Browse Vehicles',
+      description: 'Browse our wide selection of vehicles and select the perfect one for your needs'
     },
     {
-      icon: this.faCar,
-      title: 'Choose Your Vehicle',
-      description: 'Browse our fleet and find the perfect car for your needs.'
+      icon: this.faCalendar,
+      title: 'Select Dates',
+      description: 'Pick your rental start date and specify the number of days you need the vehicle'
     },
     {
-      icon: this.faCheckCircle,
-      title: 'Verification',
-      description: 'Review your information and confirm your booking.'
+      icon: this.faClipboardCheck,
+      title: 'Review & Submit',
+      description: 'Review your selection and submit your reservation request. Our system will calculate the total price'
     },
     {
-      icon: this.faRoute,
-      title: 'Begin Your Journey',
-      description: 'Start your adventure with confidence.'
+      icon: this.faBell,
+      title: 'Wait for Confirmation',
+      description: 'Wait for our team to review and confirm your reservation. You\'ll receive a notification once approved'
     }
   ];
 }
