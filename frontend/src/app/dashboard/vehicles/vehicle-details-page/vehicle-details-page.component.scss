@@ -356,6 +356,19 @@
     font-weight: 500;
     color: #212529;
     margin: 0 0 50px 0;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 5px;
+      background-color: #FF6B00;
+      margin-top: 10px;
+      position: absolute;
+      left: 0;
+    }
   }
 
   .mobile-actions {
@@ -379,23 +392,20 @@
 
   .detail-row {
     display: flex;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    align-items: center;
+    margin-bottom: 12px;
+    white-space: nowrap;
 
     .label {
       font-weight: 500;
-      color: #666;
-      width: 120px;
+      color: #495057;
+      min-width: 150px;
+      margin-right: 8px;
     }
 
     .value {
+      color: #212529;
       flex: 1;
-      color: #333;
 
       &.available {
         color: #4caf50;
@@ -408,34 +418,68 @@
       &.maintenance {
         color: #ff9800;
       }
+    }
+  }
 
-      &.features {
+  .features-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #e9ecef;
+
+    .features-label {
+      font-weight: 500;
+      color: #495057;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+
+      .feature-item {
         display: flex;
-        flex-wrap: wrap;
+        align-items: center;
         gap: 8px;
+        padding: 12px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        transition: all 0.2s ease;
 
-        .feature {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          padding: 4px 8px;
-          background-color: #f8f9fa;
-          border-radius: 4px;
-          font-size: 14px;
-
-          i {
-            color: #FF6B00;
-          }
+        &:hover {
+          background-color: #e9ecef;
+          transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
-          flex-direction: column;
-          gap: 12px;
+        i {
+          font-size: 18px;
+          color: #FF6B00;
+          width: 24px;
+          text-align: center;
+        }
 
-          .feature {
-            margin-left: -20px;
-            width: 120px;
-            padding: 8px 12px;
+        span {
+          font-size: 14px;
+          color: #495057;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+        
+        .feature-item {
+          padding: 16px;
+          
+          i {
+            font-size: 20px;
+            width: 28px;
+          }
+          
+          span {
+            font-size: 15px;
           }
         }
       }

@@ -78,7 +78,7 @@
               <span class="label">Color:</span>
               <span class="value">{{ vehicle?.color }}</span>
             </div>
-            <div class="detail-row">
+            <div class="detail-row" style="display: flex; align-items: center; white-space: nowrap;">
               <span class="label">Kilometers Driven:</span>
               <span class="value">{{ vehicle?.kilometersDriven }} km</span>
             </div>
@@ -92,24 +92,29 @@
             </div>
             <div class="detail-row">
               <span class="label">Daily Rate:</span>
-              <span class="value">${{ vehicle?.pricePerDay }}</span>
+              <span class="value">{{ vehicle?.pricePerDay }} TND</span>
             </div>
-            <div class="detail-row">
-              <span class="label">Features:</span>
-              <span class="value features">
-                <span *ngIf="vehicle?.hasGPS" class="feature">
-                  <i class="fas fa-satellite-dish"></i> GPS
-                </span>
-                <span *ngIf="vehicle?.hasBluetooth" class="feature">
-                  <i class="fab fa-bluetooth-b"></i> Bluetooth
-                </span>
-                <span *ngIf="vehicle?.hasAirConditioning" class="feature">
-                  <i class="fas fa-snowflake"></i> Air Conditioning
-                </span>
-                <span *ngIf="vehicle?.hasUSBCable" class="feature">
-                  <i class="fas fa-usb"></i> USB Cable
-                </span>
-              </span>
+
+            <div class="features-section">
+              <div class="features-label">Features</div>
+              <div class="features-grid">
+                <div class="feature-item" *ngIf="vehicle?.hasGPS">
+                  <i class="fas fa-satellite-dish"></i>
+                  <span>GPS</span>
+                </div>
+                <div class="feature-item" *ngIf="vehicle?.hasBluetooth">
+                  <i class="fab fa-bluetooth-b"></i>
+                  <span>Bluetooth</span>
+                </div>
+                <div class="feature-item" *ngIf="vehicle?.hasAirConditioning">
+                  <i class="fas fa-snowflake"></i>
+                  <span>Air Conditioning</span>
+                </div>
+                <div class="feature-item" *ngIf="vehicle?.hasUSBCable">
+                  <i class="fas fa-usb"></i>
+                  <span>USB Cable</span>
+                </div>
+              </div>
             </div>
 
             <div class="mobile-actions">
