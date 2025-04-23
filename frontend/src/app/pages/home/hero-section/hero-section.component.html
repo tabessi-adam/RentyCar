@@ -1,0 +1,42 @@
+<section class="hero">
+    <div class="hero__container">
+        <div class="hero__content">
+            <div class="hero__text">
+                <p class="hero__subtitle">Find Your Perfect Car</p>
+                <h1 class="hero__title">
+                    Looking for a vehicle? <br />
+                    You're in the perfect spot.
+                </h1>
+
+                <ul class="hero__features">
+                    <li class="hero__feature">
+                        <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
+                        <span class="hero__feature-text">High quality at a low cost.</span>
+                    </li>
+                    <li class="hero__feature">
+                        <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
+                        <span class="hero__feature-text">Premium services.</span>
+                    </li>
+                    <li class="hero__feature">
+                        <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
+                        <span class="hero__feature-text">24/7 roadside support.</span>
+                    </li>
+                </ul>
+
+                <div class="hero__actions">
+                    <a [routerLink]="['/booking']" class="hero__button hero__button--primary">Book Now</a>
+                    <a [routerLink]="['/about']" class="hero__button hero__button--outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero__image">
+            <!-- Car image for desktop -->
+            <img 
+                src="assets/images/hero-img.png" 
+                alt="Luxury car" 
+                class="hero__image-content"
+                loading="lazy"
+            />
+        </div>
+    </div>
+</section>
