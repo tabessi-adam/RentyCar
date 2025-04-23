@@ -46,11 +46,15 @@ export class ClientService {
 
   // Profile data methods
   getProfile(): Observable<ClientProfile> {
-    return this.http.get<ClientProfile>(`${this.apiUrl}/profile`);
+    return this.http.get<ClientProfile>(`${this.apiUrl}/profile`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   updateProfile(profile: Partial<ClientProfile>): Observable<ClientProfile> {
-    return this.http.patch<ClientProfile>(`${this.apiUrl}/${profile.id}`, profile)
+    return this.http.patch<ClientProfile>(`${this.apiUrl}/${profile.id}`, profile, {
+      headers: this.getAuthHeaders()
+    })
       .pipe(
         tap(updatedProfile => {
           if (updatedProfile.name) {
@@ -64,11 +68,15 @@ export class ClientService {
     return this.http.patch<void>(`${this.apiUrl}/${data.id}/password`, {
       oldPassword: data.oldPassword,
       newPassword: data.newPassword
+    }, {
+      headers: this.getAuthHeaders()
     });
   }
 
   deleteProfile(): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/profile/delete`)
+    return this.http.delete<void>(`${this.apiUrl}/profile/delete`, {
+      headers: this.getAuthHeaders()
+    })
       .pipe(
         tap(() => {
           this.clearUserName();

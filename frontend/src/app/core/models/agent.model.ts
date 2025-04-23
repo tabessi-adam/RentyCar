@@ -7,6 +7,8 @@ export interface Agent {
   phoneNumber?: string;
   officeId: string;
   role: 'agent'; // Explicitly agent
+  profilePictureUrl?: string;
+  profilePicturePublicId?: string;
   // Add createdAt/updatedAt if needed
   createdAt?: string;
   updatedAt?: string;
