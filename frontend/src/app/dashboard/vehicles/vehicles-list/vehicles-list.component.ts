@@ -6,7 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { OfficeService } from '../../../core/services/office.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
@@ -37,7 +37,6 @@ export class VehiclesListComponent implements OnInit {
   offices: Office[] = [];
   isLoading = true;
   displayedColumns: string[] = [
-    'id',
     'status',
     'brand',
     'model',
@@ -54,7 +53,8 @@ export class VehiclesListComponent implements OnInit {
     private officeService: OfficeService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -89,10 +89,8 @@ export class VehiclesListComponent implements OnInit {
   }
 
   onView(vehicle: Vehicle) {
-    this.dialog.open(ViewVehicleComponent, {
-      width: '500px',
-      data: { vehicle }
-    });
+    const role = this.authService.userRole();
+    this.router.navigate([`/${role}/vehicles/${vehicle.id}`]);
   }
 
   onEdit(vehicle: Vehicle) {

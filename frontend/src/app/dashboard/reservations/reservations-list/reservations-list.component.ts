@@ -30,7 +30,6 @@ import { UpdateReservationStatusComponent } from '../update-reservation-status/u
 })
 export class ReservationsListComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
     'client',
     'vehicle',
     'startDate',

@@ -31,7 +31,7 @@ import { AddOfficeComponent } from '../add-office/add-office.component';
   styleUrl: './offices-list.component.scss'
 })
 export class OfficesListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'address', 'phoneNumber', 'createdAt', 'actions'];
+  displayedColumns: string[] = ['name', 'address', 'phoneNumber', 'createdAt', 'actions'];
   offices: Office[] = [];
   isLoading = true;
 

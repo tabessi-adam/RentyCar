@@ -30,7 +30,6 @@ export class ReviewsListComponent implements OnInit {
   reviews: Review[] = [];
   isLoading = true;
   displayedColumns: string[] = [
-    'id',
     'rating',
     'comment',
     'vehicleId',

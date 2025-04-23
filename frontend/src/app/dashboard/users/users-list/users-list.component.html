@@ -45,6 +45,17 @@
         </td>
       </ng-container>
 
+      <!-- Office Column -->
+      <ng-container matColumnDef="office">
+        <th mat-header-cell *matHeaderCellDef>Office</th>
+        <td mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === Role.AGENT">
+            {{getOfficeName(user.officeId)}}
+          </span>
+          <span *ngIf="user.role !== Role.AGENT">-</span>
+        </td>
+      </ng-container>
+
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>

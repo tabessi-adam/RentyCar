@@ -9,8 +9,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../../core/services/client.service';
 import { AgentService } from '../../../core/services/agent.service';
+import { OfficeService } from '../../../core/services/office.service';
 import { Client } from '../../../core/models/client.model';
 import { Agent } from '../../../core/models/agent.model';
+import { Office } from '../../../core/models/office.model';
 import { Role } from '../../../core/models/role.enum';
 import { ViewUserComponent } from '../view-user/view-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
@@ -40,22 +42,17 @@ export class UsersListComponent implements OnInit {
   agents: Agent[] = [];
   users: User[] = [];
   filteredUsers: User[] = [];
+  offices: Office[] = [];
   selectedRole: Role | '' = '';
   isLoading = true;
   Role = Role; // Make Role enum available in template
   isAdmin = false;
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'email',
-    'role',
-    'phoneNumber',
-    'actions'
-  ];
+  displayedColumns: string[] = ['name', 'email', 'phoneNumber', 'role', 'office', 'actions'];
 
   constructor(
     private clientService: ClientService,
     private agentService: AgentService,
+    private officeService: OfficeService,
     private authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -64,6 +61,24 @@ export class UsersListComponent implements OnInit {
   ngOnInit() {
     this.isAdmin = this.authService.hasRole(Role.ADMIN);
     this.loadUsers();
+    this.loadOffices();
+  }
+
+  loadOffices() {
+    this.officeService.getAllOffices().subscribe({
+      next: (offices) => {
+        this.offices = offices;
+      },
+      error: (error) => {
+        console.error('Error loading offices:', error);
+        this.snackBar.open('Error loading offices', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  getOfficeName(officeId: string): string {
+    const office = this.offices.find(o => o.id === officeId);
+    return office ? office.name : 'Unknown Office';
   }
 
   loadUsers() {
