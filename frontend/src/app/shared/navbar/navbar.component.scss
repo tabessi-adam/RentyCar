@@ -8,6 +8,11 @@ $text-muted: #6c757d;
 $white: #ffffff;
 $background-light: #f0f7f0;
 
+// Breakpoints for specific devices
+$breakpoint-tablet-small: 820px;
+$breakpoint-tablet-medium: 853px;
+$breakpoint-tablet-large: 912px;
+
 :host {
   display: block;
   width: 100%;
@@ -49,7 +54,7 @@ $background-light: #f0f7f0;
 
     &__links {
         display: flex;
-        gap: 2rem;
+        gap: 1.5rem;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -58,8 +63,8 @@ $background-light: #f0f7f0;
             color: $text-gray;
             text-decoration: none;
             font-weight: 500;
-            font-size: 1rem;
-            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            padding: 0.6rem 0.8rem;
             border-radius: 4px;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -74,27 +79,31 @@ $background-light: #f0f7f0;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: $breakpoint-tablet-large) {
+            gap: 1rem;
+        }
+
+        @media (max-width: $breakpoint-tablet-medium) {
             display: none;
         }
     }
 
     &__auth {
         display: flex;
-        gap: 1rem;
+        gap: 0.8rem;
         align-items: center;
 
-        @media (max-width: 768px) {
+        @media (max-width: $breakpoint-tablet-medium) {
             display: none;
         }
 
         .btn {
-            padding: 0.8rem 1rem;
+            padding: 0.6rem 0.8rem;
             border-radius: 4px;
             transition: all 0.3s ease;
             text-decoration: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             border: none;
 
@@ -111,18 +120,13 @@ $background-light: #f0f7f0;
             &--primary {
                 background-color: $primary-color;
                 color: $white;
-                padding: 0.5rem 1rem;
+                padding: 0.4rem 0.8rem;
                 border-radius: 2rem;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 
                 &:hover {
                     background-color: $primary-color-dark;
                 }
-            }
-
-            @media (max-width: 768px) {
-                padding: 0.8rem 1rem;
-                font-size: 1rem;
             }
         }
     }
@@ -208,38 +212,38 @@ $background-light: #f0f7f0;
         background: none;
         border: none;
         cursor: pointer;
-        width: 40px;          // Original size
-        height: 40px;         // Original size
+        width: 36px;
+        height: 36px;
         position: relative;
-        border-radius: 50%;   // Original shape
-        transition: background-color 0.25s ease;  // Original transition
+        border-radius: 50%;
+        transition: background-color 0.25s ease;
         
         &:hover {
-            background-color: rgba(0, 0, 0, 0.05);  // Updated hover
+            background-color: rgba(0, 0, 0, 0.05);
         }
 
         span {
             display: block;
-            width: 22px;      // Original size
-            height: 2px;      // Original size
-            background-color: $text-dark;  // Updated color
-            transition: all 0.3s ease;     // Original transition
+            width: 20px;
+            height: 2px;
+            background-color: $text-dark;
+            transition: all 0.3s ease;
             position: absolute;
-            left: 9px;        // Original positioning
+            left: 8px;
         }
 
-        span:nth-child(1) { top: 13px; }  // Original positioning
-        span:nth-child(2) { top: 19px; }  // Original positioning
-        span:nth-child(3) { top: 25px; }  // Original positioning
+        span:nth-child(1) { top: 12px; }
+        span:nth-child(2) { top: 18px; }
+        span:nth-child(3) { top: 24px; }
 
         &.active {
             background-color: rgba(0, 0, 0, 0.04);
-            span:nth-child(1) { transform: rotate(45deg); top: 19px; }  // Original animation
-            span:nth-child(2) { opacity: 0; }                           // Original animation
-            span:nth-child(3) { transform: rotate(-45deg); top: 19px; } // Original animation
+            span:nth-child(1) { transform: rotate(45deg); top: 18px; }
+            span:nth-child(2) { opacity: 0; }
+            span:nth-child(3) { transform: rotate(-45deg); top: 18px; }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: $breakpoint-tablet-medium) {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -253,30 +257,29 @@ $background-light: #f0f7f0;
         left: 0;
         right: 0;
         background-color: $white;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        padding: 0.5rem 0;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         transform: translateY(-100%);
-        opacity: 0;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease;
         z-index: 999;
 
         &.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
             transform: translateY(0);
-            opacity: 1;
         }
 
         a {
-            display: block;
             padding: 0.8rem 1rem;
             color: $text-gray;
             text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
             font-size: 1rem;
-            border-radius: 4px;
-            margin: 0.25rem 0;
-            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+
+            &:last-child {
+                border-bottom: none;
+            }
 
             &:hover {
                 color: $primary-color-dark;
@@ -285,24 +288,64 @@ $background-light: #f0f7f0;
 
             &.active {
                 color: $primary-color-dark;
+                font-weight: 600;
+            }
+        }
+
+        @media (max-width: $breakpoint-tablet-medium) {
+            display: none;
+            &.active {
+                display: flex;
             }
         }
     }
 
-    @media (max-width: 768px) {
-        padding: 0.5rem 5%;
-        height: 50px;
-
+    // Responsive adjustments for specific device dimensions
+    @media (max-width: $breakpoint-tablet-large) {
+        padding: 0.5rem 3%;
+        
         &__brand {
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         &__logo {
-            height: 35px;
+            height: 30px;
         }
 
         &__name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: $breakpoint-tablet-medium) {
+        padding: 0.5rem 2%;
+        
+        &__brand {
+            gap: 0.3rem;
+        }
+
+        &__logo {
+            height: 28px;
+        }
+
+        &__name {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: $breakpoint-tablet-small) {
+        padding: 0.5rem 1.5%;
+        
+        &__brand {
+            gap: 0.2rem;
+        }
+
+        &__logo {
+            height: 26px;
+        }
+
+        &__name {
+            font-size: 1.1rem;
         }
     }
 }

@@ -16,6 +16,8 @@ $breakpoint-lg: 992px;
 $breakpoint-md: 768px;
 $breakpoint-sm: 576px;
 $breakpoint-xs: 375px;
+$breakpoint-1280: 1280px;
+$breakpoint-1024: 1024px;
 
 .hero {
   background-color: $color-white;
@@ -24,12 +26,70 @@ $breakpoint-xs: 375px;
 
   // Add margin-top for phone mode
   @media (max-width: $breakpoint-md) {
-    margin-top: 60px; // Add space below navbar
+    margin-top: 60px;
     padding-top: 20px;
   }
 
   @media (max-width: $breakpoint-sm) {
-    margin-top: 50px; // Slightly less space on smaller phones
+    margin-top: 50px;
+  }
+
+  // Specific adjustments for 1280x800
+  @media (max-width: $breakpoint-1280) and (min-height: 600px) and (max-height: 800px) {
+    margin-top: 70px;
+    padding-top: 30px;
+
+    &__container {
+      padding: 0 30px;
+      gap: 40px;
+    }
+
+    &__image {
+      margin-top: -120px;
+    }
+
+    &__image-content {
+      margin-top: 250px;
+    }
+  }
+
+  // Specific adjustments for 1024x600
+  @media (max-width: $breakpoint-1024) and (min-height: 500px) and (max-height: 600px) {
+    margin-top: 80px;
+    padding-top: 20px;
+
+    &__container {
+      padding: 0 20px;
+      gap: 30px;
+    }
+
+    &__image {
+      margin-top: -100px;
+    }
+
+    &__image-content {
+      margin-top: 200px;
+    }
+
+    &__title {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    &__feature {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    &__actions {
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    &__button {
+      padding: 12px 24px;
+      font-size: 14px;
+    }
   }
 
   &__container {
