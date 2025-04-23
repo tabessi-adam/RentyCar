@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-about-us',
-  imports: [NavbarComponent,FooterComponent ],
+  standalone: true,
+  imports: [CommonModule, RouterModule, NavbarComponent, FooterComponent],
   templateUrl: './about-us.component.html',
-  styleUrl: './about-us.component.scss'
+  styleUrls: ['./about-us.component.scss']
 })
 export class AboutUsComponent {
-
+  constructor() {}
 }

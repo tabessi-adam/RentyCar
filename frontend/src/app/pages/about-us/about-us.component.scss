@@ -1,0 +1,232 @@
+// Variables
+$primary-color: #54d155;
+$primary-color-dark: #48b749;
+$secondary-color: #36c63c;
+$text-dark: #212529;
+$text-gray: #555;
+$text-muted: #6c757d;
+$white: #ffffff;
+$background-light: #f0f7f0;
+
+.about-us-container {
+  padding: 120px 0 60px;
+  background-color: $background-light;
+  min-height: 100vh;
+}
+
+.about-us-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Hero Section
+.hero-section {
+  text-align: center;
+  margin-bottom: 80px;
+
+  .section-title {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: $secondary-color;
+    }
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    color: $text-gray;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+// Mission Section
+.mission-section {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 80px;
+  background-color: $white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  .mission-content {
+    flex: 1;
+  }
+
+  .mission-image {
+    flex: 1;
+    img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .mission-text {
+    font-size: 1.1rem;
+    color: $text-gray;
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+}
+
+// Values Section
+.values-section {
+  margin-bottom: 80px;
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .value-card {
+    background-color: $white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      i {
+        font-size: 24px;
+        color: $primary-color;
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 15px;
+      color: $text-dark;
+    }
+
+    p {
+      color: $text-gray;
+      line-height: 1.6;
+    }
+  }
+}
+
+// Team Section
+.team-section {
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .team-member {
+    background-color: $white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .member-image {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin: 20px 0 5px;
+      padding: 0 20px;
+      color: $text-dark;
+    }
+
+    .position {
+      color: $text-muted;
+      padding: 0 20px 20px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .mission-section {
+    flex-direction: column;
+    padding: 30px;
+  }
+
+  .hero-section {
+    .section-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  .values-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    .section-title {
+      font-size: 2rem;
+    }
+  }
+
+  .about-us-container {
+    padding: 100px 0 40px;
+  }
+}

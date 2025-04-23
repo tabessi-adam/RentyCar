@@ -1,4 +1,106 @@
+<div class="contact-container">
+  <section class="hero-section">
+    <h1>Contact Us</h1>
+    <p>Get in touch with our team for any questions or inquiries</p>
+  </section>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Our Locations</h3>
+        <p>Sousse, Monastir, Hammamet</p>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-phone"></i>
+        <h3>Phone</h3>
+        <p>+216 73 000 000</p>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-envelope"></i>
+        <h3>Email</h3>
+        <p>info&#64;example.com</p>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Enter your full name"
+          />
+          <div class="error-message" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors">
+            <span *ngIf="contactForm.get('name')?.errors?.['required']">Name is required</span>
+            <span *ngIf="contactForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+          <div class="error-message" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors">
+            <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            placeholder="Enter your phone number"
+          />
+          <div class="error-message" *ngIf="contactForm.get('phone')?.touched && contactForm.get('phone')?.errors">
+            <span *ngIf="contactForm.get('phone')?.errors?.['required']">Phone number is required</span>
+            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">Please enter a valid 8-digit phone number</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <select id="location" formControlName="location">
+            <option value="">Select a location</option>
+            <option *ngFor="let location of locations" [value]="location.id">
+              {{ location.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="contactForm.get('location')?.touched && contactForm.get('location')?.errors">
+            <span *ngIf="contactForm.get('location')?.errors?.['required']">Please select a location</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            placeholder="Enter your message"
+            rows="5"
+          ></textarea>
+          <div class="error-message" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.errors">
+            <span *ngIf="contactForm.get('message')?.errors?.['required']">Message is required</span>
+            <span *ngIf="contactForm.get('message')?.errors?.['minlength']">Message must be at least 10 characters</span>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="contactForm.invalid">Send Message</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <app-navbar></app-navbar>
-
 <app-footer></app-footer>
