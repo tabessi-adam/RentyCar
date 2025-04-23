@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Role } from '../../core/models/role.enum';
 import { ClientService } from '../../core/services/client.service';
 import { Subscription } from 'rxjs';
+import { signal } from '@angular/core';
+import { User } from '../../core/models/auth.model';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isProfileDropdownOpen = false;
   isAuthenticated = false;
   private authSubscription?: Subscription;
+  profilePictureUrl = signal<string | undefined>(undefined);
 
   constructor(
     public authService: AuthService,
@@ -27,12 +30,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Subscribe to auth state changes
-    this.authSubscription = this.authService.currentUser$.subscribe(user => {
+    this.authSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
       this.isAuthenticated = !!user;
-      if (user?.name) {
-        this.clientService.updateUserName(user.name);
+      if (user) {
+        this.clientService.updateUserName(user.name || '');
+        // Fetch profile data to get the profile picture
+        this.clientService.getProfile().subscribe({
+          next: (profile) => {
+            this.profilePictureUrl.set(profile.profilePictureUrl);
+          },
+          error: (error) => {
+            console.error('Error fetching profile:', error);
+          }
+        });
       } else {
         this.clientService.clearUserName();
+        this.profilePictureUrl.set(undefined);
       }
     });
   }

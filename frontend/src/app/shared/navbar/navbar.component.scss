@@ -128,26 +128,42 @@ $background-light: #f0f7f0;
     }
 
     &__profile {
-        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         cursor: pointer;
-        color: $text-gray;
-        font-weight: 500;
-        font-size: 1rem;
-        padding: 0.8rem 1rem;
-        border-radius: 4px;
-        background-color: transparent;
-        transition: all 0.3s ease;
-        
-        &:hover, &:focus {
-            color: $primary-color-dark;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s;
+
+        &:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        
-        &:after {
-            content: "▾";
-            margin-left: 0.5rem;
-            font-size: 0.8rem;
-            opacity: 0.8;
+    }
+
+    &__profile-picture {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &__default-profile-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        i {
+            color: #666;
+            font-size: 16px;
         }
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClientService, ClientProfile } from '../../../core/services/client.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -33,7 +34,8 @@ export class EditProfileComponent implements OnInit {
   dragStart = { x: 0, y: 0 };
 
   constructor(
-    private clientService: ClientService
+    private clientService: ClientService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -280,6 +282,13 @@ export class EditProfileComponent implements OnInit {
           if (this.profile) {
             this.profile.profilePictureUrl = response.profilePictureUrl;
             this.profile.profilePicturePublicId = response.profilePicturePublicId;
+            
+            // Update the auth service's current user
+            const currentUser = this.authService.currentUser;
+            if (currentUser) {
+              currentUser.profilePictureUrl = response.profilePictureUrl;
+              this.authService.updateCurrentUser(currentUser);
+            }
           }
           this.isUploadingPicture = false;
           this.showImageEditor = false;
@@ -305,6 +314,13 @@ export class EditProfileComponent implements OnInit {
         if (this.profile) {
           this.profile.profilePictureUrl = undefined;
           this.profile.profilePicturePublicId = undefined;
+          
+          // Update the auth service's current user
+          const currentUser = this.authService.currentUser;
+          if (currentUser) {
+            currentUser.profilePictureUrl = undefined;
+            this.authService.updateCurrentUser(currentUser);
+          }
         }
         this.isUploadingPicture = false;
       },

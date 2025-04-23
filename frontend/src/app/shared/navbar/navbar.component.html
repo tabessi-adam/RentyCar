@@ -25,6 +25,15 @@
       <div class="navbar__profile" tabindex="0" (click)="toggleProfileDropdown()" 
            (keydown)="handleProfileKeydown($event)" [attr.aria-expanded]="isProfileDropdownOpen" 
            aria-label="Profile menu">
+        @if (profilePictureUrl()) {
+          <img [src]="profilePictureUrl()" 
+               alt="Profile picture" 
+               class="navbar__profile-picture">
+        } @else {
+          <div class="navbar__default-profile-icon">
+            <i class="fas fa-user"></i>
+          </div>
+        }
         <span>{{ (clientService.userName() || 'User') | lowercase }}</span>
         <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
           <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>

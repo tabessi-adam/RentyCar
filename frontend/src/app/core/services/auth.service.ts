@@ -15,6 +15,8 @@ export interface User {
   role: UserRole;
   name: string;
   accessToken?: string;
+  profilePictureUrl?: string;
+  profilePicturePublicId?: string;
 }
 
 @Injectable({
@@ -116,6 +118,13 @@ export class AuthService {
       localStorage.removeItem('currentUser');
     }
     this.currentUserSubject.next(null);
+  }
+
+  updateCurrentUser(user: User): void {
+    if (this.isBrowser) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+    this.currentUserSubject.next(user);
   }
 
   get currentUser(): User | null {
