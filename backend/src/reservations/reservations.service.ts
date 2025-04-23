@@ -106,15 +106,21 @@ export class ReservationsService {
 
     // Calculate total price
     const totalPrice = Number(vehicle.pricePerDay) * createReservationDto.totalDays;
+    const damageDeposit = totalPrice * 2;
 
     const reservation = this.reservationsRepository.create({
       ...createReservationDto,
       clientId,
       endDate,
       totalPrice,
+      damageDeposit,
     });
 
-    return this.reservationsRepository.save(reservation);
+    const savedReservation = await this.reservationsRepository.save(reservation);
+    return this.reservationsRepository.findOne({
+      where: { id: savedReservation.id },
+      relations: ['client', 'vehicle'],
+    });
   }
 
   async findAll(filters?: { vehicleId?: string | string[]; clientId?: string }) {

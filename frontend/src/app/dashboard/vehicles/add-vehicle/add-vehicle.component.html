@@ -26,6 +26,16 @@
         </mat-form-field>
 
         <mat-form-field>
+          <mat-label>Color</mat-label>
+          <input matInput [(ngModel)]="vehicle.color" name="color" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Kilometers Driven</mat-label>
+          <input matInput type="number" [(ngModel)]="vehicle.kilometersDriven" name="kilometersDriven" required min="0">
+        </mat-form-field>
+
+        <mat-form-field>
           <mat-label>Status</mat-label>
           <mat-select [(ngModel)]="vehicle.status" name="status" required>
             <mat-option *ngFor="let status of statusOptions" [value]="status">

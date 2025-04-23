@@ -33,6 +33,9 @@ export class Reservation {
   @Column('decimal', { precision: 10, scale: 2 })
   totalPrice: number;
 
+  @Column('decimal', { precision: 10, scale: 2 })
+  damageDeposit: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

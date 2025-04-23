@@ -42,6 +42,8 @@ export class VehiclesListComponent implements OnInit {
     'brand',
     'model',
     'year',
+    'color',
+    'kilometersDriven',
     'pricePerDay',
     'office',
     'actions'

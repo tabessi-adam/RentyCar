@@ -15,4 +15,9 @@ export class CreateReservationDto {
   @Min(1)
   @IsNotEmpty()
   totalDays: number;
+
+  @IsNumber()
+  @Min(0)
+  @IsNotEmpty()
+  damageDeposit: number;
 } 

@@ -42,6 +42,12 @@ export class Vehicle {
   @Column()
   year: number;
 
+  @Column()
+  color: string;
+
+  @Column()
+  kilometersDriven: number;
+
   @Column({
     type: 'enum',
     enum: FuelType,

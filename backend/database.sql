@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS vehicles (
   brand VARCHAR(255) NOT NULL,
   model VARCHAR(255) NOT NULL,
   year INT NOT NULL,
+  color VARCHAR(50) NOT NULL,
+  kilometersDriven INT NOT NULL DEFAULT 0,
   fuelType ENUM('PETROL', 'DIESEL', 'ELECTRIC', 'HYBRID') NOT NULL,
   transmission ENUM('MANUAL', 'AUTOMATIC') NOT NULL,
   pricePerDay DECIMAL(10,2) NOT NULL,
@@ -98,6 +100,7 @@ CREATE TABLE IF NOT EXISTS reservations (
   status ENUM('PENDING', 'ACCEPTED', 'DECLINED', 'CANCELLED') DEFAULT 'PENDING',
   totalDays INT NOT NULL,
   totalPrice DECIMAL(10, 2) NOT NULL,
+  damageDeposit DECIMAL(10, 2) NOT NULL,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (clientId) REFERENCES clients(id) ON DELETE CASCADE,
@@ -149,13 +152,15 @@ FROM offices
 WHERE name = 'Downtown Office';
 
 -- Insert sample vehicles
-INSERT INTO vehicles (id, status, brand, model, year, fuelType, transmission, pricePerDay, hasGPS, hasBluetooth, hasAirConditioning, hasUSBCable, officeId)
+INSERT INTO vehicles (id, status, brand, model, year, color, kilometersDriven, fuelType, transmission, pricePerDay, hasGPS, hasBluetooth, hasAirConditioning, hasUSBCable, officeId)
 SELECT
   UUID(),
   'AVAILABLE',
   'Toyota',
   'Camry',
   2022,
+  'Red',
+  0,
   'PETROL',
   'AUTOMATIC',
   50.00,

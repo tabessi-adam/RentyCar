@@ -35,6 +35,8 @@ export interface Vehicle {
   brand: string;
   model: string;
   year: number;
+  color: string;
+  kilometersDriven: number;
   fuelType: FuelType;
   transmission: Transmission;
   pricePerDay: number;
@@ -58,6 +60,8 @@ export interface CreateVehiclePayload {
   brand: string;
   model: string;
   year: number;
+  color: string;
+  kilometersDriven: number;
   fuelType: FuelType;
   transmission: Transmission;
   pricePerDay: number;

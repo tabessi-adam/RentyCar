@@ -36,7 +36,17 @@
           <td mat-cell *matCellDef="let vehicle">{{vehicle.year}}</td>
         </ng-container>
   
-        
+        <!-- Color Column -->
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef>Color</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.color}}</td>
+        </ng-container>
+  
+        <!-- Kilometers Driven Column -->
+        <ng-container matColumnDef="kilometersDriven">
+          <th mat-header-cell *matHeaderCellDef>Kilometers</th>
+          <td mat-cell *matCellDef="let vehicle">{{vehicle.kilometersDriven}} km</td>
+        </ng-container>
   
         <!-- Price per Day Column -->
         <ng-container matColumnDef="pricePerDay">

@@ -37,6 +37,7 @@ export class ReservationsListComponent implements OnInit {
     'endDate',
     'totalDays',
     'totalPrice',
+    'damageDeposit',
     'status',
     'actions'
   ];
