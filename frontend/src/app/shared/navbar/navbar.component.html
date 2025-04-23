@@ -25,7 +25,7 @@
       <div class="navbar__profile" tabindex="0" (click)="toggleProfileDropdown()" 
            (keydown)="handleProfileKeydown($event)" [attr.aria-expanded]="isProfileDropdownOpen" 
            aria-label="Profile menu">
-        <span>{{ currentUser?.name || 'User' }}</span>
+        <span>{{ (clientService.userName() || 'User') | lowercase }}</span>
         <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
           <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>
           <a routerLink="/client/reservations" role="menuitem">My Reservations</a>

@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Role } from '../../core/models/role.enum';
 import { ClientService } from '../../core/services/client.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -12,10 +13,11 @@ import { ClientService } from '../../core/services/client.service';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   isProfileDropdownOpen = false;
   isAuthenticated = false;
+  private authSubscription?: Subscription;
 
   constructor(
     public authService: AuthService,
@@ -25,7 +27,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to auth state changes
-    this.authService.currentUser$.subscribe(user => {
+    this.authSubscription = this.authService.currentUser$.subscribe(user => {
       this.isAuthenticated = !!user;
       if (user?.name) {
         this.clientService.updateUserName(user.name);
@@ -33,6 +35,12 @@ export class NavbarComponent implements OnInit {
         this.clientService.clearUserName();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   @HostListener('document:click', ['$event'])
