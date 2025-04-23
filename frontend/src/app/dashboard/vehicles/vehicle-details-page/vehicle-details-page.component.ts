@@ -8,10 +8,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { VehicleService } from '../../../core/services/vehicle.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Vehicle, VehicleStatus, VehicleImage } from '../../../core/models/vehicle.model';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
 import { UploadImagesComponent } from '../upload-images/upload-images.component';
+import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
 
 @Component({
   selector: 'app-vehicle-details-page',
@@ -43,7 +45,8 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
     private location: Location,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -98,15 +101,18 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   deleteVehicle(): void {
-    if (this.vehicle && confirm('Are you sure you want to delete this vehicle?')) {
-      this.vehicleService.deleteVehicle(this.vehicle.id).subscribe({
-        next: () => {
-          this.snackBar.open('Vehicle deleted successfully', 'Close', { duration: 3000 });
-          this.router.navigate(['/dashboard/vehicles']);
-        },
-        error: (error: any) => {
-          console.error('Error deleting vehicle:', error);
-          this.snackBar.open('Error deleting vehicle', 'Close', { duration: 3000 });
+    if (this.vehicle) {
+      const dialogRef = this.dialog.open(DeleteVehicleComponent, {
+        width: '500px',
+        maxWidth: '90vw',
+        panelClass: 'delete-dialog-container',
+        data: { vehicle: this.vehicle }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          const role = this.authService.userRole();
+          this.router.navigate([`/${role}/vehicles`]);
         }
       });
     }
