@@ -87,7 +87,11 @@ export class VehicleDetailsPageComponent implements OnInit, OnDestroy {
   editVehicle(): void {
     if (this.vehicle) {
       const dialogRef = this.dialog.open(EditVehicleComponent, {
-        width: '600px',
+        width: '100%',
+        maxWidth: '500px',
+        height: '100%',
+        maxHeight: '100vh',
+        panelClass: 'responsive-dialog',
         data: { vehicle: this.vehicle }
       });
 

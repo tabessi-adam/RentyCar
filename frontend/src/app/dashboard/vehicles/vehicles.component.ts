@@ -6,6 +6,7 @@ import { Vehicle } from '../../core/models/vehicle.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VehiclesFilterComponent } from './vehicles-filter/vehicles-filter.component';
 import { VehicleFilters } from './vehicles-filter/vehicles-filter.component';
+import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -43,7 +44,11 @@ export class VehiclesComponent implements AfterViewInit {
 
   openAddVehicleModal() {
     const dialogRef = this.dialog.open(AddVehicleComponent, {
-      width: '500px'
+      width: '100%',
+      maxWidth: '500px',
+      height: '100%',
+      maxHeight: '100vh',
+      panelClass: 'responsive-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -66,5 +71,31 @@ export class VehiclesComponent implements AfterViewInit {
     if (this.vehiclesList) {
       this.vehiclesList.loadVehicles(filters);
     }
+  }
+
+  openEditVehicleModal(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(EditVehicleComponent, {
+      width: '100%',
+      maxWidth: '500px',
+      height: '100%',
+      maxHeight: '100vh',
+      panelClass: 'responsive-dialog',
+      data: { vehicle }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onVehicleUpdated(result);
+      }
+    });
+  }
+
+  onVehicleUpdated(vehicle: Vehicle) {
+    // Ensure we refresh the list after updating a vehicle
+    setTimeout(() => {
+      if (this.vehiclesList) {
+        this.vehiclesList.loadVehicles();
+      }
+    });
   }
 }

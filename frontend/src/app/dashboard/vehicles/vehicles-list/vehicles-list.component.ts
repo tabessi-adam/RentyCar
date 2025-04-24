@@ -96,7 +96,11 @@ export class VehiclesListComponent implements OnInit {
 
   onEdit(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(EditVehicleComponent, {
-      width: '500px',
+      width: '100%',
+      maxWidth: '500px',
+      height: '100%',
+      maxHeight: '100vh',
+      panelClass: 'responsive-dialog',
       data: { vehicle }
     });
 

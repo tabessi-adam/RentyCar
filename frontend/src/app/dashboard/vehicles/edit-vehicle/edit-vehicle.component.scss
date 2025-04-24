@@ -13,6 +13,9 @@
     padding: 20px 24px;
     background: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     h2 {
       margin: 0;
@@ -51,6 +54,7 @@ mat-dialog-content {
   padding: 20px 24px;
   max-height: unset;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media (max-width: 480px) {
     padding: 16px 20px;
@@ -99,6 +103,9 @@ mat-dialog-actions {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   display: flex;
   gap: 12px;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
 
   @media (max-width: 480px) {
     padding: 12px 20px;
