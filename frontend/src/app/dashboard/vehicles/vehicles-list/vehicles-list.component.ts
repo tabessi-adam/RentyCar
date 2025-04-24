@@ -15,6 +15,7 @@ import { ViewVehicleComponent } from '../view-vehicle/view-vehicle.component';
 import { DeleteVehicleComponent } from '../delete-vehicle/delete-vehicle.component';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { VehicleFilters } from '../vehicles-filter/vehicles-filter.component';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -99,7 +100,7 @@ export class VehiclesListComponent implements OnInit {
       data: { vehicle }
     });
 
-    dialogRef.afterClosed().subscribe((result: Vehicle) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadVehicles();
       }
@@ -108,22 +109,20 @@ export class VehiclesListComponent implements OnInit {
 
   onDelete(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(DeleteVehicleComponent, {
-      width: '500px',
-      maxWidth: '90vw',
-      panelClass: 'delete-dialog-container',
+      width: '400px',
       data: { vehicle }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadVehicles();
       }
     });
   }
 
-  loadVehicles() {
+  loadVehicles(filters?: VehicleFilters) {
     this.isLoading = true;
-    this.vehicleService.getAllVehicles().subscribe({
+    this.vehicleService.getAllVehicles(filters).subscribe({
       next: (vehicles) => {
         this.vehicles = vehicles;
         this.isLoading = false;

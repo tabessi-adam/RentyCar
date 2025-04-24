@@ -22,12 +22,20 @@
 
         <mat-form-field>
           <mat-label>Year</mat-label>
-          <input matInput type="number" [(ngModel)]="vehicle.year" name="year" required min="1900" [max]="currentYear + 1">
+          <mat-select [(ngModel)]="vehicle.year" name="year" required>
+            <mat-option *ngFor="let year of years" [value]="year">
+              {{ year }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Color</mat-label>
-          <input matInput [(ngModel)]="vehicle.color" name="color" required>
+          <mat-select [(ngModel)]="vehicle.color" name="color" required>
+            <mat-option *ngFor="let color of colorOptions" [value]="color">
+              {{ color }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field>

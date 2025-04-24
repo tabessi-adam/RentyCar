@@ -4,6 +4,8 @@ import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
 import { Vehicle } from '../../core/models/vehicle.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { VehiclesFilterComponent } from './vehicles-filter/vehicles-filter.component';
+import { VehicleFilters } from './vehicles-filter/vehicles-filter.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,7 +13,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   imports: [
     SidebarComponent, 
     VehiclesListComponent, 
-    MatDialogModule
+    MatDialogModule,
+    VehiclesFilterComponent
   ],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss'
@@ -57,5 +60,11 @@ export class VehiclesComponent implements AfterViewInit {
         this.vehiclesList.loadVehicles();
       }
     });
+  }
+
+  onFiltersChanged(filters: VehicleFilters) {
+    if (this.vehiclesList) {
+      this.vehiclesList.loadVehicles(filters);
+    }
   }
 }

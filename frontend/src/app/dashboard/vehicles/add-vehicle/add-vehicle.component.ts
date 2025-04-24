@@ -41,6 +41,7 @@ export class AddVehicleComponent {
     brand: '',
     model: '',
     year: new Date().getFullYear(),
+    color: 'White',
     fuelType: FuelType.PETROL,
     transmission: Transmission.MANUAL,
     pricePerDay: 0,
@@ -54,10 +55,26 @@ export class AddVehicleComponent {
   offices: Office[] = [];
   isLoading = false;
   currentYear = new Date().getFullYear();
+  years = Array.from({ length: 50 }, (_, i) => this.currentYear - i);
   
   readonly statusOptions = Object.values(VehicleStatus);
   readonly fuelTypeOptions = Object.values(FuelType);
   readonly transmissionOptions = Object.values(Transmission);
+  readonly colorOptions = [
+    'White',
+    'Black',
+    'Silver',
+    'Gray',
+    'Red',
+    'Blue',
+    'Green',
+    'Yellow',
+    'Orange',
+    'Brown',
+    'Beige',
+    'Gold',
+    'Purple'
+  ];
 
   constructor(
     private vehicleService: VehicleService,

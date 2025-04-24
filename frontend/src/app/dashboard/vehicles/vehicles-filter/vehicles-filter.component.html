@@ -1,1 +1,86 @@
-<p>vehicles-filter works!</p>
+<div class="filter-container">
+  <form [formGroup]="filterForm" class="filter-grid">
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        <option value="">All</option>
+        <option value="available">Available</option>
+        <option value="rented">Rented</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="brand">Brand</label>
+      <input type="text" id="brand" formControlName="brand" placeholder="Enter brand">
+    </div>
+
+    <div class="form-group">
+      <label for="model">Model</label>
+      <input type="text" id="model" formControlName="model" placeholder="Enter model">
+    </div>
+
+    <div class="form-group">
+      <label for="minYear">Min Year</label>
+      <select id="minYear" formControlName="minYear">
+        <option value="">Any</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="maxYear">Max Year</label>
+      <select id="maxYear" formControlName="maxYear">
+        <option value="">Any</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="fuelType">Fuel Type</label>
+      <select id="fuelType" formControlName="fuelType">
+        <option value="">All</option>
+        <option value="petrol">Petrol</option>
+        <option value="diesel">Diesel</option>
+        <option value="electric">Electric</option>
+        <option value="hybrid">Hybrid</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="transmission">Transmission</label>
+      <select id="transmission" formControlName="transmission">
+        <option value="">All</option>
+        <option value="manual">Manual</option>
+        <option value="automatic">Automatic</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="minPrice">Min Price</label>
+      <input type="number" id="minPrice" formControlName="minPrice" placeholder="Min price">
+    </div>
+
+    <div class="form-group">
+      <label for="maxPrice">Max Price</label>
+      <input type="number" id="maxPrice" formControlName="maxPrice" placeholder="Max price">
+    </div>
+
+    <div class="form-group">
+      <label for="officeId">Office</label>
+      <select id="officeId" formControlName="officeId">
+        <option value="">All Offices</option>
+        <option *ngFor="let office of offices" [value]="office.id">
+          {{ office.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="clear-btn" (click)="clearFilters()">
+        <fa-icon [icon]="faFilter"></fa-icon>
+        Clear
+      </button>
+    </div>
+  </form>
+</div>

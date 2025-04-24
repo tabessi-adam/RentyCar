@@ -65,17 +65,22 @@ export class VehicleService {
     let params = new HttpParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
+        // Only add the filter if it has a value and is not an empty string
         if (value !== null && value !== undefined && value !== '') {
-          params = params.append(key, value.toString());
+          // For boolean values, only send them if they are true
+          if (typeof value === 'boolean') {
+            if (value === true) {
+              params = params.append(key, 'true');
+            }
+          } else {
+            params = params.append(key, value.toString());
+          }
         }
       });
     }
 
-    // For agents, we don't need to add officeId filter as the backend already handles it
-    // The backend will automatically filter vehicles based on the agent's office
-
     console.log('VehicleService - Sending request to:', apiUrl);
-    console.log('VehicleService - With headers:', this.getAuthHeaders());
+    console.log('VehicleService - With params:', params.toString());
     return this.http.get<Vehicle[]>(apiUrl, { 
       headers: this.getAuthHeaders(),
       params
