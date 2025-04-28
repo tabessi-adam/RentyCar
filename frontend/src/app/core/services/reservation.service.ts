@@ -52,6 +52,14 @@ export class ReservationService {
       .pipe(catchError(this.handleError));
   }
 
+  // GET /vehicle/:id/availability
+  getVehicleAvailability(vehicleId: string): Observable<{ startDate: string; endDate: string }[]> {
+    return this.http.get<{ startDate: string; endDate: string }[]>(
+      `${API_URL}/vehicle/${vehicleId}/availability`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(catchError(this.handleError));
+  }
+
   // GET /my-reservations
   getMyReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${API_URL}/my-reservations`, { headers: this.getAuthHeaders() })

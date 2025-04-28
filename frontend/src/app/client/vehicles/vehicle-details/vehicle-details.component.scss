@@ -339,6 +339,15 @@
   }
 }
 
+.booking-section-wrapper {
+  margin-top: 3rem;
+  padding: 0 1rem;
+  
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

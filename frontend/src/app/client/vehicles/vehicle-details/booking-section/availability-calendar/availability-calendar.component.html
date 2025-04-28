@@ -1,0 +1,51 @@
+<div class="availability-calendar">
+  <h3>Availability Calendar</h3>
+  
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading availability data...</p>
+  </div>
+
+  <div class="error-container" *ngIf="error">
+    <p class="error-message">{{ error }}</p>
+  </div>
+
+  <div class="calendar-container" *ngIf="!isLoading && !error">
+    <div class="calendar-header">
+      <button class="nav-button" (click)="previousMonth()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <h4>{{ getMonthName(currentMonth) }} {{ currentYear }}</h4>
+      <button class="nav-button" (click)="nextMonth()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="calendar-grid">
+      <div class="weekday" *ngFor="let day of getWeekDays()">
+        {{ day }}
+      </div>
+
+      <div 
+        class="day" 
+        *ngFor="let day of getDaysInMonth(currentYear, currentMonth)"
+        [class.reserved]="isDateReserved(day)"
+        [class.current-month]="day.getMonth() === currentMonth"
+        [class.today]="isToday(day)"
+      >
+        {{ day.getDate() }}
+      </div>
+    </div>
+
+    <div class="calendar-legend">
+      <div class="legend-item">
+        <div class="legend-color reserved"></div>
+        <span>Reserved</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color today"></div>
+        <span>Today</span>
+      </div>
+    </div>
+  </div>
+</div>

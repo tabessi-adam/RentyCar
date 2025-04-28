@@ -7,6 +7,7 @@ import { NavbarComponent } from '../../../../app/shared/navbar/navbar.component'
 import { FooterComponent } from '../../../../app/shared/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatCardModule } from '@angular/material/card';
+import { BookingSectionComponent } from './booking-section/booking-section.component';
 
 interface Vehicle {
   id: string;
@@ -35,7 +36,8 @@ interface Vehicle {
     NavbarComponent,
     FooterComponent,
     FontAwesomeModule,
-    MatCardModule
+    MatCardModule,
+    BookingSectionComponent
   ],
   templateUrl: './vehicle-details.component.html',
   styleUrl: './vehicle-details.component.scss'

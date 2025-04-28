@@ -115,6 +115,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Booking Section -->
+    <div class="booking-section-wrapper" *ngIf="!isLoading && !error && vehicle">
+      <app-booking-section [vehicleId]="vehicle.id"></app-booking-section>
+    </div>
   </div>
 </div>
 

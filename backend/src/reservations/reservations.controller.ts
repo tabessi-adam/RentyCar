@@ -124,4 +124,25 @@ export class ReservationsController {
   remove(@Param('id') id: string, @Request() req) {
     return this.reservationsService.remove(id, req.user.id);
   }
+
+  @Get('vehicle/:id/availability')
+  async getVehicleAvailability(@Param('id') id: string) {
+    // Check if vehicle exists
+    const vehicle = await this.vehicleRepository.findOne({ where: { id } });
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found');
+    }
+
+    // Get all accepted reservations for this vehicle
+    const reservations = await this.reservationsService.findAll({ 
+      vehicleId: id,
+      status: ReservationStatus.ACCEPTED
+    });
+
+    // Format the response to only include start and end dates
+    return reservations.map(reservation => ({
+      startDate: reservation.startDate,
+      endDate: reservation.endDate
+    }));
+  }
 } 

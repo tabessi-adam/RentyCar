@@ -123,7 +123,11 @@ export class ReservationsService {
     });
   }
 
-  async findAll(filters?: { vehicleId?: string | string[]; clientId?: string }) {
+  async findAll(filters?: { 
+    vehicleId?: string | string[]; 
+    clientId?: string;
+    status?: ReservationStatus;
+  }) {
     const where: any = {};
     
     if (filters) {
@@ -136,6 +140,9 @@ export class ReservationsService {
       }
       if (filters.clientId) {
         where.clientId = filters.clientId;
+      }
+      if (filters.status) {
+        where.status = filters.status;
       }
     }
 
