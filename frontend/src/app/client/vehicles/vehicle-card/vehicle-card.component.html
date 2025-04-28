@@ -1,0 +1,21 @@
+<div class="vehicle-card" [routerLink]="['/collection/vehicle-details', vehicle.id]">
+  <div class="vehicle-image">
+    <img [src]="vehicle.images?.[0]?.url || 'assets/images/vehicle-placeholder.jpg'" [alt]="vehicle.brand + ' ' + vehicle.model">
+    <div class="status-badge" [ngClass]="getStatusClass()">
+      {{ vehicle.currentStatus || 'Unknown' }}
+    </div>
+  </div>
+  <div class="vehicle-info">
+    <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
+    <p class="year">{{ vehicle.year }}</p>
+    <div class="specs">
+      <span class="spec">{{ vehicle.fuelType }}</span>
+      <span class="spec">{{ vehicle.transmission }}</span>
+      <span class="spec">{{ vehicle.kilometersDriven }} km</span>
+    </div>
+    <div class="price">
+      <span class="amount">{{ vehicle.pricePerDay }} TND</span>
+      <span class="period">/day</span>
+    </div>
+  </div>
+</div>

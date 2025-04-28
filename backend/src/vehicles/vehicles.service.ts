@@ -35,23 +35,15 @@ export class VehiclesService {
   }
 
   async findAll(filters?: VehicleFiltersDto) {
+    console.log('VehiclesService - Finding all vehicles with filters:', filters);
     const queryBuilder = this.vehiclesRepository.createQueryBuilder('vehicle')
       .leftJoinAndSelect('vehicle.reservations', 'reservation')
       .leftJoinAndSelect('vehicle.images', 'image');
 
     if (filters) {
       if (filters.status) {
-        // For status filter, we need to check both status and current reservations
-        if (filters.status === 'AVAILABLE') {
-          queryBuilder.andWhere('vehicle.status = :status', { status: filters.status })
-            .andWhere('(reservation.id IS NULL OR NOT (reservation.status = :accepted AND :today BETWEEN reservation.startDate AND reservation.endDate))', 
-              { accepted: 'ACCEPTED', today: new Date() });
-        } else if (filters.status === 'RENTED') {
-          queryBuilder.andWhere('reservation.status = :accepted AND :today BETWEEN reservation.startDate AND reservation.endDate',
-            { accepted: 'ACCEPTED', today: new Date() });
-        } else {
-          queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
-        }
+        // For status filter, we only check the vehicle's status
+        queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
       }
 
       if (filters.brand) {
@@ -117,13 +109,17 @@ export class VehiclesService {
       }
     }
 
+    console.log('VehiclesService - Generated SQL query:', queryBuilder.getSql());
     const vehicles = await queryBuilder.getMany();
+    console.log('VehiclesService - Found vehicles:', vehicles.length);
     
     // Add currentStatus to each vehicle
-    return vehicles.map(vehicle => ({
+    const vehiclesWithStatus = vehicles.map(vehicle => ({
       ...vehicle,
       currentStatus: vehicle.currentStatus
     }));
+    console.log('VehiclesService - Vehicles with status:', vehiclesWithStatus.length);
+    return vehiclesWithStatus;
   }
 
   async findOne(id: string) {

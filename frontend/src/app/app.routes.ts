@@ -14,6 +14,14 @@ export const routes: Routes = [
   { path: 'locations', component: LocationsComponent },
   { path: 'about', component: AboutUsComponent },
   { 
+    path: 'collection', 
+    loadComponent: () => import('./client/vehicles/vehicles-list/vehicles-list.component').then(m => m.VehiclesListComponent)
+  },
+  {
+    path: 'collection/vehicle-details/:id',
+    loadComponent: () => import('./client/vehicles/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
+  },
+  { 
     path: 'login', 
     loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent) 
   },

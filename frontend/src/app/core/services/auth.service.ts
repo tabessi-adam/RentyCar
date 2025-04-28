@@ -27,6 +27,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private isBrowser: boolean;
+  private tokenRefreshTimeout: any;
 
   constructor(
     private http: HttpClient,
@@ -38,13 +39,73 @@ export class AuthService {
       const savedUser = localStorage.getItem('currentUser');
       if (savedUser) {
         try {
-          this.currentUserSubject.next(JSON.parse(savedUser));
+          const user = JSON.parse(savedUser);
+          this.currentUserSubject.next(user);
+          this.scheduleTokenRefresh(user.accessToken);
         } catch (error) {
           console.error('Error parsing stored user data:', error);
           localStorage.removeItem('currentUser');
         }
       }
     }
+  }
+
+  private scheduleTokenRefresh(token: string) {
+    if (this.tokenRefreshTimeout) {
+      clearTimeout(this.tokenRefreshTimeout);
+    }
+
+    // Decode the token to get expiration time
+    const tokenData = this.decodeToken(token);
+    if (!tokenData || !tokenData.exp) return;
+
+    // Calculate time until expiration (minus 5 minutes to refresh early)
+    const expiresIn = (tokenData.exp * 1000) - Date.now() - (5 * 60 * 1000);
+    
+    if (expiresIn > 0) {
+      this.tokenRefreshTimeout = setTimeout(() => {
+        this.refreshToken();
+      }, expiresIn);
+    }
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(window.atob(base64));
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  refreshToken() {
+    const currentUser = this.currentUserSubject.value;
+    if (!currentUser?.accessToken) return;
+
+    this.http.post(`${this.apiUrl}/refresh`, { token: currentUser.accessToken })
+      .pipe(
+        tap((response: any) => {
+          if (response && response.access_token) {
+            const user = {
+              ...currentUser,
+              accessToken: response.access_token
+            };
+            if (this.isBrowser) {
+              localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+            this.currentUserSubject.next(user);
+            this.scheduleTokenRefresh(response.access_token);
+          }
+        }),
+        catchError(error => {
+          console.error('Error refreshing token:', error);
+          this.logout();
+          return throwError(() => error);
+        })
+      )
+      .subscribe();
   }
 
   register(registerDto: RegisterDto): Observable<any> {
@@ -117,6 +178,9 @@ export class AuthService {
     if (this.isBrowser) {
       localStorage.removeItem('currentUser');
     }
+    if (this.tokenRefreshTimeout) {
+      clearTimeout(this.tokenRefreshTimeout);
+    }
     this.currentUserSubject.next(null);
   }
 
@@ -140,11 +204,15 @@ export class AuthService {
   }
 
   userRole(): Role | undefined {
-    return this.currentUser?.role;
+    const role = this.currentUser?.role;
+    console.log('AuthService - Current user role:', role);
+    return role;
   }
 
   currentToken(): string | undefined {
-    return this.currentUser?.accessToken;
+    const token = this.currentUser?.accessToken;
+    console.log('AuthService - Current token exists:', !!token);
+    return token;
   }
 
   hasRole(role: Role): boolean {

@@ -23,8 +23,8 @@ export class VehicleService {
     switch (role) {
       case Role.ADMIN: return `${BASE_API_URL}/admin/vehicles`;
       case Role.AGENT: return `${BASE_API_URL}/agent/vehicles`;
-      case Role.CLIENT: return `${BASE_API_URL}/client/vehicles`;
-      default: return null; // Or throw error if role is unexpected/null
+      case Role.CLIENT: return `${BASE_API_URL}/vehicles/public`;
+      default: return `${BASE_API_URL}/vehicles/public`; // Use public endpoint for unauthenticated users
     }
   }
 
@@ -113,13 +113,10 @@ export class VehicleService {
 
   // GET /<role>/vehicles/:id
   getVehicleById(id: string): Observable<Vehicle> {
-    const apiUrl = this.getApiPath();
-    if (!apiUrl) {
-      return throwError(() => new Error('User role unknown'));
-    }
+    const apiUrl = `${BASE_API_URL}/vehicles/public/${id}`;
     console.log('Fetching vehicle with ID:', id);
-    console.log('API URL:', `${apiUrl}/${id}`);
-    return this.http.get<Vehicle>(`${apiUrl}/${id}`, { headers: this.getAuthHeaders() })
+    console.log('API URL:', apiUrl);
+    return this.http.get<Vehicle>(apiUrl)
       .pipe(
         tap(response => {
           console.log('Vehicle response:', response);
@@ -197,6 +194,40 @@ export class VehicleService {
     
     return this.http.delete<void>(`${apiUrl}/images/${imageId}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
+  }
+
+  // Get public vehicles without authentication
+  getPublicVehicles(): Observable<Vehicle[]> {
+    console.log('VehicleService - Getting public vehicles');
+    const url = `${BASE_API_URL}/vehicles/public`;
+    console.log('VehicleService - Public vehicles URL:', url);
+    
+    return this.http.get<Vehicle[]>(url).pipe(
+      tap(response => {
+        console.log('VehicleService - Public vehicles raw response:', response);
+        console.log('VehicleService - Public vehicles response type:', typeof response);
+        console.log('VehicleService - Public vehicles response length:', Array.isArray(response) ? response.length : 'Not an array');
+      }),
+      map(response => {
+        if (!Array.isArray(response)) {
+          console.error('VehicleService - Public vehicles response is not an array:', response);
+          return [];
+        }
+        const mappedVehicles = response.map(vehicle => ({
+          ...vehicle,
+          baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
+          currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
+        }));
+        console.log('VehicleService - Mapped public vehicles:', mappedVehicles);
+        return mappedVehicles;
+      }),
+      catchError(error => {
+        console.error('VehicleService - Error fetching public vehicles:', error);
+        console.error('VehicleService - Error status:', error.status);
+        console.error('VehicleService - Error message:', error.message);
+        return this.handleError(error);
+      })
+    );
   }
 
   private handleError(error: any): Observable<never> {

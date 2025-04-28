@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+
+<div class="vehicles-list-container">
+  <div class="header">
+    <h1>Available Vehicles</h1>
+    <div class="filters">
+      <!-- Add filters here if needed -->
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading vehicles...</p>
+  </div>
+
+  <div class="error-container" *ngIf="error">
+    <p class="error-message">{{ error }}</p>
+    <button class="retry-button" (click)="loadVehicles()">Retry</button>
+  </div>
+
+  <div class="vehicles-grid" *ngIf="!isLoading && !error">
+    <app-vehicle-card
+      *ngFor="let vehicle of vehicles$ | async"
+      [vehicle]="vehicle"
+    ></app-vehicle-card>
+  </div>
+
+  <div class="no-vehicles" *ngIf="!isLoading && !error && (vehicles$ | async)?.length === 0">
+    <p>No vehicles available at the moment.</p>
+  </div>
+</div>
+
+<app-footer></app-footer>

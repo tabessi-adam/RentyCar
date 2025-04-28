@@ -48,7 +48,19 @@ export class ClientService {
   getProfile(): Observable<ClientProfile> {
     return this.http.get<ClientProfile>(`${this.apiUrl}/profile`, {
       headers: this.getAuthHeaders()
-    });
+    }).pipe(
+      catchError(error => {
+        if (error.status === 401) {
+          // Token expired, try to refresh
+          this.authService.refreshToken();
+          // Retry the request with new token
+          return this.http.get<ClientProfile>(`${this.apiUrl}/profile`, {
+            headers: this.getAuthHeaders()
+          });
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   updateProfile(profile: Partial<ClientProfile>): Observable<ClientProfile> {
