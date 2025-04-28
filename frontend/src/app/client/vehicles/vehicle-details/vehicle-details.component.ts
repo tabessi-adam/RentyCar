@@ -6,6 +6,7 @@ import { VehicleService } from '../../../../app/core/services/vehicle.service';
 import { NavbarComponent } from '../../../../app/shared/navbar/navbar.component';
 import { FooterComponent } from '../../../../app/shared/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatCardModule } from '@angular/material/card';
 
 interface Vehicle {
   id: string;
@@ -22,13 +23,20 @@ interface Vehicle {
   hasBluetooth: boolean;
   hasAirConditioning: boolean;
   hasUSBCable: boolean;
-  images?: { url: string }[];
+  images: { url: string }[];
 }
 
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent, FooterComponent, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NavbarComponent,
+    FooterComponent,
+    FontAwesomeModule,
+    MatCardModule
+  ],
   templateUrl: './vehicle-details.component.html',
   styleUrl: './vehicle-details.component.scss'
 })
@@ -36,6 +44,7 @@ export class VehicleDetailsComponent implements OnInit {
   vehicle: Vehicle | null = null;
   isLoading = true;
   error: string | null = null;
+  currentSlideIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +70,10 @@ export class VehicleDetailsComponent implements OnInit {
     
     this.vehicleService.getVehicleById(id).subscribe({
       next: (vehicle) => {
-        this.vehicle = vehicle;
+        this.vehicle = {
+          ...vehicle,
+          images: vehicle.images || []
+        };
         this.isLoading = false;
       },
       error: (error) => {
@@ -74,5 +86,21 @@ export class VehicleDetailsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  nextSlide(): void {
+    if (this.vehicle?.images) {
+      this.currentSlideIndex = (this.currentSlideIndex + 1) % this.vehicle.images.length;
+    }
+  }
+
+  prevSlide(): void {
+    if (this.vehicle?.images) {
+      this.currentSlideIndex = (this.currentSlideIndex - 1 + this.vehicle.images.length) % this.vehicle.images.length;
+    }
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlideIndex = index;
   }
 }

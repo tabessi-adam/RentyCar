@@ -20,30 +20,21 @@ export class VehiclesListComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private vehicleService: VehicleService) {
-    console.log('ClientVehiclesList - Component constructed');
-  }
+  constructor(private vehicleService: VehicleService) {}
 
   ngOnInit(): void {
-    console.log('ClientVehiclesList - OnInit');
     this.loadVehicles();
   }
 
   loadVehicles(): void {
-    console.log('ClientVehiclesList - Starting to load vehicles');
     this.isLoading = true;
     this.error = null;
     
     this.vehicles$ = this.vehicleService.getPublicVehicles().pipe(
       tap(vehicles => {
-        console.log('ClientVehiclesList - Received vehicles:', vehicles);
-        console.log('ClientVehiclesList - Number of vehicles:', vehicles.length);
         this.isLoading = false;
       }),
       catchError(error => {
-        console.error('ClientVehiclesList - Error loading vehicles:', error);
-        console.error('ClientVehiclesList - Error status:', error.status);
-        console.error('ClientVehiclesList - Error message:', error.message);
         this.isLoading = false;
         this.error = 'Failed to load vehicles. Please try again later.';
         return of([]);

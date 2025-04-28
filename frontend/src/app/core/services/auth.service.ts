@@ -204,15 +204,11 @@ export class AuthService {
   }
 
   userRole(): Role | undefined {
-    const role = this.currentUser?.role;
-    console.log('AuthService - Current user role:', role);
-    return role;
+    return this.currentUser?.role;
   }
 
   currentToken(): string | undefined {
-    const token = this.currentUser?.accessToken;
-    console.log('AuthService - Current token exists:', !!token);
-    return token;
+    return this.currentUser?.accessToken;
   }
 
   hasRole(role: Role): boolean {

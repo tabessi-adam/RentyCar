@@ -114,17 +114,8 @@ export class VehicleService {
   // GET /<role>/vehicles/:id
   getVehicleById(id: string): Observable<Vehicle> {
     const apiUrl = `${BASE_API_URL}/vehicles/public/${id}`;
-    console.log('Fetching vehicle with ID:', id);
-    console.log('API URL:', apiUrl);
     return this.http.get<Vehicle>(apiUrl)
       .pipe(
-        tap(response => {
-          console.log('Vehicle response:', response);
-          console.log('Vehicle images:', response.images);
-          if (response.images) {
-            console.log('Image URLs:', response.images.map(img => img.url));
-          }
-        }),
         map(response => {
           // If we have a single image but no images array, convert it to the new format
           if (response.imageUrl && (!response.images || response.images.length === 0)) {
@@ -198,33 +189,20 @@ export class VehicleService {
 
   // Get public vehicles without authentication
   getPublicVehicles(): Observable<Vehicle[]> {
-    console.log('VehicleService - Getting public vehicles');
     const url = `${BASE_API_URL}/vehicles/public`;
-    console.log('VehicleService - Public vehicles URL:', url);
     
     return this.http.get<Vehicle[]>(url).pipe(
-      tap(response => {
-        console.log('VehicleService - Public vehicles raw response:', response);
-        console.log('VehicleService - Public vehicles response type:', typeof response);
-        console.log('VehicleService - Public vehicles response length:', Array.isArray(response) ? response.length : 'Not an array');
-      }),
       map(response => {
         if (!Array.isArray(response)) {
-          console.error('VehicleService - Public vehicles response is not an array:', response);
           return [];
         }
-        const mappedVehicles = response.map(vehicle => ({
+        return response.map(vehicle => ({
           ...vehicle,
           baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
           currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
         }));
-        console.log('VehicleService - Mapped public vehicles:', mappedVehicles);
-        return mappedVehicles;
       }),
       catchError(error => {
-        console.error('VehicleService - Error fetching public vehicles:', error);
-        console.error('VehicleService - Error status:', error.status);
-        console.error('VehicleService - Error message:', error.message);
         return this.handleError(error);
       })
     );
