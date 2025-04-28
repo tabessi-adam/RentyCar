@@ -19,12 +19,12 @@
             <div class="carousel-container">
               <div class="carousel">
                 <div class="slides" [style.transform]="'translateX(-' + (currentSlideIndex * 100) + '%)'">
-                  <div class="slide" *ngFor="let image of vehicle?.images">
-                    <img [src]="image.url" [alt]="vehicle?.brand + ' ' + vehicle?.model">
+                  <div class="slide" *ngFor="let image of vehicle.images">
+                    <img [src]="image.url" [alt]="vehicle.brand + ' ' + vehicle.model">
                   </div>
                   <!-- Fallback for vehicles without images -->
-                  <div class="slide" *ngIf="!vehicle?.images || vehicle.images.length === 0">
-                    <img src="assets/images/vehicle-placeholder.jpg" [alt]="vehicle?.brand + ' ' + vehicle?.model">
+                  <div class="slide" *ngIf="!vehicle.images || vehicle.images.length === 0">
+                    <img src="assets/images/vehicle-placeholder.jpg" [alt]="vehicle.brand + ' ' + vehicle.model">
                   </div>
                 </div>
                 
@@ -37,7 +37,7 @@
                 </button>
 
                 <!-- Indicators -->
-                <div class="indicators" *ngIf="vehicle?.images && vehicle.images.length > 1">
+                <div class="indicators" *ngIf="vehicle.images && vehicle.images.length > 1">
                   <button 
                     *ngFor="let image of vehicle.images; let i = index"
                     class="indicator"
