@@ -188,12 +188,71 @@ export class VehicleService {
   }
 
   // Get public vehicles without authentication
-  getPublicVehicles(): Observable<Vehicle[]> {
+  getPublicVehicles(filters?: any): Observable<Vehicle[]> {
     const url = `${BASE_API_URL}/vehicles/public`;
     
-    return this.http.get<Vehicle[]>(url).pipe(
+    // Format query parameters
+    let params = new HttpParams();
+    if (filters) {
+      // Handle brand and model filters
+      if (filters.brand) {
+        params = params.append('brand', filters.brand);
+      }
+      if (filters.model) {
+        params = params.append('model', filters.model);
+      }
+
+      // Handle status filter
+      if (filters.status) {
+        params = params.append('status', filters.status);
+      }
+
+      // Handle fuel type and transmission filters
+      if (filters.fuelType) {
+        params = params.append('fuelType', filters.fuelType);
+      }
+      if (filters.transmission) {
+        params = params.append('transmission', filters.transmission);
+      }
+
+      // Handle price range
+      if (filters.minPrice) {
+        params = params.append('minPrice', filters.minPrice.toString());
+      }
+      if (filters.maxPrice) {
+        params = params.append('maxPrice', filters.maxPrice.toString());
+      }
+
+      // Handle year range
+      if (filters.minYear) {
+        params = params.append('minYear', filters.minYear.toString());
+      }
+      if (filters.maxYear) {
+        params = params.append('maxYear', filters.maxYear.toString());
+      }
+
+      // Handle feature filters
+      if (filters.hasGPS === true) {
+        params = params.append('hasGPS', 'true');
+      }
+      if (filters.hasBluetooth === true) {
+        params = params.append('hasBluetooth', 'true');
+      }
+      if (filters.hasAirConditioning === true) {
+        params = params.append('hasAirConditioning', 'true');
+      }
+      if (filters.hasUSBCable === true) {
+        params = params.append('hasUSBCable', 'true');
+      }
+    }
+    
+    console.log('VehicleService - Sending request to:', url);
+    console.log('VehicleService - With params:', params.toString());
+    
+    return this.http.get<Vehicle[]>(url, { params }).pipe(
       map(response => {
         if (!Array.isArray(response)) {
+          console.error('VehicleService - Response is not an array:', response);
           return [];
         }
         return response.map(vehicle => ({
@@ -203,6 +262,7 @@ export class VehicleService {
         }));
       }),
       catchError(error => {
+        console.error('VehicleService - Error:', error);
         return this.handleError(error);
       })
     );

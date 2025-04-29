@@ -1,0 +1,435 @@
+\chapter{Conceptual Study}
+
+\noindent\textbf{\LARGE Plan}
+\begin{center}
+    \rule[0.5ex]{1\columnwidth}{1pt}
+\end{center}
+
+\begin{spacing}{1.5}
+\normalsize
+\noindent
+1 Introduction \dotfill 18\\
+2 Physical Architecture Modeling \dotfill 18\\
+\hspace*{0.5cm}2.1 Deployment Diagram \dotfill 18\\
+3 Detailed Design \dotfill 19\\
+\hspace*{0.5cm}3.1 Use Case Diagram \dotfill 19\\
+\hspace*{1cm}3.1.1 General Use Case Diagram \dotfill 20\\
+\hspace*{0.5cm}3.2 Detailed Use Cases \dotfill 22\\
+\hspace*{1cm}3.2.1 Use Case "Manage Vehicles" \dotfill 22\\
+\hspace*{1cm}3.2.2 Use Case "Manage Reservations" \dotfill 24\\
+\hspace*{1cm}3.2.3 Use Case "Manage Offices" \dotfill 27\\
+\hspace*{1cm}3.2.4 Use Case "Manage Users" \dotfill 31\\
+\hspace*{0.5cm}3.3 Class Diagram \dotfill 33\\
+\hspace*{0.5cm}3.4 Sequence Diagrams \dotfill 35\\
+\hspace*{1cm}3.4.1 Sequence Diagram for "User Authentication" \dotfill 35\\
+\hspace*{1cm}3.4.2 Sequence Diagram for "Create Reservation" \dotfill 37\\
+\hspace*{1cm}3.4.3 Sequence Diagram for "Add Vehicle" \dotfill 39\\
+\hspace*{1cm}3.4.4 Sequence Diagram for "Manage Office" \dotfill 41\\
+\hspace*{1cm}3.4.5 Sequence Diagram for "Submit Review" \dotfill 43\\
+\hspace*{1cm}3.4.6 Sequence Diagram for "Update Vehicle Status" \dotfill 45\\
+4 Conclusion \dotfill 47
+\end{spacing}
+
+\begin{center}
+
+\end{center}
+
+
+
+\section{Introduction}
+In the last chapter, we explained the structure of the parts of our proposed solution and all the different features that make it work. Now, we start an very important step in building the system: the design phase. First, we will show how our solution works, then give a clear explanation of each use case using UML models.
+
+\section{Physical Architecture Modeling}
+\subsection{Deployment Diagram}
+To illustrate the deployment of our solution, we used a deployment diagram that shows the physical arrangement of different materials and the distribution of components within nodes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/deployment_diagram.png}
+    \caption{Deployment Diagram}
+\end{figure}
+\newpage
+Our deployment diagram consists of four main nodes:
+
+\begin{itemize}
+    \item \textbf{MySQL Database Management System:} \\
+   Serves as our primary database server, responsible for storing and managing all critical application data. It handles various types of information, including vehicle details and specifications, user profiles and authentication data, reservation records and booking history, as well as office locations and their availability. Additionally, it manages system configuration and settings.
+    
+    \item \textbf{NestJS Backend Server:} \\
+    Our backend infrastructure is built using NestJS and TypeScript, delivering a comprehensive set of services to support the platform. It provides RESTful API endpoints for all system operations and implements JWT-based authentication coupled with role-based authorization. The backend manages the business logic for vehicle management and offers services for data validation and transformation. It also  processes all business operations and manages the flow of data between the frontend and the database.
+    
+    \item \textbf{Angular Frontend Application:} \\
+    Our frontend application, developed with Angular, delivers distinct interfaces tailored for different user roles. The Admin Dashboard enables system management and provides access to analytics, the Agent Interface focuses on reservation and customer management, and the Client Portal allows users to browse and book vehicles easily. Key features of the frontend include a fully responsive design compatible with all device types,
+
+\end{itemize}
+
+\section{Detailed Design}
+\subsection{Use Case Diagram}
+The use case diagram is one of the UML diagrams used to provide a global view of a software system's functional behavior. A use case represents a discrete unit of interaction between a user (human or machine) and a system.
+\newpage
+\subsection{General Use Case Diagram}
+In this section, we present the general use case diagram that groups all basic use cases to provide a global view of our system's operation.
+
+\begin{table}[H]
+    \centering
+    \vspace{0.5cm}
+    \caption{Actor Tasks}
+    \vspace{0.3cm}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        Tasks & Admin & Agent & Client & System \\
+        \hline
+        Register & \checkmark & \checkmark& \checkmark &\checkmark \\
+        User Management & \checkmark & \times & \times & \times \\
+        Vehicle Management & \checkmark & \checkmark & \times& \times\\
+        Reservation Management & \checkmark & \checkmark & \checkmark &\times \\
+        Office Management & \checkmark &\times &\times &\times \\
+        View Dashboard & \checkmark & \checkmark &\checkmark &\times \\
+        Profile Management &\checkmark & \checkmark& \checkmark &\times \\
+        View Vehicles & \checkmark & \checkmark & \checkmark &\checkmark \\
+        Search Vehicles & \checkmark & \checkmark & \checkmark &\checkmark \\
+        Create Reservation &\times & \times& \checkmark &\times \\
+        View Reservations & \checkmark & \checkmark & \checkmark &\times\\
+        Manage Reviews &\checkmark &\checkmark &\times  &\times \\
+        View Reviews & \checkmark & \checkmark & \checkmark &\checkmark \\
+        \hline
+    \end{tabular}
+    \vspace{0.5cm}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/use case.png}
+    \caption{General Use Case Diagram}
+\end{figure}
+
+\subsection{Detailed Use Cases}
+\subsubsection{Use Case "Manage Vehicles"}
+\textbf{Diagram} \\
+The use case diagram below specifies the "Manage Vehicles" case for the Administrator and Agent actors. This functionality allows them to access the list of available vehicles and manage their details, status, and specifications.
+\vspace{1cm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{chapters/images/manage_vehicles_use_case.png}
+    \caption{Use Case Diagram "Manage Vehicles"}
+\end{figure}
+\newpage
+The table below describes the use case "Manage Vehicles," indicating the main scenario as well as possible exception scenarios.
+\begin{table}[H]
+    \centering
+    \vspace{0.5cm}
+    \caption{Description of Use Case "Manage Vehicles"}
+    \vspace{0.3cm}
+    \begin{tabular}{|p{3cm}|p{12cm}|}
+        \hline
+        Title & Manage Vehicles \\
+        \hline
+        Primary Actor & Administrator, Agent \\
+        \hline
+        Description & The "Manage Vehicles" use case allows administrators and agents to view, add, modify, or delete vehicles and their specifications \\
+        \hline
+        Pre-conditions & \begin{itemize}
+            \item User is logged into the system
+            \item User has necessary rights to manage vehicles
+        \end{itemize} \\
+        \hline
+        Post-conditions & Vehicle information is updated according to actions performed by the user \\
+        \hline
+        Possible Scenario & \begin{itemize}
+       
+            \item System displays list of available vehicles
+            \item User can add new vehicle by filling form with required information
+            \item User can modify existing vehicle information
+            \item User can update vehicle status (Available, Rented, Maintenance)
+            \item User can upload vehicle images
+            \item User can delete vehicles
+            \item System validates all changes and updates the database
+        \end{itemize} \\
+        \hline
+        Exception Scenario & \begin{itemize}
+            \item Required fields are not filled during vehicle update
+            \item Invalid vehicle specifications are entered
+            \item System displays error message
+            \item User corrects the information and attempts to save again
+        \end{itemize} \\
+        \hline
+    \end{tabular}
+    \vspace{0.5cm}
+\end{table}
+
+\subsubsection{Use Case "Manage Reservations"}
+\textbf{Diagram} \\
+The use case diagram below specifies the "Manage Reservations" case for all actors. This functionality allows users to create, view, and manage vehicle reservations.
+\vspace{1cm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{chapters/images/manage_reservations_use_case.png}
+    \caption{Use Case Diagram "Manage Reservations"}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \vspace{0.5cm}
+    \caption{Description of Use Case "Manage Reservations"}
+    \vspace{0.3cm}
+    \begin{tabular}{|p{3cm}|p{12cm}|}
+        \hline
+        Title & Manage Reservations \\
+        \hline
+        Primary Actor & Administrator, Agent, Client \\
+        \hline
+        Description & The "Manage Reservations" use case allows users to create, view, and manage vehicle reservations \\
+        \hline
+        Pre-conditions & \begin{itemize}
+            \item User is logged into the system
+            \item Vehicle is available for reservation
+        \end{itemize} \\
+        \hline
+        Post-conditions & Reservation is created or updated in the system \\
+        \hline
+        Possible Scenario & \begin{itemize}
+            \item Client searches for available vehicles
+            \item Client selects desired vehicle and dates
+            \item System calculates rental price
+            \item Client confirms reservation
+            \item System creates reservation record
+            \item Admin/Agent can view and manage reservations
+            \item Admin/Agent can update reservation status
+        \end{itemize} \\
+        \hline
+        Exception Scenario & \begin{itemize}
+            \item Selected dates are not available
+            \item Client's payment fails
+            \item System displays error message
+            \item User can try alternative dates or vehicles
+        \end{itemize} \\
+        \hline
+    \end{tabular}
+    \vspace{0.5cm}
+\end{table}
+\newpage
+\subsubsection{Use Case "Manage Offices"}
+\textbf{Diagram} \\
+The use case diagram below specifies the "Manage Offices" case for the Administrator actor. This functionality allows administrators to manage rental locations and their associated staff.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/manage_offices_use_case.png}
+    \caption{Use Case Diagram "Manage Offices"}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \vspace{0.5cm}
+    \caption{Description of Use Case "Manage Offices"}
+    \vspace{0.3cm}
+    \begin{tabular}{|p{3cm}|p{12cm}|}
+        \hline
+        Title & Manage Offices \\
+        \hline
+        Primary Actor & Administrator \\
+        \hline
+        Description & The "Manage Offices" use case allows administrators to manage rental locations and their staff \\
+        \hline
+        Pre-conditions & \begin{itemize}
+            \item Administrator is logged into the system
+            \item Administrator has necessary rights to manage offices
+        \end{itemize} \\
+        \hline
+        Post-conditions & Office information is updated according to actions performed by the administrator \\
+        \hline
+        Possible Scenario & \begin{itemize}
+            \item Administrator opens the office management interface
+            \item System displays list of rental locations
+            \item Administrator can add new office location
+            \item Administrator can modify existing office information
+            \item Administrator can assign agents to offices
+            \item Administrator can manage office inventory
+            \item System validates all changes and updates the database
+        \end{itemize} \\
+        \hline
+        Exception Scenario & \begin{itemize}
+            \item Required office information is missing
+            \item Invalid location data is entered
+            \item System displays error message
+            \item Administrator corrects the information and attempts to save again
+        \end{itemize} \\
+        \hline
+    \end{tabular}
+    \vspace{0.5cm}
+\end{table}
+
+\subsubsection{Use Case "Manage Users"}
+\textbf{Diagram} \\
+The use case diagram below specifies the "Manage Users" case for the Administrator and Agent actors. This functionality allows administrators to manage all users and agents to manage clients within their office.
+\vspace{1cm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/manage_users_use_case.png}
+    \caption{Use Case Diagram "Manage Users"}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \vspace{0.5cm}
+    \caption{Description of Use Case "Manage Users"}
+    \vspace{0.3cm}
+    \begin{tabular}{|p{3cm}|p{12cm}|}
+        \hline
+        Title & Manage Users \\
+        \hline
+        Primary Actor & Administrator, Agent \\
+        \hline
+        Description & The "Manage Users" use case allows administrators to manage all users and agents to manage clients within their office. Administrators have full access to all user management functions, while agents can only manage clients associated with their office. \\
+        \hline
+        Pre-conditions & \begin{itemize}
+            \item User is logged into the system
+            \item User has necessary rights to manage users
+            \item For agents: user must be a client in their office
+        \end{itemize} \\
+        \hline
+        Post-conditions & User information is updated in the system \\
+        \hline
+        Possible Scenario & \begin{itemize}
+            \item Administrator/Agent views list of users
+            \item Administrator can add new users of any type
+            \item Agent can add new clients for their office
+            \item Administrator can modify any user's information
+            \item Agent can modify client information for their office
+            \item Administrator can assign any user roles
+            \item Agent can update client status
+            \item System validates and saves changes
+        \end{itemize} \\
+        \hline
+        Exception Scenario & \begin{itemize}
+            \item Required user information is missing
+            \item Email address is already in use
+            \item Agent tries to manage user from another office
+            \item Invalid role assignment
+            \item System displays error message
+            \item User corrects the information
+        \end{itemize} \\
+        \hline
+    \end{tabular}
+    \vspace{0.5cm}
+\end{table}
+
+\subsection{Class Diagram}
+The class diagram represents the static structure of our system, showing the classes, their attributes, operations, and relationships. Our system's main classes include:
+
+\begin{itemize}
+    \item User (abstract)
+    \begin{itemize}
+        \item Admin
+        \item Agent
+        \item Client
+    \end{itemize}
+    \item Vehicle
+    \begin{itemize}
+        \item Specifications
+        \item Status
+        \item Images
+        \item Location
+    \end{itemize}
+    \item Reservation
+    \begin{itemize}
+        \item Dates
+        \item Status
+        \item Payment
+        \item Client
+        \item Vehicle
+    \end{itemize}
+    \item Office
+    \begin{itemize}
+        \item Location
+        \item Agents
+        \item Inventory
+        \item Contact
+    \end{itemize}
+    \item Review
+    \begin{itemize}
+        \item Rating
+        \item Comment
+        \item Date
+        \item Client
+        \item Vehicle
+    \end{itemize}
+    \item Payment
+    \begin{itemize}
+        \item Amount
+        \item Method
+        \item Status
+        \item Date
+    \end{itemize}
+    \item Image
+    \begin{itemize}
+        \item URL
+        \item Type
+        \item Entity
+        \item Cloudinary ID
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/class_diagram}
+    \caption{Class Diagram}
+\end{figure}
+
+\subsection{Sequence Diagrams}
+\subsubsection{Sequence Diagram for "User Authentication"}
+This diagram shows the sequence of interactions when a user attempts to authenticate with the system.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/auth_sequence}
+    \caption{Sequence Diagram for User Authentication}
+\end{figure}
+
+\subsubsection{Sequence Diagram for "Create Reservation"}
+This diagram shows the sequence of interactions when a client creates a new vehicle reservation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/reservation_sequence}
+    \caption{Sequence Diagram for Create Reservation}
+\end{figure}
+
+\subsubsection{Sequence Diagram for "Add Vehicle"}
+This diagram shows the sequence of interactions when an administrator or agent adds a new vehicle to the system.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/add_vehicle_sequence}
+    \caption{Sequence Diagram for Add Vehicle}
+\end{figure}
+
+\subsubsection{Sequence Diagram for "Manage Office"}
+This diagram shows the sequence of interactions when an administrator manages office information.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/office_sequence}
+    \caption{Sequence Diagram for Manage Office}
+\end{figure}
+
+\subsubsection{Sequence Diagram for "Submit Review"}
+This diagram shows the sequence of interactions when a client submits a review for a vehicle.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/review_sequence}
+    \caption{Sequence Diagram for Submit Review}
+\end{figure}
+
+\subsubsection{Sequence Diagram for "Update Vehicle Status"}
+This diagram shows the sequence of interactions when an agent updates a vehicle's status.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/status_sequence}
+    \caption{Sequence Diagram for Update Vehicle Status}
+\end{figure}
+
+\section{Conclusion}
+Throughout this chapter, we have presented the design of our car rental management system. We established a deployment diagram illustrating the physical arrangement of different components and their interactions, including our NestJS backend and Angular frontend applications. Furthermore, through the specified use case diagrams, we clearly explained our system requirements. We also provided a global design through a class diagram describing the total system architecture. Finally, we addressed a detailed design of the use cases through sequence diagrams. This comprehensive design will guide us in the implementation phase of our project. 

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseGuards, Query } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
@@ -18,10 +18,10 @@ export class VehiclesController {
   ) {}
 
   @Get('public')
-  async findAllPublic() {
-    console.log('VehiclesController - Finding all public vehicles');
+  async findAllPublic(@Query() filters: any) {
+    console.log('VehiclesController - Finding all public vehicles with filters:', filters);
     try {
-      const vehicles = await this.vehiclesService.findAll();
+      const vehicles = await this.vehiclesService.findAll(filters);
       console.log('VehiclesController - Found vehicles:', vehicles.length);
       if (!vehicles || !Array.isArray(vehicles)) {
         console.error('VehiclesController - Invalid vehicles data:', vehicles);

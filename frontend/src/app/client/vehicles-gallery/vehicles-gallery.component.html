@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+<main class="vehicles-gallery">
+  <aside class="filters-section">
+    <app-vehicles-filter (filtersChanged)="onFiltersChanged($event)"></app-vehicles-filter>
+  </aside>
+
+  <section class="vehicles-section">
+    @if (isLoading) {
+      <div class="loading-message">
+        <p>Loading vehicles...</p>
+      </div>
+    } @else if (error) {
+      <div class="error-message">
+        <p>{{ error }}</p>
+      </div>
+    } @else if (vehicles.length === 0) {
+      <div class="no-vehicles-message">
+        <p>No vehicles found matching your filters.</p>
+      </div>
+    } @else {
+      <div class="vehicles-grid">
+        @for (vehicle of vehicles; track vehicle.id) {
+          <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
+        }
+      </div>
+    }
+  </section>
+</main>
+<app-footer></app-footer>

@@ -1,0 +1,240 @@
+\chapter{Implementation}
+
+\noindent\textbf{\LARGE Plan}
+\begin{center}
+    \rule[0.5ex]{1\columnwidth}{1pt}
+\end{center}
+
+\begin{spacing}{1.5}
+\normalsize
+\noindent
+1 Introduction \dotfill 48\\
+2 Backend Implementation \dotfill 48\\
+\hspace*{0.5cm}2.1 Project Structure \dotfill 48\\
+\hspace*{0.5cm}2.2 Database Design \dotfill 49\\
+\hspace*{0.5cm}2.3 API Implementation \dotfill 50\\
+\hspace*{1cm}2.3.1 Authentication System \dotfill 50\\
+\hspace*{1cm}2.3.2 Vehicle Management \dotfill 52\\
+\hspace*{1cm}2.3.3 Reservation System \dotfill 54\\
+\hspace*{1cm}2.3.4 Office Management \dotfill 56\\
+\hspace*{1cm}2.3.5 Review System \dotfill 58\\
+3 Frontend Implementation \dotfill 60\\
+\hspace*{0.5cm}3.1 Project Structure \dotfill 60\\
+\hspace*{0.5cm}3.2 User Interface Components \dotfill 61\\
+\hspace*{1cm}3.2.1 Authentication Module \dotfill 61\\
+\hspace*{1cm}3.2.2 Dashboard Components \dotfill 63\\
+\hspace*{1cm}3.2.3 Vehicle Management Interface \dotfill 65\\
+\hspace*{1cm}3.2.4 Reservation System Interface \dotfill 67\\
+\hspace*{1cm}3.2.5 Profile Management \dotfill 69\\
+4 Integration and Testing \dotfill 71\\
+\hspace*{0.5cm}4.1 API Integration \dotfill 71\\
+\hspace*{0.5cm}4.2 Testing Strategy \dotfill 72\\
+5 Conclusion \dotfill 74
+\end{spacing}
+
+\begin{center}
+\rule[0.5ex]{1\columnwidth}{1pt}\\[0.5cm]
+\end{center}
+
+\newpage
+
+\section{Introduction}
+In this chapter, we present the implementation details of our car rental management system. We will cover both the backend and frontend implementations, focusing on the technical aspects and architectural decisions that shaped our solution. The implementation follows the design specifications outlined in the previous chapters, utilizing modern technologies and best practices.
+
+\section{Backend Implementation}
+\subsection{Project Structure}
+The backend of our system is built using NestJS, a progressive Node.js framework for building efficient and scalable server-side applications. The project structure follows NestJS best practices and is organized as follows:
+
+\begin{itemize}
+    \item \textbf{src/}
+    \begin{itemize}
+        \item \textbf{auth/} - Authentication and authorization module
+        \item \textbf{vehicles/} - Vehicle management module
+        \item \textbf{reservations/} - Reservation system module
+        \item \textbf{offices/} - Office management module
+        \item \textbf{clients/} - Client management module
+        \item \textbf{agents/} - Agent management module
+        \item \textbf{reviews/} - Review system module
+        \item \textbf{admins/} - Admin management module
+        \item \textbf{cloudinary/} - Image management module
+    \end{itemize}
+    
+    \item \textbf{test/} - Test files and configurations
+    \item \textbf{dist/} - Compiled JavaScript files
+    \item Configuration files:
+    \begin{itemize}
+        \item \textbf{package.json} - Project dependencies and scripts
+        \item \textbf{tsconfig.json} - TypeScript configuration
+        \item \textbf{.env} - Environment variables
+        \item \textbf{database.sql} - Database schema
+    \end{itemize}
+\end{itemize}
+
+\subsection{Database Design}
+The database is implemented using MySQL and follows a relational model. Key tables include:
+
+\begin{itemize}
+    \item \textbf{users} - Stores user information with role-based access
+    \item \textbf{vehicles} - Contains vehicle details and specifications
+    \item \textbf{reservations} - Manages booking information
+    \item \textbf{offices} - Stores rental location details
+    \item \textbf{reviews} - Handles customer feedback
+    \item \textbf{images} - Manages vehicle and office images
+    \item \textbf{payments} - Tracks payment information
+\end{itemize}
+
+Relationships between tables are maintained using foreign keys, ensuring data integrity and consistency.
+
+\subsection{API Implementation}
+\subsubsection{Authentication System}
+The authentication system is implemented using JWT (JSON Web Tokens) and includes:
+
+\begin{itemize}
+    \item User registration and login endpoints
+    \item Role-based access control
+    \item Password hashing and security
+    \item Token refresh mechanism
+    \item Session management
+\end{itemize}
+
+\subsubsection{Vehicle Management}
+The vehicle management module provides endpoints for:
+
+\begin{itemize}
+    \item CRUD operations for vehicles
+    \item Vehicle status tracking
+    \item Image upload and management
+    \item Search and filtering
+    \item Availability checking
+\end{itemize}
+
+\subsubsection{Reservation System}
+The reservation system includes:
+
+\begin{itemize}
+    \item Booking creation and management
+    \item Availability checking
+    \item Price calculation
+    \item Status updates
+    \item Payment processing
+\end{itemize}
+
+\subsubsection{Office Management}
+Office management features:
+
+\begin{itemize}
+    \item Location management
+    \item Agent assignment
+    \item Inventory tracking
+    \item Performance metrics
+\end{itemize}
+
+\subsubsection{Review System}
+The review system implements:
+
+\begin{itemize}
+    \item Review submission and management
+    \item Rating system
+    \item Moderation tools
+    \item Statistics tracking
+\end{itemize}
+
+\section{Frontend Implementation}
+\subsection{Project Structure}
+The frontend is built using Angular and follows a modular structure:
+
+\begin{itemize}
+    \item \textbf{src/}
+    \begin{itemize}
+        \item \textbf{app/} - Main application code
+        \item \textbf{assets/} - Static resources
+        \item \textbf{environments/} - Environment configurations
+    \end{itemize}
+    
+    \item \textbf{app/}
+    \begin{itemize}
+        \item \textbf{auth/} - Authentication components
+        \item \textbf{dashboard/} - Dashboard components
+        \item \textbf{vehicles/} - Vehicle management
+        \item \textbf{reservations/} - Reservation system
+        \item \textbf{profile/} - User profile management
+        \item \textbf{shared/} - Shared components and services
+    \end{itemize}
+\end{itemize}
+
+\subsection{User Interface Components}
+\subsubsection{Authentication Module}
+The authentication module includes:
+
+\begin{itemize}
+    \item Login and registration forms
+    \item Password recovery
+    \item Session management
+    \item Role-based navigation
+\end{itemize}
+
+\subsubsection{Dashboard Components}
+Dashboard features:
+
+\begin{itemize}
+    \item Role-specific dashboards
+    \item Statistics and metrics
+    \item Quick actions
+    \item Notifications
+\end{itemize}
+
+\subsubsection{Vehicle Management Interface}
+Vehicle management UI includes:
+
+\begin{itemize}
+    \item Vehicle listing and search
+    \item Detailed vehicle view
+    \item Image gallery
+    \item Status management
+\end{itemize}
+
+\subsubsection{Reservation System Interface}
+Reservation features:
+
+\begin{itemize}
+    \item Booking calendar
+    \item Availability checking
+    \item Payment processing
+    \item Booking management
+\end{itemize}
+
+\subsubsection{Profile Management}
+Profile features:
+
+\begin{itemize}
+    \item User information management
+    \item Booking history
+    \item Review management
+    \item Settings and preferences
+\end{itemize}
+
+\section{Integration and Testing}
+\subsection{API Integration}
+The frontend-backend integration is achieved through:
+
+\begin{itemize}
+    \item RESTful API endpoints
+    \item HTTP interceptors
+    \item Error handling
+    \item Data transformation
+    \item Real-time updates
+\end{itemize}
+
+\subsection{Testing Strategy}
+Our testing approach includes:
+
+\begin{itemize}
+    \item Unit tests for both frontend and backend
+    \item Integration tests for API endpoints
+    \item UI component testing
+    \item End-to-end testing
+    \item Performance testing
+\end{itemize}
+
+\section{Conclusion}
+In this chapter, we have detailed the implementation of our car rental management system. The backend, built with NestJS, provides a robust API for all system operations, while the frontend, developed with Angular, offers an intuitive user interface. The implementation follows modern development practices and ensures scalability, maintainability, and security. The integration between frontend and backend components creates a seamless user experience across all system features. 

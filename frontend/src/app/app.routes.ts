@@ -15,11 +15,11 @@ export const routes: Routes = [
   { path: 'about', component: AboutUsComponent },
   { 
     path: 'collection', 
-    loadComponent: () => import('./client/vehicles/vehicles-list/vehicles-list.component').then(m => m.VehiclesListComponent)
+    loadComponent: () => import('./client/vehicles-gallery/vehicles-gallery.component').then(m => m.VehiclesGalleryComponent)
   },
   {
     path: 'collection/vehicle-details/:id',
-    loadComponent: () => import('./client/vehicles/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
+    loadComponent: () => import('./client/vehicles-gallery/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
   },
   { 
     path: 'login', 

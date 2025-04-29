@@ -1,0 +1,125 @@
+@import '../../../../styles.scss';
+
+.vehicle-card {
+  width: 100%;
+  height: 240px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #DDE1DE;
+  display: flex;
+  font-family: 'Urbanist', sans-serif;
+
+  .image-container {
+    width: 280px;
+    height: 240px;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .info-box {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+
+    .vehicle-title {
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 12px 0;
+        color: #1a1a1a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .features-and-footer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        width: 100%;
+        margin: auto 0;
+
+        .feature-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          height: 20px;
+
+          i {
+            font-size: 16px;
+            color: #666;
+            width: 20px;
+            text-align: center;
+          }
+
+          span {
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+
+      .card-footer {
+        width: 100%;
+        border-top: 1px solid #DDE1DE;
+        padding-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .price {
+          .price-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+          }
+
+          .price-unit {
+            font-size: 14px;
+            color: #666;
+            margin-left: 4px;
+          }
+        }
+
+        .book-now {
+          background: #F2F4F6;
+          border: none;
+          border-radius: 12px;
+          padding: 9px 19px;
+          font-size: 14px;
+          font-weight: 700;
+          color: #1a1a1a;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover:not(:disabled) {
+            background: #E5E8EB;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}

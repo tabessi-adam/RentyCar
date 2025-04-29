@@ -1,0 +1,149 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[english]{babel}
+\usepackage[english]{minitoc}
+\setcounter{minitocdepth}{4}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.2}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{5}
+\usepackage{minitoc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{pdfpages}
+
+\usepackage[none]{hyphenat}
+\sloppy
+
+% Section numbering configuration
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\renewcommand{\theparagraph}{\thesubsubsection.\arabic{paragraph}}
+
+% Paragraph formatting
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{1em}
+
+% Custom column types for tables
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+% MiniTOC configuration
+\mtcsetdepth{minitoc}{2} 
+\mtcsetfont{minitoc}{*}{\small\rmfamily\upshape\mdseries} 
+\mtcsetfont{minitoc}{section}{\small\rmfamily\upshape\bfseries} 
+
+% PDF metadata
+\hypersetup{
+    pdftitle={RentyCar - Car Rental Management System},
+    pdfauthor={Adam Tabessi},
+    pdfsubject={Final Year Project},
+    pdfproducer={LaTeX},
+    pdfkeywords={Car Rental, Management System, Web Application} 
+}
+
+% Page layout
+\geometry{
+    paper=a4paper, 
+    inner=2.5cm, 
+    outer=2.75cm,
+    bindingoffset=0cm,
+    top=2.5cm,
+    bottom=2.5cm,
+}
+
+% Graphics configuration
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{}
+\graphicspath{ {./img/} {./eps/}}
+
+% Add more space above figures
+\setlength{\intextsep}{2em} % Increase space above and below figures
+\setlength{\textfloatsep}{2em} % Increase space between text and floats
+\setlength{\floatsep}{2em} % Increase space between floats
+
+% For consistent spacing in chapter plans
+\newcommand{\chapterplan}[1]{%
+    \noindent\textbf{\LARGE Plan}
+    \begin{center}
+        \rule[0.5ex]{1\columnwidth}{1pt}
+    \end{center}
+    \begin{spacing}{1.5}
+    \normalsize
+    \noindent
+    #1
+    \end{spacing}
+    \begin{center}
+    \rule[0.5ex]{1\columnwidth}{1pt}\\[0.5cm]
+    \end{center}
+}
+
+% Acronym package
+\usepackage[acronym]{glossaries}
+
+% Section formatting
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\begin{document}
+
+% Include the PDF as the first page
+\includepdf[pages={1}]{pagedegarde.pdf}
+
+\input{chapters/dedication}
+\newpage
+
+\pagenumbering{roman}
+
+\dominitoc
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\tableofcontents
+\newpage
+
+{%
+\let\oldnumberline\numberline%
+\renewcommand{\numberline}{\figurename~\oldnumberline}%
+\listoffigures%    
+}
+\mtcaddchapter 
+\newpage
+
+{%
+\let\oldnumberline\numberline%
+\renewcommand{\numberline}{\tablename~\oldnumberline}%
+\listoftables%
+}
+\mtcaddchapter 
+\newpage
+
+\input{chapters/acronyms}
+\newpage
+
+\pagenumbering{arabic}
+\input{chapters/introduction}
+\input{chapters/chapter1}
+\input{chapters/chapter2}
+\input{chapters/chapter3}
+\input{chapters/conclusion}
+
+\input{chapters/bibliography}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document} 

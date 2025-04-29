@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+!theme plain
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam handwritten false
+
+actor Agent
+actor Admin as "Administrator"
+actor Client
+Agent <|-- Admin
+
+usecase UC1 as "View Reservation List"
+usecase UC2 as "View Reservation Details"
+usecase UC3 as "Update Reservation Status"
+usecase UC4 as "Delete Reservation"
+usecase UC5 as "Create Reservation"
+usecase UC6 as "Search Available Vehicles"
+
+Agent --> UC1
+Agent --> UC2
+Agent --> UC3
+Agent --> UC4
+
+Client --> UC1
+Client --> UC2
+Client --> UC5
+Client --> UC6
+
+note right of Agent
+  Agents can only manage reservations
+  for vehicles in their own office.
+end note
+
+note right of Admin
+  Administrators can manage all reservations.
+  (Inherits all Agent permissions)
+end note
+
+note right of Client
+  Clients can create and view their own
+  reservations, and search for available vehicles.
+  System automatically calculates rental prices.
+end note
+
+@enduml 
