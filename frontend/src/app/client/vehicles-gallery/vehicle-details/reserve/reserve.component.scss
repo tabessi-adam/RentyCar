@@ -35,9 +35,27 @@
   }
 
   .reserve-button {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.1rem;
-    margin-top: 1rem;
+    width: 200px;
+    margin: 0.75rem auto;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+    border: 1px solid #2196f3;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: #f8f9fa;
+      color: #ccc;
+      border-color: #dee2e6;
+      cursor: not-allowed;
+    }
   }
 }

@@ -1,11 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCalendar } from '@angular/material/datepicker';
 
 interface DateRange {
   start: Date;
@@ -17,12 +12,7 @@ interface DateRange {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatCalendar
+    FormsModule
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
@@ -33,66 +23,136 @@ export class CalendarComponent {
   @Input() rentedDates: DateRange[] = [];
   @Output() dateRangeChange = new EventEmitter<{ start: Date | null, end: Date | null }>();
 
-  selectedMonth: Date = new Date();
-  minDate: Date = new Date();
+  currentMonth: Date = new Date();
+  weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  calendarDays: (Date | null)[] = [];
 
   constructor() {
-    console.log('CalendarComponent - Constructor called');
+    this.generateCalendarDays();
   }
 
   ngOnChanges() {
-    console.log('CalendarComponent - Inputs changed:', {
-      selectedStartDate: this.selectedStartDate?.toISOString(),
-      selectedEndDate: this.selectedEndDate?.toISOString(),
-      rentedDates: this.rentedDates.map(d => ({
-        start: d.start.toISOString(),
-        end: d.end.toISOString()
-      }))
-    });
+    this.generateCalendarDays();
+  }
+
+  generateCalendarDays() {
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    
+    // Get first day of the month
+    const firstDay = new Date(year, month, 1);
+    // Get last day of the month
+    const lastDay = new Date(year, month + 1, 0);
+    
+    // Get the day of week of the first day (0-6)
+    const firstDayOfWeek = firstDay.getDay();
+    
+    // Calculate total days in the month
+    const totalDays = lastDay.getDate();
+    
+    // Create array for calendar days
+    this.calendarDays = [];
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      this.calendarDays.push(null);
+    }
+    
+    // Add days of the month
+    for (let i = 1; i <= totalDays; i++) {
+      this.calendarDays.push(new Date(year, month, i));
+    }
+  }
+
+  previousMonth() {
+    this.currentMonth = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth() - 1,
+      1
+    );
+    this.generateCalendarDays();
+  }
+
+  nextMonth() {
+    this.currentMonth = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth() + 1,
+      1
+    );
+    this.generateCalendarDays();
   }
 
   isDateRented(date: Date): boolean {
-    const isRented = this.rentedDates.some(range => {
+    return this.rentedDates.some(range => {
       const start = new Date(range.start);
       const end = new Date(range.end);
       start.setHours(0, 0, 0, 0);
       end.setHours(0, 0, 0, 0);
       const checkDate = new Date(date);
       checkDate.setHours(0, 0, 0, 0);
-      const result = checkDate >= start && checkDate <= end;
-      if (result) {
-        console.log('CalendarComponent - Date is rented:', {
-          date: checkDate.toISOString(),
-          range: {
-            start: start.toISOString(),
-            end: end.toISOString()
-          }
-        });
-      }
-      return result;
+      return checkDate >= start && checkDate <= end;
     });
-    return isRented;
   }
 
-  onDateChange(date: Date | null) {
-    if (!date) return;
+  isToday(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+  }
 
-    // Don't allow selection of rented dates
-    if (this.isDateRented(date)) {
-      return;
-    }
+  isInRange(date: Date): boolean {
+    if (!this.selectedStartDate || !this.selectedEndDate) return false;
+    return date >= this.selectedStartDate && date <= this.selectedEndDate;
+  }
+
+  isSelected(date: Date): boolean {
+    if (!this.selectedStartDate && !this.selectedEndDate) return false;
+    
+    const isStartDate = this.selectedStartDate ? date.getTime() === this.selectedStartDate.getTime() : false;
+    const isEndDate = this.selectedEndDate ? date.getTime() === this.selectedEndDate.getTime() : false;
+    
+    return isStartDate || isEndDate;
+  }
+
+  isPast(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  }
+
+  getDayClass(day: Date | null): string {
+    if (!day) return 'empty';
+    
+    const classes = [];
+    if (this.isPast(day)) classes.push('past');
+    if (this.isToday(day)) classes.push('today');
+    if (this.isDateRented(day)) classes.push('rented');
+    if (this.isSelected(day)) classes.push('selected');
+    if (this.isInRange(day)) classes.push('in-range');
+    
+    return classes.join(' ');
+  }
+
+  onDayClick(day: Date | null) {
+    if (!day || this.isDateRented(day)) return;
+
+    // Don't allow selection of past dates
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (day < today) return;
 
     if (!this.selectedStartDate || (this.selectedStartDate && this.selectedEndDate)) {
       // Start new selection
-      this.selectedStartDate = new Date(date);
+      this.selectedStartDate = new Date(day);
       this.selectedEndDate = null;
     } else {
       // Complete the selection
-      if (date < this.selectedStartDate) {
+      if (day < this.selectedStartDate) {
         this.selectedEndDate = new Date(this.selectedStartDate);
-        this.selectedStartDate = new Date(date);
+        this.selectedStartDate = new Date(day);
       } else {
-        this.selectedEndDate = new Date(date);
+        this.selectedEndDate = new Date(day);
       }
 
       // Check if any dates in the range are rented
@@ -116,45 +176,4 @@ export class CalendarComponent {
       end: this.selectedEndDate
     });
   }
-
-  isInRange(date: Date): boolean {
-    if (!this.selectedStartDate || !this.selectedEndDate) return false;
-    return date >= this.selectedStartDate && date <= this.selectedEndDate;
-  }
-
-  isStartDate(date: Date): boolean {
-    if (!this.selectedStartDate) return false;
-    return date.getTime() === this.selectedStartDate.getTime();
-  }
-
-  isEndDate(date: Date): boolean {
-    if (!this.selectedEndDate) return false;
-    return date.getTime() === this.selectedEndDate.getTime();
-  }
-
-  dateClass = (date: Date): string => {
-    const isRented = this.isDateRented(date);
-    const isStart = this.isStartDate(date);
-    const isEnd = this.isEndDate(date);
-    const isInRange = this.isInRange(date);
-    
-    console.log('CalendarComponent - Date class calculation:', {
-      date: date.toISOString(),
-      isRented,
-      isStart,
-      isEnd,
-      isInRange
-    });
-
-    if (isRented) {
-      return 'rented-date';
-    }
-    if (isStart || isEnd) {
-      return 'selected-date';
-    }
-    if (isInRange) {
-      return 'in-range';
-    }
-    return '';
-  };
 }

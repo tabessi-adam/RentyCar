@@ -27,43 +27,98 @@
     }
   }
 
-  ::ng-deep {
-    .mat-calendar {
-      width: 100%;
-    }
+  .calendar {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 
-    .mat-calendar-body-cell {
-      &.selected-date {
-        background-color: #007bff;
-        color: white;
-        border-radius: 50%;
-      }
+    .calendar-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
 
-      &.in-range {
-        background-color: rgba(0, 123, 255, 0.1);
-      }
+      button {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        color: #333;
 
-      &.rented-date {
-        background-color: #ffebee;
-        color: #d32f2f;
-        cursor: not-allowed;
-        pointer-events: none;
-        border-radius: 50%;
-
-        .mat-calendar-body-cell-content {
+        &:hover {
           color: #d32f2f;
-          text-decoration: line-through;
         }
       }
+
+      .month-year {
+        font-weight: 500;
+        color: #333;
+      }
     }
 
-    .mat-calendar-body-selected {
-      background-color: #007bff;
-      color: white;
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      font-weight: 500;
+      color: #666;
     }
 
-    .mat-calendar-body-today {
-      border-color: #007bff;
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+
+      div {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: rgba(33, 150, 243, 0.2);
+        }
+
+        &.empty {
+          cursor: default;
+          background: none;
+        }
+
+        &.past {
+          color: #ccc;
+          cursor: not-allowed;
+          pointer-events: none;
+          background: none;
+        }
+
+        &.today {
+          border: 1px solid #2196f3;
+        }
+
+        &.rented {
+          background-color: #ffebee;
+          color: #d32f2f;
+          cursor: not-allowed;
+          pointer-events: none;
+          text-decoration: line-through;
+        }
+
+        &.selected {
+          background-color: rgba(33, 150, 243, 0.1);
+          color: #2196f3;
+        }
+
+        &.in-range {
+          background-color: rgba(33, 150, 243, 0.1);
+          color: #2196f3;
+        }
+      }
     }
   }
 }
