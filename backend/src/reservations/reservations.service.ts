@@ -36,21 +36,33 @@ export class ReservationsService {
       id: vehicle.id,
       status: vehicle.status,
       currentStatus: vehicle.currentStatus,
-      reservations: vehicle.reservations?.length || 0
+      reservations: vehicle.reservations?.map(r => ({
+        id: r.id,
+        status: r.status,
+        startDate: r.startDate,
+        endDate: r.endDate
+      }))
     });
 
-    if (vehicle.currentStatus !== 'AVAILABLE') {
+    // Only check for maintenance status
+    if (vehicle.status === VehicleStatus.MAINTENANCE) {
       console.log('Vehicle status check failed:', {
         expected: 'AVAILABLE',
         actual: vehicle.status,
-        currentStatus: vehicle.currentStatus
+        reason: 'Vehicle is in maintenance'
       });
-      throw new BadRequestException('Vehicle is not available for reservation');
+      throw new BadRequestException('Vehicle is in maintenance and not available for reservation');
     }
 
     const startDate = new Date(createReservationDto.startDate);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + createReservationDto.totalDays);
+
+    console.log('Checking for overlapping reservations:', {
+      startDate,
+      endDate,
+      vehicleId: createReservationDto.vehicleId
+    });
 
     // Check for any overlapping reservations (including pending ones)
     const overlappingReservation = await this.reservationsRepository.findOne({
@@ -79,29 +91,13 @@ export class ReservationsService {
     });
 
     if (overlappingReservation) {
+      console.log('Found overlapping reservation:', {
+        id: overlappingReservation.id,
+        status: overlappingReservation.status,
+        startDate: overlappingReservation.startDate,
+        endDate: overlappingReservation.endDate
+      });
       throw new BadRequestException('Vehicle is already reserved for this period');
-    }
-
-    // Check for client's own overlapping reservations
-    const clientOverlappingReservation = await this.reservationsRepository.findOne({
-      where: [
-        {
-          clientId,
-          vehicleId: createReservationDto.vehicleId,
-          status: ReservationStatus.PENDING,
-          startDate: Between(startDate, endDate),
-        },
-        {
-          clientId,
-          vehicleId: createReservationDto.vehicleId,
-          status: ReservationStatus.PENDING,
-          endDate: Between(startDate, endDate),
-        }
-      ],
-    });
-
-    if (clientOverlappingReservation) {
-      throw new BadRequestException('You already have a pending reservation for this vehicle during this period');
     }
 
     // Calculate total price

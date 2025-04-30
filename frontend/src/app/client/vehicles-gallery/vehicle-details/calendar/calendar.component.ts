@@ -125,7 +125,10 @@ export class CalendarComponent {
     if (!day) return 'empty';
     
     const classes = [];
-    if (this.isPast(day)) classes.push('past');
+    if (this.isPast(day)) {
+      classes.push('past');
+      return classes.join(' '); // Return early for past dates
+    }
     if (this.isToday(day)) classes.push('today');
     if (this.isDateRented(day)) classes.push('rented');
     if (this.isSelected(day)) classes.push('selected');
@@ -135,7 +138,7 @@ export class CalendarComponent {
   }
 
   onDayClick(day: Date | null) {
-    if (!day || this.isDateRented(day)) return;
+    if (!day) return;
 
     // Don't allow selection of past dates
     const today = new Date();
@@ -144,6 +147,7 @@ export class CalendarComponent {
 
     if (!this.selectedStartDate || (this.selectedStartDate && this.selectedEndDate)) {
       // Start new selection
+      if (this.isDateRented(day)) return; // Don't allow starting on a rented date
       this.selectedStartDate = new Date(day);
       this.selectedEndDate = null;
     } else {

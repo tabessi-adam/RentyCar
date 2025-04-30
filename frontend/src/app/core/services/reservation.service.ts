@@ -34,8 +34,20 @@ export class ReservationService {
 
   // POST /
   createReservation(payload: CreateReservationPayload): Observable<Reservation> {
+    console.log('Creating reservation with payload:', payload);
     return this.http.post<Reservation>(API_URL, payload, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        tap(response => console.log('Reservation created successfully:', response)),
+        catchError(error => {
+          console.error('Error creating reservation:', {
+            status: error.status,
+            message: error.message,
+            error: error.error,
+            payload: payload
+          });
+          return this.handleError(error);
+        })
+      );
   }
 
   // GET / (Admin and Agent only, with filters)
@@ -113,8 +125,13 @@ export class ReservationService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('ReservationService Error:', error);
-    // Add more specific error handling based on status codes if needed
-    return throwError(() => error); // Rethrow for component handling
+    console.error('ReservationService Error:', {
+      status: error.status,
+      message: error.message,
+      error: error.error,
+      url: error.url,
+      payload: error.payload
+    });
+    return throwError(() => error);
   }
 }

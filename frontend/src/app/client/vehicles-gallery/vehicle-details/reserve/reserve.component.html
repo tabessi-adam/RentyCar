@@ -14,7 +14,7 @@
       </div>
       <div class="price-row">
         <span>Number of days</span>
-        <span>{{ calculateTotalPrice() / vehicle.pricePerDay }}</span>
+        <span>{{ calculateTotalDays() }}</span>
       </div>
       <div class="price-row total">
         <span>Total Price</span>
@@ -25,11 +25,10 @@
 
   <mat-card-actions>
     <button mat-raised-button 
-            color="primary" 
             class="reserve-button"
-            [disabled]="!selectedStartDate || !selectedEndDate"
+            [disabled]="!selectedStartDate || !selectedEndDate || isReserving"
             (click)="reserveVehicle()">
-      Reserve Now
+      {{ isReserving ? 'Reserving...' : 'Reserve Now' }}
     </button>
   </mat-card-actions>
 </mat-card>

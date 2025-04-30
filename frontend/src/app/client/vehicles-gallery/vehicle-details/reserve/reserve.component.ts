@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { ReservationService } from '../../../../core/services/reservation.service';
+import { CreateReservationPayload } from '../../../../core/models/reservation.model';
 
 interface DateRange {
   start: Date;
@@ -35,13 +38,15 @@ export class ReserveComponent implements OnInit {
   selectedStartDate: Date | null = null;
   selectedEndDate: Date | null = null;
   rentedDates: DateRange[] = [];
+  isReserving = false;
 
-  constructor(private reservationService: ReservationService) {
-    console.log('ReserveComponent - Constructor called with vehicle:', this.vehicle);
-  }
+  constructor(
+    private reservationService: ReservationService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    console.log('ReserveComponent - ngOnInit called with vehicle:', this.vehicle);
     if (!this.vehicle) {
       console.error('ReserveComponent - No vehicle provided!');
       return;
@@ -50,35 +55,20 @@ export class ReserveComponent implements OnInit {
   }
 
   loadVehicleAvailability() {
-    console.log('ReserveComponent - Loading availability for vehicle:', this.vehicle.id);
     this.reservationService.getVehicleAvailability(this.vehicle.id).subscribe({
       next: (dates: ApiDateRange[]) => {
-        console.log('ReserveComponent - Raw dates received:', JSON.stringify(dates, null, 2));
-        this.rentedDates = dates.map(date => {
-          const start = new Date(date.startDate);
-          const end = new Date(date.endDate);
-          console.log('ReserveComponent - Converting date range:', {
-            original: JSON.stringify(date, null, 2),
-            converted: {
-              start: start.toISOString(),
-              end: end.toISOString()
-            }
-          });
-          return { start, end };
-        });
-        console.log('ReserveComponent - Final rentedDates array:', JSON.stringify(this.rentedDates.map(d => ({
-          start: d.start.toISOString(),
-          end: d.end.toISOString()
-        })), null, 2));
+        this.rentedDates = dates.map(date => ({
+          start: new Date(date.startDate),
+          end: new Date(date.endDate)
+        }));
       },
       error: (error) => {
-        console.error('ReserveComponent - Error loading vehicle availability:', error);
+        console.error('Error loading vehicle availability:', error);
       }
     });
   }
 
   onDateRangeChange(event: { start: Date | null, end: Date | null }) {
-    console.log('ReserveComponent - Date range changed:', event);
     this.selectedStartDate = event.start;
     this.selectedEndDate = event.end;
   }
@@ -93,13 +83,46 @@ export class ReserveComponent implements OnInit {
     return days * this.vehicle.pricePerDay;
   }
 
+  calculateTotalDays(): number {
+    if (!this.selectedStartDate || !this.selectedEndDate) return 0;
+    return Math.ceil(
+      (this.selectedEndDate.getTime() - this.selectedStartDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+  }
+
   reserveVehicle() {
-    console.log('ReserveComponent - Reserving vehicle...', {
+    if (!this.selectedStartDate || !this.selectedEndDate) {
+      this.snackBar.open('Please select both start and end dates', 'Close', {
+        duration: 3000
+      });
+      return;
+    }
+
+    this.isReserving = true;
+
+    const payload: CreateReservationPayload = {
       vehicleId: this.vehicle.id,
-      startDate: this.selectedStartDate,
-      endDate: this.selectedEndDate,
-      totalPrice: this.calculateTotalPrice(),
-      rentedDates: this.rentedDates
+      startDate: this.selectedStartDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+      totalDays: this.calculateTotalDays()
+    };
+
+    this.reservationService.createReservation(payload).subscribe({
+      next: (reservation) => {
+        this.snackBar.open('Reservation created successfully!', 'View Reservations', {
+          duration: 5000
+        }).onAction().subscribe(() => {
+          this.router.navigate(['/my-reservations']);
+        });
+      },
+      error: (error) => {
+        console.error('Error creating reservation:', error);
+        this.snackBar.open('Error creating reservation. Please try again.', 'Close', {
+          duration: 5000
+        });
+      },
+      complete: () => {
+        this.isReserving = false;
+      }
     });
   }
 }

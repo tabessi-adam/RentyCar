@@ -104,6 +104,12 @@ export class Vehicle {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set time to midnight for accurate date comparison
 
+    // If vehicle is in maintenance, it's always unavailable
+    if (this.status === VehicleStatus.MAINTENANCE) {
+      return VehicleStatus.MAINTENANCE;
+    }
+
+    // Check if there's an active reservation
     const activeReservation = this.reservations?.find(reservation => {
       if (reservation.status !== 'ACCEPTED') return false;
       
@@ -116,6 +122,12 @@ export class Vehicle {
       return startDate <= today && endDate >= today;
     });
 
-    return activeReservation ? VehicleStatus.RENTED : this.status;
+    // If there's an active reservation, vehicle is rented
+    if (activeReservation) {
+      return VehicleStatus.RENTED;
+    }
+
+    // Otherwise, vehicle is available
+    return VehicleStatus.AVAILABLE;
   }
 } 
