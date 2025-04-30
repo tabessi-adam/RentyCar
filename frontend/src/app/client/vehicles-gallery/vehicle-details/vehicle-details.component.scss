@@ -147,6 +147,10 @@
         }
       }
 
+      .mobile-reserve-section {
+        display: none;
+      }
+
       app-reviews {
         display: block;
         width: 100%;
@@ -224,20 +228,6 @@
         margin: 2rem 0;
         padding: 0 1rem;
       }
-
-      .mobile-reserve-section {
-        display: block;
-        margin: 2rem 0;
-        width: 100%;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-
-        app-reserve {
-          width: 100%;
-          display: block;
-        }
-      }
     }
   }
 }
@@ -258,6 +248,24 @@
             }
           }
         }
+
+        .mobile-reserve-section {
+          display: block;
+          margin: 2rem 0;
+          width: 100%;
+          max-width: 500px;
+          margin-left: auto;
+          margin-right: auto;
+
+          app-reserve {
+            width: 100%;
+            display: block;
+          }
+        }
+      }
+
+      .right-section {
+        display: none;
       }
     }
   }
