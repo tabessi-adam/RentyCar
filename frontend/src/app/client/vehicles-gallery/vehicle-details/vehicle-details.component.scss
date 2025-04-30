@@ -8,22 +8,44 @@
 
 .vehicle-content {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
-  padding-left: 0;
-  align-items: stretch;
 
-  .left-section {
-    flex: 1;
-    max-width: 900px;
+  .vehicle-header {
+    padding: 0 4rem;
     margin-left: -4rem;
-    display: flex;
-    flex-direction: column;
+
+    .vehicle-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .office-name {
+      font-size: 1.1rem;
+      color: #666;
+      margin: 0;
+    }
   }
 
-  .right-section {
-    flex: 1;
+  .vehicle-sections {
     display: flex;
-    flex-direction: column;
+    gap: 2rem;
+    padding-left: 0;
+    align-items: flex-start;
+
+    .left-section {
+      flex: 1;
+      max-width: 900px;
+      margin-left: -4rem;
+    }
+
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 
@@ -51,10 +73,18 @@
 // Responsive design
 @media (max-width: 768px) {
   .vehicle-content {
-    flex-direction: column;
-    
-    .left-section {
-      max-width: 100%;
+    .vehicle-header {
+      padding: 0 1rem;
+      margin-left: 0;
+    }
+
+    .vehicle-sections {
+      flex-direction: column;
+      
+      .left-section {
+        max-width: 100%;
+        margin-left: 0;
+      }
     }
   }
 }

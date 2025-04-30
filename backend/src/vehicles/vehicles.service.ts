@@ -145,6 +145,7 @@ export class VehiclesService {
       .createQueryBuilder('vehicle')
       .leftJoinAndSelect('vehicle.reservations', 'reservation')
       .leftJoinAndSelect('vehicle.images', 'image')
+      .leftJoinAndSelect('vehicle.office', 'office')
       .where('vehicle.id = :id', { id })
       .getOne();
 

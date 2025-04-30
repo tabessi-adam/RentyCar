@@ -3,11 +3,17 @@
 <div class="vehicle-details-container">
   <ng-container *ngIf="!isLoading; else loading">
     <div class="vehicle-content" *ngIf="vehicle">
-      <div class="left-section">
-        <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
+      <div class="vehicle-header">
+        <h1 class="vehicle-title">{{ vehicle.brand }} {{ vehicle.model }}</h1>
+        <p class="office-name" *ngIf="vehicle.office">Located at: {{ vehicle.office.name }}</p>
       </div>
-      <div class="right-section">
-        <app-reserve [vehicle]="vehicle"></app-reserve>
+      <div class="vehicle-sections">
+        <div class="left-section">
+          <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
+        </div>
+        <div class="right-section">
+          <app-reserve [vehicle]="vehicle"></app-reserve>
+        </div>
       </div>
     </div>
   </ng-container>

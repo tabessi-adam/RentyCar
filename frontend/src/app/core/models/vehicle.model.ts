@@ -1,4 +1,5 @@
 import { Reservation } from './reservation.model';
+import { Office } from './office.model';
 
 export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
@@ -45,6 +46,7 @@ export interface Vehicle {
   hasAirConditioning: boolean;
   hasUSBCable: boolean;
   officeId: string;
+  office?: Office;
   createdAt: string; // Use string for dates from JSON
   updatedAt: string; // Use string for dates from JSON
   reservations?: Reservation[];
