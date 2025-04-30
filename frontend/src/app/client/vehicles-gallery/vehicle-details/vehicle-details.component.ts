@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
 import { CommonModule } from '@angular/common';
-import { QuestionsComponent } from './questions/questions.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 
 @Component({
@@ -19,7 +18,7 @@ import { ReviewsComponent } from './reviews/reviews.component';
     FooterComponent,
     VehicleCarouselComponent,
     ReserveComponent,
-    QuestionsComponent,
+  
     ReviewsComponent
   ],
   templateUrl: './vehicle-details.component.html',

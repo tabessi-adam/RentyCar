@@ -13,7 +13,7 @@
             <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
           </div>
           
-          <h2 class="specifications-title">Vehicle Specifications</h2>
+          <h2 class="section-title">Vehicle Specifications</h2>
           <div class="vehicle-specifications">
             <div class="specs-grid">
               <div class="spec-item">
@@ -47,7 +47,7 @@
             </div>
           </div>
 
-          <h2 class="features-title">Vehicle Features</h2>
+          <h2 class="section-title">Vehicle Features</h2>
           <div class="vehicle-features">
             <ul class="features-list">
               <li class="feature-item" *ngIf="vehicle.hasAirConditioning">
@@ -72,15 +72,16 @@
             </ul>
           </div>
 
-          <h2 class="reviews-title">Customer Reviews</h2>
-          <app-reviews [vehicleId]="vehicle.id"></app-reviews>
+          <h2 class="section-title">Customer Reviews</h2>
+          <div class="reviews-section">
+            <app-reviews [vehicleId]="vehicle.id"></app-reviews>
+          </div>
         </div>
         <div class="right-section">
           <app-reserve [vehicle]="vehicle"></app-reserve>
         </div>
       </div>
     </div>
-    <app-questions></app-questions>
   </ng-container>
 </div>
 

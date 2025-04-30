@@ -1,120 +1,118 @@
-<div class="reviews-section">
-  <!-- Error Message -->
-  <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
+<!-- Error Message -->
+<div class="error-message" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
 
-  <!-- Reviews List -->
-  <div class="reviews-list">
-    <div class="review-item" *ngFor="let review of reviews">
-      <div class="review-header">
-        <div class="reviewer-info">
-          <h3 class="reviewer-name">{{ review.client?.name || 'Anonymous' }}</h3>
-          <span class="review-date">{{ review.createdAt | date:'mediumDate' }}</span>
-        </div>
-        <div class="review-actions" *ngIf="review.client?.id === currentUserId">
-          <button class="action-button edit-button" (click)="startEditing()" *ngIf="!isEditing">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="action-button delete-button" (click)="deleteReview()">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
+<!-- Reviews List -->
+<div class="reviews-list">
+  <div class="review-item" *ngFor="let review of reviews">
+    <div class="review-header">
+      <div class="reviewer-info">
+        <h3 class="reviewer-name">{{ review.client?.name || 'Anonymous' }}</h3>
+        <span class="review-date">{{ review.createdAt | date:'mediumDate' }}</span>
       </div>
-      
-      <!-- Edit Form -->
-      <form *ngIf="isEditing && review.id === userReview?.id" [formGroup]="editForm" (ngSubmit)="onEditSubmit()" class="edit-review-form">
-        <div class="form-group">
-          <label>Rating</label>
-          <div class="rating-input">
-            <span class="star" *ngFor="let i of [0,1,2,3,4]"
-                  (click)="setRating(i + 1, editForm)">
-              <i [class]="getStarClass(i, editForm.get('rating')?.value)"></i>
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="edit-comment">Your Review</label>
-          <textarea id="edit-comment" formControlName="comment" rows="4"></textarea>
-          <div class="error-message" *ngIf="editForm.get('comment')?.invalid && editForm.get('comment')?.touched">
-            Please write a review (minimum 10 characters)
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="cancel-button" (click)="cancelEditing()">Cancel</button>
-          <button type="submit" [disabled]="editForm.invalid || isSubmitting" class="submit-button">
-            {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
-          </button>
-        </div>
-      </form>
-
-      <!-- Review Content -->
-      <div *ngIf="!isEditing || review.id !== userReview?.id">
-        <div class="rating">
-          <span class="star" *ngFor="let i of [0,1,2,3,4]">
-            <i [class]="i < review.rating ? 'fas fa-star' : 'far fa-star'"></i>
-          </span>
-        </div>
-        <p class="review-comment">{{ review.comment }}</p>
+      <div class="review-actions" *ngIf="review.client?.id === currentUserId">
+        <button class="action-button edit-button" (click)="startEditing()" *ngIf="!isEditing">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="action-button delete-button" (click)="deleteReview()">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </div>
     </div>
-
-    <div class="no-reviews" *ngIf="reviews.length === 0">
-      <p>No reviews yet. Be the first to review this vehicle!</p>
-    </div>
-  </div>
-  
-  <!-- Review Form -->
-  <div class="review-form-container" *ngIf="!hasUserReviewed">
-    <h3>Leave a Review</h3>
-    <p class="reviewer-name">Reviewing as: {{ currentUserName || 'Anonymous' }}</p>
-    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-form">
+    
+    <!-- Edit Form -->
+    <form *ngIf="isEditing && review.id === userReview?.id" [formGroup]="editForm" (ngSubmit)="onEditSubmit()" class="edit-review-form">
       <div class="form-group">
         <label>Rating</label>
         <div class="rating-input">
           <span class="star" *ngFor="let i of [0,1,2,3,4]"
-                (click)="setRating(i + 1, reviewForm)">
-            <i [class]="getStarClass(i, reviewForm.get('rating')?.value)"></i>
+                (click)="setRating(i + 1, editForm)">
+            <i [class]="getStarClass(i, editForm.get('rating')?.value)"></i>
           </span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="comment">Your Review</label>
-        <textarea id="comment" formControlName="comment" rows="4" 
-                  placeholder="Share your experience with this vehicle"></textarea>
-        <div class="error-message" *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched">
+        <label for="edit-comment">Your Review</label>
+        <textarea id="edit-comment" formControlName="comment" rows="4"></textarea>
+        <div class="error-message" *ngIf="editForm.get('comment')?.invalid && editForm.get('comment')?.touched">
           Please write a review (minimum 10 characters)
         </div>
       </div>
 
-      <button type="submit" [disabled]="reviewForm.invalid || isSubmitting" class="submit-button">
-        {{ isSubmitting ? 'Submitting...' : 'Submit Review' }}
-      </button>
-    </form>
-  </div>
-
-  <!-- Already Reviewed Message -->
-  <div class="already-reviewed-message" *ngIf="showAlreadyReviewedMessage">
-    <div class="message-content">
-      <i class="fas fa-check-circle"></i>
-      <div class="message-text">
-        <h3>You've already reviewed this vehicle</h3>
-        <p>Thank you for sharing your experience! You can only submit one review per vehicle.</p>
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="cancelEditing()">Cancel</button>
+        <button type="submit" [disabled]="editForm.invalid || isSubmitting" class="submit-button">
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
       </div>
+    </form>
+
+    <!-- Review Content -->
+    <div *ngIf="!isEditing || review.id !== userReview?.id">
+      <div class="rating">
+        <span class="star" *ngFor="let i of [0,1,2,3,4]">
+          <i [class]="i < review.rating ? 'fas fa-star' : 'far fa-star'"></i>
+        </span>
+      </div>
+      <p class="review-comment">{{ review.comment }}</p>
     </div>
   </div>
 
-  <!-- Not Rented Message -->
-  <div class="not-rented-message" *ngIf="showNotRentedMessage">
-    <div class="message-content">
-      <i class="fas fa-info-circle"></i>
-      <div class="message-text">
-        <h3>Review Requirements</h3>
-        <p>You can only review vehicles you have rented. Please rent this vehicle first to share your experience.</p>
+  <div class="no-reviews" *ngIf="reviews.length === 0">
+    <p>No reviews yet. Be the first to review this vehicle!</p>
+  </div>
+</div>
+
+<!-- Review Form -->
+<div class="review-form-container" *ngIf="!hasUserReviewed">
+  <h3>Leave a Review</h3>
+  <p class="reviewer-name">Reviewing as: {{ currentUserName || 'Anonymous' }}</p>
+  <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-form">
+    <div class="form-group">
+      <label>Rating</label>
+      <div class="rating-input">
+        <span class="star" *ngFor="let i of [0,1,2,3,4]"
+              (click)="setRating(i + 1, reviewForm)">
+          <i [class]="getStarClass(i, reviewForm.get('rating')?.value)"></i>
+        </span>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label for="comment">Your Review</label>
+      <textarea id="comment" formControlName="comment" rows="4" 
+                placeholder="Share your experience with this vehicle"></textarea>
+      <div class="error-message" *ngIf="reviewForm.get('comment')?.invalid && editForm.get('comment')?.touched">
+        Please write a review (minimum 10 characters)
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="reviewForm.invalid || isSubmitting" class="submit-button">
+      {{ isSubmitting ? 'Submitting...' : 'Submit Review' }}
+    </button>
+  </form>
+</div>
+
+<!-- Already Reviewed Message -->
+<div class="already-reviewed-message" *ngIf="showAlreadyReviewedMessage">
+  <div class="message-content">
+    <i class="fas fa-check-circle"></i>
+    <div class="message-text">
+      <h3>You've already reviewed this vehicle</h3>
+      <p>Thank you for sharing your experience! You can only submit one review per vehicle.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Not Rented Message -->
+<div class="not-rented-message" *ngIf="showNotRentedMessage">
+  <div class="message-content">
+    <i class="fas fa-info-circle"></i>
+    <div class="message-text">
+      <h3>Review Requirements</h3>
+      <p>You can only review vehicles you have rented. Please rent this vehicle first to share your experience.</p>
     </div>
   </div>
 </div>
