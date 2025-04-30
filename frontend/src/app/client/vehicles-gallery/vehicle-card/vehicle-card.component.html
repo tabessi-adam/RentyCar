@@ -1,8 +1,12 @@
-
 <div class="vehicle-card">
   <div class="image-container">
-    <img [src]="vehicle.images?.[0]?.url || vehicle.imageUrl || 'assets/images/placeholder-car.jpg'" 
+    <img *ngIf="vehicle.images?.[0]?.url || vehicle.imageUrl" 
+         [src]="vehicle.images?.[0]?.url || vehicle.imageUrl" 
          [alt]="vehicle.brand + ' ' + vehicle.model">
+    <div *ngIf="!vehicle.images?.[0]?.url && !vehicle.imageUrl" class="no-image-placeholder">
+      <i class="fas fa-car fa-4x"></i>
+      <span>No Image Available</span>
+    </div>
   </div>
 
   <div class="info-box">
