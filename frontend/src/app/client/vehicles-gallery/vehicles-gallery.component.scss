@@ -35,4 +35,25 @@
       width: 100%;
     }
   }
+
+  // Mobile styles
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 1.5rem;
+    margin-top: 60px;
+
+    .vehicles-section {
+      .vehicles-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .loading-message,
+    .error-message,
+    .no-vehicles-message {
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+  }
 }

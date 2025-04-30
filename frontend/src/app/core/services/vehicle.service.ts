@@ -32,7 +32,6 @@ export class VehicleService {
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.currentToken();
     if (!token) {
-      console.error('Auth token is missing for VehicleService request');
       return new HttpHeaders();
     }
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -54,10 +53,8 @@ export class VehicleService {
 
   // GET /<role>/vehicles
   getAllVehicles(filters?: any): Observable<Vehicle[]> {
-    console.log('VehicleService - Getting vehicles with filters:', filters);
     const apiUrl = this.getApiPath();
     if (!apiUrl) {
-      console.error('VehicleService - No API URL found');
       return throwError(() => new Error('User role unknown'));
     }
 
@@ -79,20 +76,12 @@ export class VehicleService {
       });
     }
 
-    console.log('VehicleService - Sending request to:', apiUrl);
-    console.log('VehicleService - With params:', params.toString());
     return this.http.get<Vehicle[]>(apiUrl, { 
       headers: this.getAuthHeaders(),
       params
     }).pipe(
-      tap(response => {
-        console.log('VehicleService - Raw response:', response);
-        console.log('VehicleService - Response type:', typeof response);
-        console.log('VehicleService - Response length:', Array.isArray(response) ? response.length : 'Not an array');
-      }),
       map(response => {
         if (!Array.isArray(response)) {
-          console.error('VehicleService - Response is not an array:', response);
           return [];
         }
         return response.map(vehicle => ({
@@ -101,13 +90,7 @@ export class VehicleService {
           currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
         }));
       }),
-      tap(mappedResponse => {
-        console.log('VehicleService - Mapped response:', mappedResponse);
-      }),
-      catchError(error => {
-        console.error('VehicleService - Error:', error);
-        return this.handleError(error);
-      })
+      catchError(this.handleError)
     );
   }
 
@@ -251,13 +234,10 @@ export class VehicleService {
       }
     }
     
-    console.log('VehicleService - Sending request to:', url);
-    console.log('VehicleService - With params:', params.toString());
     return this.http.get<Vehicle[]>(url, { params })
       .pipe(
         map(response => {
           if (!Array.isArray(response)) {
-            console.error('VehicleService - Response is not an array:', response);
             return [];
           }
           return response.map(vehicle => ({
@@ -271,7 +251,6 @@ export class VehicleService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('VehicleService Error:', error);
     return throwError(() => error);
   }
 }

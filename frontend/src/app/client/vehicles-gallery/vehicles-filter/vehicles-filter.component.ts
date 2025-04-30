@@ -38,12 +38,7 @@ export class VehiclesFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
   @Output() clearFilters = new EventEmitter<void>();
 
-  // Filter options
-  statusOptions = Object.values(VehicleStatus);
-  fuelTypeOptions = Object.values(FuelType);
-  transmissionOptions = Object.values(Transmission);
-  
-  // Filter values organized by sections
+  isMobileFiltersOpen = false;
   filters: VehicleFilters = {
     status: {
       status: ''
@@ -68,26 +63,17 @@ export class VehiclesFilterComponent {
     }
   };
 
-  // UI state
-  currentYear = new Date().getFullYear();
-  yearOptions = Array.from({length: 30}, (_, i) => this.currentYear - i);
+  statusOptions = Object.values(VehicleStatus);
+  fuelTypeOptions = Object.values(FuelType);
+  transmissionOptions = Object.values(Transmission);
+  yearOptions: number[] = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i);
+
+  toggleMobileFilters(): void {
+    this.isMobileFiltersOpen = !this.isMobileFiltersOpen;
+  }
 
   onFilterChange(): void {
-    // Flatten the filters structure to match the API expectations
-    const flattenedFilters = {
-      status: this.filters.status.status,
-      fuelType: this.filters.specifications.fuelType,
-      transmission: this.filters.specifications.transmission,
-      minPrice: this.filters.price.minPrice,
-      maxPrice: this.filters.price.maxPrice,
-      minYear: this.filters.year.minYear,
-      maxYear: this.filters.year.maxYear,
-      hasGPS: this.filters.features.hasGPS,
-      hasBluetooth: this.filters.features.hasBluetooth,
-      hasAirConditioning: this.filters.features.hasAirConditioning,
-      hasUSBCable: this.filters.features.hasUSBCable
-    };
-    this.filtersChanged.emit(flattenedFilters);
+    this.filtersChanged.emit(this.filters);
   }
 
   handleClearFilters(): void {

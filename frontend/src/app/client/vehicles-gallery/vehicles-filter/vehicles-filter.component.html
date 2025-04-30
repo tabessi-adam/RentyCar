@@ -1,10 +1,15 @@
 <div class="vehicles-filter">
   <div class="filter-header">
     <h3>Filters</h3>
-    <button class="clear-filters" (click)="handleClearFilters()">Clear All</button>
+    <div class="header-actions">
+      <button class="clear-filters" (click)="handleClearFilters()">Clear All</button>
+      <button class="mobile-toggle" (click)="toggleMobileFilters()">
+        <i class="fas" [ngClass]="{'fa-chevron-down': !isMobileFiltersOpen, 'fa-chevron-up': isMobileFiltersOpen}"></i>
+      </button>
+    </div>
   </div>
   
-  <div class="filter-sections">
+  <div class="filter-sections" [class.mobile-hidden]="!isMobileFiltersOpen">
     <!-- Status Section -->
     <div class="filter-section">
       <h4>Status</h4>
