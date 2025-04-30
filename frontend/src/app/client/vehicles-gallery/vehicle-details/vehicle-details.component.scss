@@ -37,8 +37,85 @@
 
     .left-section {
       flex: 1;
-      max-width: 900px;
+      max-width: 800px;
       margin-left: -4rem;
+      width: 100%;
+
+      .carousel-container {
+        width: 100%;
+        margin-left: 4rem;
+      }
+
+      .specifications-title,
+      .features-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #333;
+        margin: 2rem 0 1rem 0;
+        padding-left: 4rem;
+      }
+
+      .vehicle-specifications,
+      .vehicle-features {
+        margin-top: 0;
+        padding: 1.5rem 4rem;
+        border: 1px solid #000;
+        border-radius: 8px;
+        background-color: #fff;
+        width: 100%;
+        box-sizing: border-box;
+        margin-left: 4rem;
+
+        .specs-grid,
+        .features-grid {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 1rem;
+          justify-content: space-between;
+
+          .spec-item,
+          .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            transition: transform 0.2s ease;
+            border: 1px solid #eee;
+            min-width: 120px;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            i {
+              font-size: 1rem;
+              color: #000;
+            }
+
+            .spec-info,
+            .feature-info {
+              display: flex;
+              flex-direction: column;
+
+              .spec-label,
+              .feature-label {
+                font-size: 0.75rem;
+                color: #666;
+              }
+
+              .spec-value,
+              .feature-value {
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: #333;
+              }
+            }
+          }
+        }
+      }
     }
 
     .right-section {
@@ -84,6 +161,34 @@
       .left-section {
         max-width: 100%;
         margin-left: 0;
+
+        .carousel-container {
+          margin-left: 0;
+        }
+
+        .specifications-title,
+        .features-title {
+          padding-left: 1rem;
+          font-size: 1.5rem;
+        }
+
+        .vehicle-specifications,
+        .vehicle-features {
+          padding: 1rem;
+          margin: 1rem;
+          margin-left: 0;
+
+          .specs-grid,
+          .features-grid {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+
+            .spec-item,
+            .feature-item {
+              min-width: 100px;
+            }
+          }
+        }
       }
     }
   }

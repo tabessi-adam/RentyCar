@@ -9,7 +9,77 @@
       </div>
       <div class="vehicle-sections">
         <div class="left-section">
-          <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
+          <div class="carousel-container">
+            <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
+          </div>
+          
+          <h2 class="specifications-title">Vehicle Specifications</h2>
+          <div class="vehicle-specifications">
+            <div class="specs-grid">
+              <div class="spec-item">
+                <i class="fas fa-road"></i>
+                <div class="spec-info">
+                  <span class="spec-label">Kilometers Driven</span>
+                  <span class="spec-value">{{ vehicle.kilometersDriven | number }} Km</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-cogs"></i>
+                <div class="spec-info">
+                  <span class="spec-label">Transmission</span>
+                  <span class="spec-value">{{ vehicle.transmission }}</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-gas-pump"></i>
+                <div class="spec-info">
+                  <span class="spec-label">Fuel Type</span>
+                  <span class="spec-value">{{ vehicle.fuelType }}</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="spec-info">
+                  <span class="spec-label">Year</span>
+                  <span class="spec-value">{{ vehicle.year }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="features-title">Vehicle Features</h2>
+          <div class="vehicle-features">
+            <div class="features-grid">
+              <div class="feature-item">
+                <i class="fas fa-snowflake"></i>
+                <div class="feature-info">
+                  <span class="feature-label">Air Conditioning</span>
+                  <span class="feature-value">{{ vehicle.hasAirConditioning ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-bluetooth"></i>
+                <div class="feature-info">
+                  <span class="feature-label">Bluetooth</span>
+                  <span class="feature-value">{{ vehicle.hasBluetooth ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="feature-info">
+                  <span class="feature-label">GPS</span>
+                  <span class="feature-value">{{ vehicle.hasGPS ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-usb"></i>
+                <div class="feature-info">
+                  <span class="feature-label">USB Cable</span>
+                  <span class="feature-value">{{ vehicle.hasUSBCable ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="right-section">
           <app-reserve [vehicle]="vehicle"></app-reserve>
