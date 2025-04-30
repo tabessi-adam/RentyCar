@@ -42,28 +42,46 @@ export class ReviewsService {
   }
 
   async findAll(filters?: { vehicleId?: string | string[]; clientId?: string }) {
-    const where: any = {};
-    
+    const queryBuilder = this.reviewsRepository.createQueryBuilder('review')
+      .leftJoinAndSelect('review.client', 'client')
+      .leftJoinAndSelect('review.vehicle', 'vehicle')
+      .select([
+        'review.id',
+        'review.rating',
+        'review.comment',
+        'review.createdAt',
+        'review.updatedAt',
+        'client.id',
+        'client.name',
+        'client.email',
+        'client.profilePictureUrl',
+        'vehicle.id',
+        'vehicle.brand',
+        'vehicle.model',
+        'vehicle.year',
+        'vehicle.color'
+      ])
+      .orderBy('review.createdAt', 'DESC');
+
     if (filters) {
       if (filters.vehicleId) {
         if (Array.isArray(filters.vehicleId)) {
-          where.vehicleId = In(filters.vehicleId);
+          queryBuilder.andWhere('review.vehicleId IN (:...vehicleIds)', { vehicleIds: filters.vehicleId });
         } else {
-          where.vehicleId = filters.vehicleId;
+          queryBuilder.andWhere('review.vehicleId = :vehicleId', { vehicleId: filters.vehicleId });
         }
       }
       if (filters.clientId) {
-        where.clientId = filters.clientId;
+        queryBuilder.andWhere('review.clientId = :clientId', { clientId: filters.clientId });
       }
     }
 
-    return this.reviewsRepository.find({
-      where,
-      relations: ['client', 'vehicle'],
-      order: {
-        createdAt: 'DESC'
-      }
-    });
+    try {
+      return await queryBuilder.getMany();
+    } catch (error) {
+      console.error('Error in findAll:', error);
+      throw error;
+    }
   }
 
   async findOne(id: string) {

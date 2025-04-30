@@ -10,17 +10,6 @@
   </div>
   
   <div class="filter-sections" [class.mobile-hidden]="!isMobileFiltersOpen">
-    <!-- Status Section -->
-    <div class="filter-section">
-      <h4>Status</h4>
-      <div class="filter-content">
-        <select [(ngModel)]="filters.status.status" (change)="onFilterChange()">
-          <option value="">All Statuses</option>
-          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
-        </select>
-      </div>
-    </div>
-
     <!-- Specifications Section -->
     <div class="filter-section">
       <h4>Specifications</h4>

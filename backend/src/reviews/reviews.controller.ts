@@ -28,11 +28,15 @@ export class ReviewsController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.AGENT)
+  @UseGuards(JwtAuthGuard)
   async findAll(@Request() req: any, @Query('vehicleId') vehicleId?: string, @Query('clientId') clientId?: string) {
     const filters: { vehicleId?: string | string[]; clientId?: string } = {};
     
+    // If user is a client, they can only view reviews for a specific vehicle
+    if (req.user.role === Role.CLIENT && !vehicleId) {
+      throw new ForbiddenException('Clients must specify a vehicleId to view reviews');
+    }
+
     // If user is an agent, get their office's vehicles
     if (req.user.role === Role.AGENT) {
       const agent = await this.agentRepository.findOne({

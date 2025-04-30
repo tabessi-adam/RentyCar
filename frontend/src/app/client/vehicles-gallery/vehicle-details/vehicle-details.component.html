@@ -71,9 +71,9 @@
               </li>
             </ul>
           </div>
-          <div class="reviews-container">
-            <app-reviews></app-reviews>
-          </div>
+
+          <h2 class="reviews-title">Customer Reviews</h2>
+          <app-reviews [vehicleId]="vehicle.id"></app-reviews>
         </div>
         <div class="right-section">
           <app-reserve [vehicle]="vehicle"></app-reserve>

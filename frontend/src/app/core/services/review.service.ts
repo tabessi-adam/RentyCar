@@ -32,19 +32,23 @@ export class ReviewService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET / (Admin and Agent only, with filters)
+  // GET / (Admin and Agent can see all reviews, Clients can only see reviews for specific vehicles)
   getAllReviews(filters?: { vehicleId?: string; clientId?: string }): Observable<Review[]> {
     const userRole = this.authService.userRole();
-    if (userRole !== Role.ADMIN && userRole !== Role.AGENT) {
-      return throwError(() => new Error('Operation not permitted for this role'));
-    }
     let params = new HttpParams();
+
+    // If user is a client, they can only view reviews for a specific vehicle
+    if (userRole === Role.CLIENT && !filters?.vehicleId) {
+      return throwError(() => new Error('Clients must specify a vehicleId to view reviews'));
+    }
+
     if (filters?.vehicleId) {
       params = params.set('vehicleId', filters.vehicleId);
     }
     if (filters?.clientId) {
       params = params.set('clientId', filters.clientId);
     }
+
     return this.http.get<Review[]>(API_URL, { headers: this.getAuthHeaders(), params })
       .pipe(catchError(this.handleError));
   }

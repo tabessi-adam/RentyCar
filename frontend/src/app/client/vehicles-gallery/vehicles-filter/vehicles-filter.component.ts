@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { VehicleStatus, FuelType, Transmission } from '../../../core/models/vehicle.model';
+import { FuelType, Transmission } from '../../../core/models/vehicle.model';
 
 interface VehicleFilters {
-  status: {
-    status: VehicleStatus | '';
-  };
   specifications: {
     fuelType: FuelType | '';
     transmission: Transmission | '';
@@ -40,9 +37,6 @@ export class VehiclesFilterComponent {
 
   isMobileFiltersOpen = false;
   filters: VehicleFilters = {
-    status: {
-      status: ''
-    },
     specifications: {
       fuelType: '',
       transmission: ''
@@ -63,7 +57,6 @@ export class VehiclesFilterComponent {
     }
   };
 
-  statusOptions = Object.values(VehicleStatus);
   fuelTypeOptions = Object.values(FuelType);
   transmissionOptions = Object.values(Transmission);
   yearOptions: number[] = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i);
@@ -74,7 +67,6 @@ export class VehiclesFilterComponent {
 
   onFilterChange(): void {
     const flattenedFilters = {
-      status: this.filters.status.status,
       fuelType: this.filters.specifications.fuelType,
       transmission: this.filters.specifications.transmission,
       minPrice: this.filters.price.minPrice,
@@ -91,9 +83,6 @@ export class VehiclesFilterComponent {
 
   handleClearFilters(): void {
     this.filters = {
-      status: {
-        status: ''
-      },
       specifications: {
         fuelType: '',
         transmission: ''
@@ -115,7 +104,6 @@ export class VehiclesFilterComponent {
     };
     this.clearFilters.emit();
     this.filtersChanged.emit({
-      status: '',
       fuelType: '',
       transmission: '',
       minPrice: null,
