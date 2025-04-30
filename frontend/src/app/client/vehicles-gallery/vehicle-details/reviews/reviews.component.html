@@ -12,13 +12,53 @@
           <h3 class="reviewer-name">{{ review.client?.name || 'Anonymous' }}</h3>
           <span class="review-date">{{ review.createdAt | date:'mediumDate' }}</span>
         </div>
+        <div class="review-actions" *ngIf="review.client?.id === currentUserId">
+          <button class="action-button edit-button" (click)="startEditing()" *ngIf="!isEditing">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="action-button delete-button" (click)="deleteReview()">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Edit Form -->
+      <form *ngIf="isEditing && review.id === userReview?.id" [formGroup]="editForm" (ngSubmit)="onEditSubmit()" class="edit-review-form">
+        <div class="form-group">
+          <label>Rating</label>
+          <div class="rating-input">
+            <span class="star" *ngFor="let i of [0,1,2,3,4]"
+                  (click)="setRating(i + 1, editForm)">
+              <i [class]="getStarClass(i, editForm.get('rating')?.value)"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-comment">Your Review</label>
+          <textarea id="edit-comment" formControlName="comment" rows="4"></textarea>
+          <div class="error-message" *ngIf="editForm.get('comment')?.invalid && editForm.get('comment')?.touched">
+            Please write a review (minimum 10 characters)
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="cancelEditing()">Cancel</button>
+          <button type="submit" [disabled]="editForm.invalid || isSubmitting" class="submit-button">
+            {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+
+      <!-- Review Content -->
+      <div *ngIf="!isEditing || review.id !== userReview?.id">
         <div class="rating">
           <span class="star" *ngFor="let i of [0,1,2,3,4]">
             <i [class]="i < review.rating ? 'fas fa-star' : 'far fa-star'"></i>
           </span>
         </div>
+        <p class="review-comment">{{ review.comment }}</p>
       </div>
-      <p class="review-comment">{{ review.comment }}</p>
     </div>
 
     <div class="no-reviews" *ngIf="reviews.length === 0">
@@ -35,8 +75,8 @@
         <label>Rating</label>
         <div class="rating-input">
           <span class="star" *ngFor="let i of [0,1,2,3,4]"
-                (click)="setRating(i + 1)">
-            <i [class]="getStarClass(i)"></i>
+                (click)="setRating(i + 1, reviewForm)">
+            <i [class]="getStarClass(i, reviewForm.get('rating')?.value)"></i>
           </span>
         </div>
       </div>

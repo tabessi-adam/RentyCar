@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReviewService } from '../../../../core/services/review.service';
 import { Review, CreateReviewPayload } from '../../../../core/models/review.model';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reviews',
@@ -12,16 +13,20 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent implements OnInit, OnDestroy {
   @Input() vehicleId!: string;
   reviews: Review[] = [];
   reviewForm: FormGroup;
+  editForm: FormGroup;
   isSubmitting = false;
+  isEditing = false;
   errorMessage: string | null = null;
   hasUserReviewed = false;
   userReview: Review | null = null;
   showAlreadyReviewedMessage = false;
   currentUserName: string | null = null;
+  currentUserId: string | null = null;
+  private authSubscription: Subscription | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -32,11 +37,33 @@ export class ReviewsComponent implements OnInit {
       rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', [Validators.required, Validators.minLength(10)]]
     });
+
+    this.editForm = this.fb.group({
+      rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
+      comment: ['', [Validators.required, Validators.minLength(10)]]
+    });
   }
 
   ngOnInit() {
-    this.currentUserName = this.authService.currentUser?.name || null;
+    // Initialize with current user state
+    const currentUser = this.authService.currentUser;
+    this.currentUserName = currentUser?.name || null;
+    this.currentUserId = currentUser?.id || null;
+
+    // Subscribe to auth state changes
+    this.authSubscription = this.authService.currentUser$.subscribe(user => {
+      this.currentUserName = user?.name || null;
+      this.currentUserId = user?.id || null;
+      this.checkUserReview();
+    });
+
     this.loadReviews();
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   loadReviews() {
@@ -44,7 +71,6 @@ export class ReviewsComponent implements OnInit {
       next: (reviews: Review[]) => {
         this.reviews = reviews;
         this.errorMessage = null;
-        // Check if the current user has already reviewed this vehicle
         this.checkUserReview();
       },
       error: (error: any) => {
@@ -55,12 +81,17 @@ export class ReviewsComponent implements OnInit {
   }
 
   checkUserReview() {
-    const currentUserId = this.authService.currentUser?.id;
-    if (currentUserId) {
-      this.userReview = this.reviews.find(review => review.client?.id === currentUserId) || null;
+    if (this.currentUserId) {
+      this.userReview = this.reviews.find(review => review.client?.id === this.currentUserId) || null;
       this.hasUserReviewed = !!this.userReview;
       if (this.hasUserReviewed) {
         this.reviewForm.disable();
+        this.editForm.patchValue({
+          rating: this.userReview?.rating,
+          comment: this.userReview?.comment
+        });
+      } else {
+        this.reviewForm.enable();
       }
     }
   }
@@ -78,12 +109,25 @@ export class ReviewsComponent implements OnInit {
 
       this.reviewService.createReview(reviewData).subscribe({
         next: (response: Review) => {
-          this.reviews.unshift(response);
+          // Add client information to the review
+          const reviewWithClient = {
+            ...response,
+            client: {
+              id: this.currentUserId!,
+              name: this.currentUserName || 'Anonymous'
+            }
+          };
+          
+          this.reviews.unshift(reviewWithClient);
           this.reviewForm.reset({ rating: 5 });
           this.isSubmitting = false;
+          this.userReview = reviewWithClient;
           this.hasUserReviewed = true;
-          this.userReview = response;
           this.reviewForm.disable();
+          this.editForm.patchValue({
+            rating: response.rating,
+            comment: response.comment
+          });
         },
         error: (error: any) => {
           console.error('Error submitting review:', error);
@@ -99,21 +143,74 @@ export class ReviewsComponent implements OnInit {
     }
   }
 
+  onEditSubmit() {
+    if (this.editForm.valid && !this.isSubmitting && this.userReview) {
+      this.isSubmitting = true;
+      this.errorMessage = null;
+
+      const reviewData = {
+        ...this.editForm.value,
+        vehicleId: this.vehicleId
+      };
+
+      this.reviewService.updateReview(this.userReview.id, reviewData).subscribe({
+        next: (response: Review) => {
+          const index = this.reviews.findIndex(r => r.id === response.id);
+          if (index !== -1) {
+            this.reviews[index] = response;
+          }
+          this.userReview = response;
+          this.isSubmitting = false;
+          this.isEditing = false;
+        },
+        error: (error: any) => {
+          console.error('Error updating review:', error);
+          this.errorMessage = error.message || 'Failed to update review';
+          this.isSubmitting = false;
+        }
+      });
+    }
+  }
+
+  deleteReview() {
+    if (this.userReview && confirm('Are you sure you want to delete your review?')) {
+      this.reviewService.deleteReview(this.userReview.id).subscribe({
+        next: () => {
+          this.reviews = this.reviews.filter(r => r.id !== this.userReview?.id);
+          this.userReview = null;
+          this.hasUserReviewed = false;
+          this.reviewForm.enable();
+          this.reviewForm.reset({ rating: 5 });
+        },
+        error: (error: any) => {
+          console.error('Error deleting review:', error);
+          this.errorMessage = error.message || 'Failed to delete review';
+        }
+      });
+    }
+  }
+
+  startEditing() {
+    this.isEditing = true;
+    this.editForm.patchValue({
+      rating: this.userReview?.rating,
+      comment: this.userReview?.comment
+    });
+  }
+
+  cancelEditing() {
+    this.isEditing = false;
+  }
+
   getStars(rating: number): number[] {
     return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
 
-  setRating(rating: number) {
-    this.reviewForm.patchValue({ rating });
+  setRating(rating: number, form: FormGroup) {
+    form.patchValue({ rating });
   }
 
-  getRatingStars(): number[] {
-    const rating = this.reviewForm.get('rating')?.value || 0;
-    return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
-  }
-
-  getStarClass(index: number): string {
-    const rating = this.reviewForm.get('rating')?.value || 0;
+  getStarClass(index: number, rating: number): string {
     return index < rating ? 'fas fa-star' : 'far fa-star';
   }
 }
