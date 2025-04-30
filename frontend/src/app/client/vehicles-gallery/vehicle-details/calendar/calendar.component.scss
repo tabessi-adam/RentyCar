@@ -42,6 +42,19 @@
       &.in-range {
         background-color: rgba(0, 123, 255, 0.1);
       }
+
+      &.rented-date {
+        background-color: #ffebee;
+        color: #d32f2f;
+        cursor: not-allowed;
+        pointer-events: none;
+        border-radius: 50%;
+
+        .mat-calendar-body-cell-content {
+          color: #d32f2f;
+          text-decoration: line-through;
+        }
+      }
     }
 
     .mat-calendar-body-selected {

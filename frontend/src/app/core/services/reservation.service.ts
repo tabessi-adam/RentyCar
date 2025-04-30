@@ -1,13 +1,18 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Reservation, CreateReservationPayload, UpdateReservationPayload, UpdateReservationStatusPayload, ReservationStatus } from '../models/reservation.model';
 import { AuthService } from './auth.service';
 import { Role } from '../models/role.enum';
 import { environment } from '../../../environments/environment';
 
 const API_URL = `${environment.apiUrl}/reservations`;
+
+interface DateRange {
+  startDate: string;
+  endDate: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +58,18 @@ export class ReservationService {
   }
 
   // GET /vehicle/:id/availability
-  getVehicleAvailability(vehicleId: string): Observable<{ startDate: string; endDate: string }[]> {
-    return this.http.get<{ startDate: string; endDate: string }[]>(
-      `${API_URL}/vehicle/${vehicleId}/availability`,
-      { headers: this.getAuthHeaders() }
-    ).pipe(catchError(this.handleError));
+  getVehicleAvailability(vehicleId: string): Observable<DateRange[]> {
+    console.log('ReservationService - Fetching availability for vehicle:', vehicleId);
+    return this.http.get<DateRange[]>(`${API_URL}/vehicle/${vehicleId}/availability`, { headers: this.getAuthHeaders() })
+      .pipe(
+        tap(response => {
+          console.log('ReservationService - Raw response from API:', JSON.stringify(response, null, 2));
+        }),
+        catchError(error => {
+          console.error('ReservationService - Error fetching availability:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   // GET /my-reservations
