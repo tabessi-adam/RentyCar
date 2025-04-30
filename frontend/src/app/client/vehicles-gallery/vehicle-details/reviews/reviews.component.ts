@@ -5,6 +5,7 @@ import { ReviewService } from '../../../../core/services/review.service';
 import { Review, CreateReviewPayload } from '../../../../core/models/review.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Subscription } from 'rxjs';
+import { take, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reviews',
@@ -58,8 +59,16 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.checkUserReview();
     });
 
-    this.loadReviews();
-    this.checkRentalStatus();
+    // Wait for authentication before loading reviews and rental status
+    this.authService.currentUser$
+      .pipe(
+        filter(user => !!user && !!user.accessToken),
+        take(1)
+      )
+      .subscribe(() => {
+        this.loadReviews();
+        this.checkRentalStatus();
+      });
   }
 
   ngOnDestroy() {

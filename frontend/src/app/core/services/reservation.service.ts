@@ -71,12 +71,8 @@ export class ReservationService {
 
   // GET /vehicle/:id/availability
   getVehicleAvailability(vehicleId: string): Observable<DateRange[]> {
-    console.log('ReservationService - Fetching availability for vehicle:', vehicleId);
     return this.http.get<DateRange[]>(`${API_URL}/vehicle/${vehicleId}/availability`, { headers: this.getAuthHeaders() })
       .pipe(
-        tap(response => {
-          console.log('ReservationService - Raw response from API:', JSON.stringify(response, null, 2));
-        }),
         catchError(error => {
           console.error('ReservationService - Error fetching availability:', error);
           return throwError(() => error);

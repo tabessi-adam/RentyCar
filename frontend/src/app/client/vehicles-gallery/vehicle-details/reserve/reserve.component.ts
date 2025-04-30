@@ -9,6 +9,7 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { ReservationService } from '../../../../core/services/reservation.service';
 import { CreateReservationPayload } from '../../../../core/models/reservation.model';
+import { take, filter } from 'rxjs/operators';
 
 interface DateRange {
   start: Date;
@@ -51,7 +52,15 @@ export class ReserveComponent implements OnInit {
       console.error('ReserveComponent - No vehicle provided!');
       return;
     }
-    this.loadVehicleAvailability();
+    // Wait for authentication before loading vehicle availability
+    this.reservationService['authService'].currentUser$
+      .pipe(
+        filter(user => !!user && !!user.accessToken),
+        take(1)
+      )
+      .subscribe(() => {
+        this.loadVehicleAvailability();
+      });
   }
 
   loadVehicleAvailability() {
