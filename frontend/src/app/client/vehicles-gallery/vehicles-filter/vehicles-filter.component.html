@@ -1,21 +1,10 @@
 <div class="vehicles-filter">
   <div class="filter-header">
     <h3>Filters</h3>
-    <button class="clear-filters" (click)="clearFilters()">Clear All</button>
+    <button class="clear-filters" (click)="handleClearFilters()">Clear All</button>
   </div>
   
   <div class="filter-sections">
-    <!-- Basic Information Section -->
-    <div class="filter-section">
-      <h4>Basic Information</h4>
-      <div class="filter-content">
-        <input type="text" [(ngModel)]="filters.basic.brand" (change)="onFilterChange()" 
-               placeholder="Brand" class="brand-input">
-        <input type="text" [(ngModel)]="filters.basic.model" (change)="onFilterChange()" 
-               placeholder="Model" class="model-input">
-      </div>
-    </div>
-
     <!-- Status Section -->
     <div class="filter-section">
       <h4>Status</h4>

@@ -4,10 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { VehicleStatus, FuelType, Transmission } from '../../../core/models/vehicle.model';
 
 interface VehicleFilters {
-  basic: {
-    brand: string;
-    model: string;
-  };
   status: {
     status: VehicleStatus | '';
   };
@@ -40,6 +36,7 @@ interface VehicleFilters {
 })
 export class VehiclesFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
+  @Output() clearFilters = new EventEmitter<void>();
 
   // Filter options
   statusOptions = Object.values(VehicleStatus);
@@ -48,10 +45,6 @@ export class VehiclesFilterComponent {
   
   // Filter values organized by sections
   filters: VehicleFilters = {
-    basic: {
-      brand: '',
-      model: ''
-    },
     status: {
       status: ''
     },
@@ -82,8 +75,6 @@ export class VehiclesFilterComponent {
   onFilterChange(): void {
     // Flatten the filters structure to match the API expectations
     const flattenedFilters = {
-      brand: this.filters.basic.brand,
-      model: this.filters.basic.model,
       status: this.filters.status.status,
       fuelType: this.filters.specifications.fuelType,
       transmission: this.filters.specifications.transmission,
@@ -99,12 +90,8 @@ export class VehiclesFilterComponent {
     this.filtersChanged.emit(flattenedFilters);
   }
 
-  clearFilters(): void {
+  handleClearFilters(): void {
     this.filters = {
-      basic: {
-        brand: '',
-        model: ''
-      },
       status: {
         status: ''
       },
@@ -127,6 +114,7 @@ export class VehiclesFilterComponent {
         hasUSBCable: false
       }
     };
+    this.clearFilters.emit();
     this.onFilterChange();
   }
 }

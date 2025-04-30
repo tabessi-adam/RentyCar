@@ -41,8 +41,24 @@ export class VehiclesService {
       .leftJoinAndSelect('vehicle.images', 'image');
 
     if (filters) {
+      // Search across multiple fields if search query is provided
+      if (filters.search) {
+        console.log('VehiclesService - Applying search filter:', filters.search);
+        const searchQuery = `%${filters.search.toLowerCase()}%`;
+        console.log('VehiclesService - Search query (lowercase):', searchQuery);
+        
+        queryBuilder.andWhere(
+          '(LOWER(vehicle.brand) LIKE :search OR ' +
+          'LOWER(vehicle.model) LIKE :search OR ' +
+          'LOWER(vehicle.color) LIKE :search OR ' +
+          'CONCAT(vehicle.year) LIKE :search)',
+          { search: searchQuery }
+        );
+        
+        console.log('VehiclesService - Search SQL condition added');
+      }
+
       if (filters.status) {
-        // For status filter, we only check the vehicle's status
         queryBuilder.andWhere('vehicle.status = :status', { status: filters.status });
       }
 
@@ -110,6 +126,8 @@ export class VehiclesService {
     }
 
     console.log('VehiclesService - Generated SQL query:', queryBuilder.getSql());
+    console.log('VehiclesService - Query parameters:', queryBuilder.getParameters());
+    
     const vehicles = await queryBuilder.getMany();
     console.log('VehiclesService - Found vehicles:', vehicles.length);
     

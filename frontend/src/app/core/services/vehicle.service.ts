@@ -194,6 +194,11 @@ export class VehicleService {
     // Format query parameters
     let params = new HttpParams();
     if (filters) {
+      // Handle search query
+      if (filters.search) {
+        params = params.append('search', filters.search);
+      }
+
       // Handle brand and model filters
       if (filters.brand) {
         params = params.append('brand', filters.brand);
@@ -248,24 +253,21 @@ export class VehicleService {
     
     console.log('VehicleService - Sending request to:', url);
     console.log('VehicleService - With params:', params.toString());
-    
-    return this.http.get<Vehicle[]>(url, { params }).pipe(
-      map(response => {
-        if (!Array.isArray(response)) {
-          console.error('VehicleService - Response is not an array:', response);
-          return [];
-        }
-        return response.map(vehicle => ({
-          ...vehicle,
-          baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
-          currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
-        }));
-      }),
-      catchError(error => {
-        console.error('VehicleService - Error:', error);
-        return this.handleError(error);
-      })
-    );
+    return this.http.get<Vehicle[]>(url, { params })
+      .pipe(
+        map(response => {
+          if (!Array.isArray(response)) {
+            console.error('VehicleService - Response is not an array:', response);
+            return [];
+          }
+          return response.map(vehicle => ({
+            ...vehicle,
+            baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
+            currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
+          }));
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: any): Observable<never> {

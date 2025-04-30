@@ -3,6 +3,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { VehicleFiltersDto } from './dto/vehicle-filters.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -18,7 +19,7 @@ export class VehiclesController {
   ) {}
 
   @Get('public')
-  async findAllPublic(@Query() filters: any) {
+  async findAllPublic(@Query() filters: VehicleFiltersDto) {
     console.log('VehiclesController - Finding all public vehicles with filters:', filters);
     try {
       const vehicles = await this.vehiclesService.findAll(filters);

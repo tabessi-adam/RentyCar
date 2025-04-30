@@ -1,7 +1,12 @@
 import { IsEnum, IsOptional, IsNumber, IsString, Min, Max } from 'class-validator';
 import { VehicleStatus, FuelType, Transmission } from '../entities/vehicle.entity';
+import { Type } from 'class-transformer';
 
 export class VehicleFiltersDto {
+  @IsOptional()
+  @IsString()
+  search?: string;
+
   @IsOptional()
   @IsEnum(VehicleStatus)
   status?: VehicleStatus;
@@ -15,11 +20,13 @@ export class VehicleFiltersDto {
   model?: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(1900)
   minYear?: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Max(new Date().getFullYear() + 1)
   maxYear?: number;
@@ -33,11 +40,13 @@ export class VehicleFiltersDto {
   transmission?: Transmission;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   minPrice?: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   maxPrice?: number;
@@ -47,14 +56,18 @@ export class VehicleFiltersDto {
   officeId?: string;
 
   @IsOptional()
+  @Type(() => Boolean)
   hasGPS?: boolean;
 
   @IsOptional()
+  @Type(() => Boolean)
   hasBluetooth?: boolean;
 
   @IsOptional()
+  @Type(() => Boolean)
   hasAirConditioning?: boolean;
 
   @IsOptional()
+  @Type(() => Boolean)
   hasUSBCable?: boolean;
 } 

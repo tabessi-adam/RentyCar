@@ -1,10 +1,12 @@
 <app-navbar></app-navbar>
 <main class="vehicles-gallery">
   <aside class="filters-section">
-    <app-vehicles-filter (filtersChanged)="onFiltersChanged($event)"></app-vehicles-filter>
+    <app-vehicles-filter (filtersChanged)="onFiltersChanged($event)" (clearFilters)="onClearFilters()"></app-vehicles-filter>
   </aside>
 
   <section class="vehicles-section">
+    <app-search-bar (search)="onSearch($event)" (clear)="onClearSearch()"></app-search-bar>
+    
     @if (isLoading) {
       <div class="loading-message">
         <p>Loading vehicles...</p>
