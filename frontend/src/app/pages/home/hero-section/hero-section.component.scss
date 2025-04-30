@@ -137,6 +137,7 @@ $breakpoint-1024: 1024px;
     overflow: hidden;
     z-index: 1;
     box-shadow: $shadow-sm;
+    cursor: pointer;
 
     &:hover {
       transform: translateY(-3px);
@@ -155,6 +156,7 @@ $breakpoint-1024: 1024px;
 
       &:hover {
         background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+        transform: translateY(-3px) scale(1.02);
       }
 
       &::before {
@@ -181,6 +183,7 @@ $breakpoint-1024: 1024px;
 
       &:hover {
         background-color: rgba(74, 110, 245, 0.08);
+        transform: translateY(-3px) scale(1.02);
       }
     }
   }

@@ -1,19 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-hero-section',
   templateUrl: './hero-section.component.html',
   styleUrls: ['./hero-section.component.scss'],
   standalone: true,
-  imports: [FontAwesomeModule, RouterLink]
+  imports: [FontAwesomeModule, RouterModule]
 })
 export class HeroSectionComponent implements OnInit {
   faCheckCircle = faCheckCircle;
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
+
+  onBookNowClick(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/collection']);
+    } else {
+      this.router.navigate(['/auth/login']);
+    }
+  }
 }
