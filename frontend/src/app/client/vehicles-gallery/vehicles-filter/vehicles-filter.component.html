@@ -4,87 +4,98 @@
     <button class="clear-filters" (click)="clearFilters()">Clear All</button>
   </div>
   
-  <div class="filter-grid">
-    <!-- Basic Filters -->
+  <div class="filter-sections">
+    <!-- Basic Information Section -->
     <div class="filter-section">
-      <h4>Brand & Model</h4>
-      <input type="text" [(ngModel)]="filters.brand" (change)="onFilterChange()" 
-             placeholder="Brand" class="brand-input">
-      <input type="text" [(ngModel)]="filters.model" (change)="onFilterChange()" 
-             placeholder="Model" class="model-input">
+      <h4>Basic Information</h4>
+      <div class="filter-content">
+        <input type="text" [(ngModel)]="filters.basic.brand" (change)="onFilterChange()" 
+               placeholder="Brand" class="brand-input">
+        <input type="text" [(ngModel)]="filters.basic.model" (change)="onFilterChange()" 
+               placeholder="Model" class="model-input">
+      </div>
     </div>
 
+    <!-- Status Section -->
     <div class="filter-section">
       <h4>Status</h4>
-      <select [(ngModel)]="filters.status" (change)="onFilterChange()">
-        <option value="">All Statuses</option>
-        <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
-      </select>
+      <div class="filter-content">
+        <select [(ngModel)]="filters.status.status" (change)="onFilterChange()">
+          <option value="">All Statuses</option>
+          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+        </select>
+      </div>
     </div>
 
+    <!-- Specifications Section -->
     <div class="filter-section">
-      <h4>Fuel Type</h4>
-      <select [(ngModel)]="filters.fuelType" (change)="onFilterChange()">
-        <option value="">All Fuel Types</option>
-        <option *ngFor="let type of fuelTypeOptions" [value]="type">{{ type }}</option>
-      </select>
+      <h4>Specifications</h4>
+      <div class="filter-content">
+        <select [(ngModel)]="filters.specifications.fuelType" (change)="onFilterChange()">
+          <option value="">All Fuel Types</option>
+          <option *ngFor="let type of fuelTypeOptions" [value]="type">{{ type }}</option>
+        </select>
+        <select [(ngModel)]="filters.specifications.transmission" (change)="onFilterChange()">
+          <option value="">All Transmissions</option>
+          <option *ngFor="let type of transmissionOptions" [value]="type">{{ type }}</option>
+        </select>
+      </div>
     </div>
 
+    <!-- Price Range Section -->
     <div class="filter-section">
-      <h4>Transmission</h4>
-      <select [(ngModel)]="filters.transmission" (change)="onFilterChange()">
-        <option value="">All Transmissions</option>
-        <option *ngFor="let type of transmissionOptions" [value]="type">{{ type }}</option>
-      </select>
-    </div>
-
-    <!-- Price and Year Range -->
-    <div class="filter-section range-section">
       <h4>Price Range</h4>
-      <div class="range-inputs">
-        <input type="number" [(ngModel)]="filters.minPrice" (change)="onFilterChange()" 
-               placeholder="Min Price" min="0">
-        <span>to</span>
-        <input type="number" [(ngModel)]="filters.maxPrice" (change)="onFilterChange()" 
-               placeholder="Max Price" min="0">
+      <div class="filter-content">
+        <div class="range-inputs">
+          <input type="number" [(ngModel)]="filters.price.minPrice" (change)="onFilterChange()" 
+                 placeholder="Min Price" min="0">
+          <span>to</span>
+          <input type="number" [(ngModel)]="filters.price.maxPrice" (change)="onFilterChange()" 
+                 placeholder="Max Price" min="0">
+        </div>
       </div>
     </div>
 
-    <div class="filter-section range-section">
+    <!-- Year Range Section -->
+    <div class="filter-section">
       <h4>Year Range</h4>
-      <div class="range-inputs">
-        <select [(ngModel)]="filters.minYear" (change)="onFilterChange()">
-          <option [value]="null">Min Year</option>
-          <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
-        </select>
-        <span>to</span>
-        <select [(ngModel)]="filters.maxYear" (change)="onFilterChange()">
-          <option [value]="null">Max Year</option>
-          <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
-        </select>
+      <div class="filter-content">
+        <div class="range-inputs">
+          <select [(ngModel)]="filters.year.minYear" (change)="onFilterChange()">
+            <option [value]="null">Min Year</option>
+            <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
+          </select>
+          <span>to</span>
+          <select [(ngModel)]="filters.year.maxYear" (change)="onFilterChange()">
+            <option [value]="null">Max Year</option>
+            <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <!-- Features -->
+    <!-- Features Section -->
     <div class="filter-section">
       <h4>Features</h4>
-      <div class="feature-grid">
-        <label>
-          <input type="checkbox" [(ngModel)]="filters.hasGPS" (change)="onFilterChange()">
-          GPS
-        </label>
-        <label>
-          <input type="checkbox" [(ngModel)]="filters.hasBluetooth" (change)="onFilterChange()">
-          Bluetooth
-        </label>
-        <label>
-          <input type="checkbox" [(ngModel)]="filters.hasAirConditioning" (change)="onFilterChange()">
-          Air Conditioning
-        </label>
-        <label>
-          <input type="checkbox" [(ngModel)]="filters.hasUSBCable" (change)="onFilterChange()">
-          USB Cable
-        </label>
+      <div class="filter-content">
+        <div class="feature-grid">
+          <label>
+            <input type="checkbox" [(ngModel)]="filters.features.hasGPS" (change)="onFilterChange()">
+            GPS
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="filters.features.hasBluetooth" (change)="onFilterChange()">
+            Bluetooth
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="filters.features.hasAirConditioning" (change)="onFilterChange()">
+            Air Conditioning
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="filters.features.hasUSBCable" (change)="onFilterChange()">
+            USB Cable
+          </label>
+        </div>
       </div>
     </div>
   </div>
