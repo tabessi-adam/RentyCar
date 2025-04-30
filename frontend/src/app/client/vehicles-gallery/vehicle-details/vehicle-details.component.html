@@ -49,36 +49,27 @@
 
           <h2 class="features-title">Vehicle Features</h2>
           <div class="vehicle-features">
-            <div class="features-grid">
-              <div class="feature-item">
+            <ul class="features-list">
+              <li class="feature-item" *ngIf="vehicle.hasAirConditioning">
                 <i class="fas fa-snowflake"></i>
-                <div class="feature-info">
-                  <span class="feature-label">Air Conditioning</span>
-                  <span class="feature-value">{{ vehicle.hasAirConditioning ? 'Yes' : 'No' }}</span>
-                </div>
-              </div>
-              <div class="feature-item">
+                <span class="feature-label">Air Conditioning</span>
+              </li>
+              <li class="feature-item" *ngIf="vehicle.hasBluetooth">
                 <i class="fas fa-bluetooth"></i>
-                <div class="feature-info">
-                  <span class="feature-label">Bluetooth</span>
-                  <span class="feature-value">{{ vehicle.hasBluetooth ? 'Yes' : 'No' }}</span>
-                </div>
-              </div>
-              <div class="feature-item">
+                <span class="feature-label">Bluetooth</span>
+              </li>
+              <li class="feature-item" *ngIf="vehicle.hasGPS">
                 <i class="fas fa-map-marker-alt"></i>
-                <div class="feature-info">
-                  <span class="feature-label">GPS</span>
-                  <span class="feature-value">{{ vehicle.hasGPS ? 'Yes' : 'No' }}</span>
-                </div>
-              </div>
-              <div class="feature-item">
+                <span class="feature-label">GPS</span>
+              </li>
+              <li class="feature-item" *ngIf="vehicle.hasUSBCable">
                 <i class="fas fa-usb"></i>
-                <div class="feature-info">
-                  <span class="feature-label">USB Cable</span>
-                  <span class="feature-value">{{ vehicle.hasUSBCable ? 'Yes' : 'No' }}</span>
-                </div>
-              </div>
-            </div>
+                <span class="feature-label">USB Cable</span>
+              </li>
+              <li class="no-features" *ngIf="!vehicle.hasAirConditioning && !vehicle.hasBluetooth && !vehicle.hasGPS && !vehicle.hasUSBCable">
+                No additional features available
+              </li>
+            </ul>
           </div>
         </div>
         <div class="right-section">

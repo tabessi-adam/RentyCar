@@ -55,8 +55,7 @@
         padding-left: 4rem;
       }
 
-      .vehicle-specifications,
-      .vehicle-features {
+      .vehicle-specifications {
         margin-top: 0;
         padding: 1.5rem 4rem;
         border: 1px solid #000;
@@ -66,15 +65,13 @@
         box-sizing: border-box;
         margin-left: 4rem;
 
-        .specs-grid,
-        .features-grid {
+        .specs-grid {
           display: flex;
           flex-wrap: nowrap;
           gap: 1rem;
           justify-content: space-between;
 
-          .spec-item,
-          .feature-item {
+          .spec-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -95,24 +92,62 @@
               color: #000;
             }
 
-            .spec-info,
-            .feature-info {
+            .spec-info {
               display: flex;
               flex-direction: column;
 
-              .spec-label,
-              .feature-label {
+              .spec-label {
                 font-size: 0.75rem;
                 color: #666;
               }
 
-              .spec-value,
-              .feature-value {
+              .spec-value {
                 font-size: 0.9rem;
                 font-weight: 500;
                 color: #333;
               }
             }
+          }
+        }
+      }
+
+      .vehicle-features {
+        margin-left: 4rem;
+        padding-left: 4rem;
+
+        .features-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            i {
+              font-size: 1.2rem;
+              color: #000;
+              width: 24px;
+              text-align: center;
+            }
+
+            .feature-label {
+              font-size: 1rem;
+              color: #333;
+            }
+          }
+
+          .no-features {
+            color: #666;
+            font-style: italic;
+            padding: 0.75rem 0;
           }
         }
       }
@@ -172,22 +207,24 @@
           font-size: 1.5rem;
         }
 
-        .vehicle-specifications,
-        .vehicle-features {
+        .vehicle-specifications {
           padding: 1rem;
           margin: 1rem;
           margin-left: 0;
 
-          .specs-grid,
-          .features-grid {
+          .specs-grid {
             flex-wrap: wrap;
             justify-content: flex-start;
 
-            .spec-item,
-            .feature-item {
+            .spec-item {
               min-width: 100px;
             }
           }
+        }
+
+        .vehicle-features {
+          margin-left: 0;
+          padding-left: 1rem;
         }
       }
     }

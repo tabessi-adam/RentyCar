@@ -73,7 +73,20 @@ export class VehiclesFilterComponent {
   }
 
   onFilterChange(): void {
-    this.filtersChanged.emit(this.filters);
+    const flattenedFilters = {
+      status: this.filters.status.status,
+      fuelType: this.filters.specifications.fuelType,
+      transmission: this.filters.specifications.transmission,
+      minPrice: this.filters.price.minPrice,
+      maxPrice: this.filters.price.maxPrice,
+      minYear: this.filters.year.minYear,
+      maxYear: this.filters.year.maxYear,
+      hasGPS: this.filters.features.hasGPS,
+      hasBluetooth: this.filters.features.hasBluetooth,
+      hasAirConditioning: this.filters.features.hasAirConditioning,
+      hasUSBCable: this.filters.features.hasUSBCable
+    };
+    this.filtersChanged.emit(flattenedFilters);
   }
 
   handleClearFilters(): void {
@@ -101,6 +114,18 @@ export class VehiclesFilterComponent {
       }
     };
     this.clearFilters.emit();
-    this.onFilterChange();
+    this.filtersChanged.emit({
+      status: '',
+      fuelType: '',
+      transmission: '',
+      minPrice: null,
+      maxPrice: null,
+      minYear: null,
+      maxYear: null,
+      hasGPS: false,
+      hasBluetooth: false,
+      hasAirConditioning: false,
+      hasUSBCable: false
+    });
   }
 }
