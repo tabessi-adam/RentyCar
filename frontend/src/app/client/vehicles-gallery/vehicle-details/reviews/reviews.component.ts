@@ -24,6 +24,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   hasUserReviewed = false;
   userReview: Review | null = null;
   showAlreadyReviewedMessage = false;
+  showNotRentedMessage = false;
   currentUserName: string | null = null;
   currentUserId: string | null = null;
   private authSubscription: Subscription | null = null;
@@ -58,6 +59,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     });
 
     this.loadReviews();
+    this.checkRentalStatus();
   }
 
   ngOnDestroy() {
@@ -96,8 +98,19 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkRentalStatus() {
+    // TODO: Implement rental status check
+    // For now, we'll assume the user has rented the vehicle
+    this.showNotRentedMessage = false;
+  }
+
   onSubmit() {
     if (this.reviewForm.valid && !this.isSubmitting && !this.hasUserReviewed) {
+      if (this.showNotRentedMessage) {
+        this.errorMessage = 'You can only review vehicles you have rented.';
+        return;
+      }
+
       this.isSubmitting = true;
       this.errorMessage = null;
       this.showAlreadyReviewedMessage = false;
@@ -133,6 +146,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           console.error('Error submitting review:', error);
           if (error.message === 'You have already reviewed this vehicle') {
             this.showAlreadyReviewedMessage = true;
+            this.errorMessage = null;
+          } else if (error.message === 'You can only review vehicles you have rented') {
+            this.showNotRentedMessage = true;
             this.errorMessage = null;
           } else {
             this.errorMessage = error.message || 'Failed to submit review';
