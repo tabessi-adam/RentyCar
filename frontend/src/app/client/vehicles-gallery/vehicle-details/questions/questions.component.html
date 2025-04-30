@@ -1,1 +1,89 @@
-<p>questions works!</p>
+<div class="questions-section">
+    <h2 class="reviews-title">Frequently Asked Questions</h2>
+    <div class="questions-list">
+      <!-- Question 1 -->
+      <div class="question-item">
+        <div 
+          class="question-header" 
+          [class.active]="isQuestionActive(0)"
+          (click)="toggleQuestion(0)"
+          role="button"
+          tabindex="0"
+        >
+          <h3 class="question-text">What is included in the rental price?</h3>
+          <span class="toggle-icon">{{ isQuestionActive(0) ? '−' : '+' }}</span>
+        </div>
+        <div class="answer-content" [class.active]="isQuestionActive(0)">
+          <p>The rental price includes the vehicle, unlimited mileage, and basic insurance coverage. Additional options like GPS, child seats, or additional insurance can be added during the reservation process.</p>
+        </div>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="question-item">
+        <div 
+          class="question-header" 
+          [class.active]="isQuestionActive(1)"
+          (click)="toggleQuestion(1)"
+          role="button"
+          tabindex="0"
+        >
+          <h3 class="question-text">What are the requirements to rent a vehicle?</h3>
+          <span class="toggle-icon">{{ isQuestionActive(1) ? '−' : '+' }}</span>
+        </div>
+        <div class="answer-content" [class.active]="isQuestionActive(1)">
+          <p>To rent a vehicle, you must be at least 21 years old, have a valid driver's license, and a valid credit card. International renters may need additional documentation.</p>
+        </div>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="question-item">
+        <div 
+          class="question-header" 
+          [class.active]="isQuestionActive(2)"
+          (click)="toggleQuestion(2)"
+          role="button"
+          tabindex="0"
+        >
+          <h3 class="question-text">What is your cancellation policy?</h3>
+          <span class="toggle-icon">{{ isQuestionActive(2) ? '−' : '+' }}</span>
+        </div>
+        <div class="answer-content" [class.active]="isQuestionActive(2)">
+          <p>You can cancel your reservation up to 24 hours before the rental start time for a full refund. Cancellations made within 24 hours may be subject to a cancellation fee.</p>
+        </div>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="question-item">
+        <div 
+          class="question-header" 
+          [class.active]="isQuestionActive(3)"
+          (click)="toggleQuestion(3)"
+          role="button"
+          tabindex="0"
+        >
+          <h3 class="question-text">Can I extend my rental period?</h3>
+          <span class="toggle-icon">{{ isQuestionActive(3) ? '−' : '+' }}</span>
+        </div>
+        <div class="answer-content" [class.active]="isQuestionActive(3)">
+          <p>Yes, you can extend your rental period. Please contact our customer service at least 24 hours before your scheduled return time to arrange an extension, subject to vehicle availability.</p>
+        </div>
+      </div>
+      
+      <!-- Question 5 -->
+      <div class="question-item">
+        <div 
+          class="question-header" 
+          [class.active]="isQuestionActive(4)"
+          (click)="toggleQuestion(4)"
+          role="button"
+          tabindex="0"
+        >
+          <h3 class="question-text">What happens if the vehicle breaks down?</h3>
+          <span class="toggle-icon">{{ isQuestionActive(4) ? '−' : '+' }}</span>
+        </div>
+        <div class="answer-content" [class.active]="isQuestionActive(4)">
+          <p>In case of a breakdown, please contact our 24/7 roadside assistance service. We will arrange for a replacement vehicle or repair service as quickly as possible.</p>
+        </div>
+      </div>
+    </div>
+  </div>

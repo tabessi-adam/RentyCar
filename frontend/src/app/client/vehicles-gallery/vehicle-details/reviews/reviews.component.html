@@ -1,1 +1,19 @@
-<p>reviews works!</p>
+<div class="reviews-section">
+  <h2 class="reviews-title">Customer Reviews</h2>
+  <div class="reviews-list">
+    <div class="review-item" *ngFor="let review of reviews">
+      <div class="review-header">
+        <div class="reviewer-info">
+          <h3 class="reviewer-name">{{ review.name }}</h3>
+          <span class="review-date">{{ review.date | date }}</span>
+        </div>
+        <div class="rating">
+          <span class="star" *ngFor="let star of getStars(review.rating)">
+            <i class="fas" [class.fa-star]="star === 1" [class.fa-star-o]="star === 0"></i>
+          </span>
+        </div>
+      </div>
+      <p class="review-comment">{{ review.comment }}</p>
+    </div>
+  </div>
+</div>
