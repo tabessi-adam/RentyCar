@@ -1,4 +1,4 @@
-<div class="vehicle-card">
+<div class="vehicle-card" (click)="navigateToDetails()">
   <div class="image-container">
     <img *ngIf="vehicle.images?.[0]?.url || vehicle.imageUrl" 
          [src]="vehicle.images?.[0]?.url || vehicle.imageUrl" 
@@ -39,7 +39,7 @@
           <span class="price-value">{{ vehicle.pricePerDay }} TND</span>
           <span class="price-unit">/ Day</span>
         </div>
-        <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'">
+        <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'" (click)="$event.stopPropagation()">
           Book Now
         </button>
       </div>

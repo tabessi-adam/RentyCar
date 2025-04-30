@@ -1,0 +1,56 @@
+.calendar-container {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .calendar-header {
+    margin-bottom: 1rem;
+    text-align: center;
+
+    h3 {
+      margin: 0;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .selected-dates {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+
+      span {
+        display: block;
+        margin: 0.25rem 0;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .mat-calendar {
+      width: 100%;
+    }
+
+    .mat-calendar-body-cell {
+      &.selected-date {
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+      }
+
+      &.in-range {
+        background-color: rgba(0, 123, 255, 0.1);
+      }
+    }
+
+    .mat-calendar-body-selected {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .mat-calendar-body-today {
+      border-color: #007bff;
+    }
+  }
+}

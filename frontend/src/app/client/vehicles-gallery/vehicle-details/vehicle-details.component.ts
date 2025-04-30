@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { VehicleCarouselComponent } from './vehicle-carousel/vehicle-carousel.component';
+import { ReserveComponent } from './reserve/reserve.component';
 import { ActivatedRoute } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
@@ -7,44 +11,54 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    FooterComponent,
+    VehicleCarouselComponent,
+    ReserveComponent
+  ],
   templateUrl: './vehicle-details.component.html',
   styleUrl: './vehicle-details.component.scss'
 })
 export class VehicleDetailsComponent implements OnInit {
   vehicle: Vehicle | null = null;
   isLoading = true;
-  error: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private vehicleService: VehicleService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     const vehicleId = this.route.snapshot.paramMap.get('id');
     if (vehicleId) {
-      this.loadVehicle(vehicleId);
-    } else {
-      this.error = 'Vehicle ID not provided';
-      this.isLoading = false;
+      this.vehicleService.getVehicleById(vehicleId).subscribe({
+        next: (vehicle) => {
+          this.vehicle = vehicle;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading vehicle:', error);
+          this.isLoading = false;
+        }
+      });
     }
   }
 
-  private loadVehicle(id: string): void {
-    this.isLoading = true;
-    this.error = null;
-
-    this.vehicleService.getVehicleById(id).subscribe({
-      next: (vehicle) => {
-        this.vehicle = vehicle;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load vehicle details. Please try again later.';
-        this.isLoading = false;
-        console.error('Error loading vehicle:', err);
-      }
-    });
+  get vehicleImages(): string[] {
+    if (!this.vehicle) return [];
+    
+    // If we have images array, use those URLs
+    if (this.vehicle.images && this.vehicle.images.length > 0) {
+      return this.vehicle.images.map(img => img.url);
+    }
+    
+    // Fallback to legacy imageUrl if available
+    if (this.vehicle.imageUrl) {
+      return [this.vehicle.imageUrl];
+    }
+    
+    return [];
   }
 }

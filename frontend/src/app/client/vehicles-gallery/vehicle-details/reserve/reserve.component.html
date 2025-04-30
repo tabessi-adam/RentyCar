@@ -1,0 +1,34 @@
+<mat-card class="reserve-card">
+  <mat-card-content>
+    <app-calendar
+      [selectedStartDate]="selectedStartDate"
+      [selectedEndDate]="selectedEndDate"
+      (dateRangeChange)="onDateRangeChange($event)"
+    ></app-calendar>
+
+    <div class="price-summary" *ngIf="selectedStartDate && selectedEndDate">
+      <div class="price-row">
+        <span>Price per day</span>
+        <span>{{ vehicle.pricePerDay }} TND</span>
+      </div>
+      <div class="price-row">
+        <span>Number of days</span>
+        <span>{{ calculateTotalPrice() / vehicle.pricePerDay }}</span>
+      </div>
+      <div class="price-row total">
+        <span>Total Price</span>
+        <span>{{ calculateTotalPrice() }} TND</span>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button 
+            color="primary" 
+            class="reserve-button"
+            [disabled]="!selectedStartDate || !selectedEndDate"
+            (click)="reserveVehicle()">
+      Reserve Now
+    </button>
+  </mat-card-actions>
+</mat-card>

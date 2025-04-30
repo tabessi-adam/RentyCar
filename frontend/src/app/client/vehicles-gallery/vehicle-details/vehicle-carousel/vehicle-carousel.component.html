@@ -1,0 +1,27 @@
+<div class="carousel-container">
+  <div class="main-image-container" *ngIf="images.length > 0; else noImage">
+    <img [src]="images[currentIndex]" [alt]="'Vehicle image ' + (currentIndex + 1)" class="main-image">
+    <button class="nav-button prev" (click)="previousImage()">
+      <fa-icon [icon]="faChevronLeft"></fa-icon>
+    </button>
+    <button class="nav-button next" (click)="nextImage()">
+      <fa-icon [icon]="faChevronRight"></fa-icon>
+    </button>
+  </div>
+  
+  <ng-template #noImage>
+    <div class="no-image-placeholder">
+      <fa-icon [icon]="faCar" class="placeholder-icon"></fa-icon>
+      <span class="placeholder-text">No Images Available</span>
+    </div>
+  </ng-template>
+  
+  <div class="thumbnail-container" *ngIf="images.length > 1">
+    <div class="thumbnail" 
+         *ngFor="let image of images; let i = index"
+         [class.active]="i === currentIndex"
+         (click)="selectImage(i)">
+      <img [src]="image" [alt]="'Thumbnail ' + (i + 1)">
+    </div>
+  </div>
+</div>

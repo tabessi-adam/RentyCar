@@ -1,0 +1,17 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <h3>Select Dates</h3>
+    <div class="selected-dates" *ngIf="selectedStartDate || selectedEndDate">
+      <span *ngIf="selectedStartDate">From: {{ selectedStartDate | date:'mediumDate' }}</span>
+      <span *ngIf="selectedEndDate">To: {{ selectedEndDate | date:'mediumDate' }}</span>
+    </div>
+  </div>
+
+  <mat-calendar
+    [selected]="selectedStartDate"
+    [minDate]="minDate"
+    [dateClass]="dateClass"
+    (selectedChange)="onDateChange($event)"
+    [startAt]="selectedMonth"
+  ></mat-calendar>
+</div>
