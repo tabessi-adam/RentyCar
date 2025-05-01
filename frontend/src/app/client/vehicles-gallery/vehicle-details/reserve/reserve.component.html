@@ -7,6 +7,25 @@
       (dateRangeChange)="onDateRangeChange($event)"
     ></app-calendar>
 
+    <div class="calendar-legend">
+      <div class="legend-item">
+        <div class="color-box selected"></div>
+        <span>Selected Dates</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box pending"></div>
+        <span>Your Pending Requests</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box accepted"></div>
+        <span>Your Accepted Requests</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box other-client"></div>
+        <span>Reserved Days</span>
+      </div>
+    </div>
+
     <div class="price-summary" *ngIf="selectedStartDate && selectedEndDate">
       <div class="price-row">
         <span>Price per day</span>

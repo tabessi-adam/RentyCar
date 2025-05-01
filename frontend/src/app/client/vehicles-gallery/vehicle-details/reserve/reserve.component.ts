@@ -96,11 +96,20 @@ export class ReserveComponent implements OnInit {
   calculateTotalPrice(): number {
     if (!this.selectedStartDate || !this.selectedEndDate) return 0;
     
-    const days = Math.ceil(
-      (this.selectedEndDate.getTime() - this.selectedStartDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    // Set both dates to midnight to ensure accurate day calculation
+    const start = new Date(this.selectedStartDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(this.selectedEndDate);
+    end.setHours(0, 0, 0, 0);
     
-    return days * this.vehicle.pricePerDay;
+    // Calculate the difference in days
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Add 1 to include both the start and end days
+    const totalDays = diffDays + 1;
+    
+    return totalDays * this.vehicle.pricePerDay;
   }
 
   calculateTotalDays(): number {
