@@ -1,0 +1,90 @@
+<mat-card class="reservations-card">
+  <mat-card-header>
+    <mat-card-title>My Reservations</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-container">
+      <div class="table">
+        <!-- Desktop Header -->
+        <div class="table-header desktop-only">
+          <div class="header-cell">Vehicle</div>
+          <div class="header-cell">Start Date</div>
+          <div class="header-cell">End Date</div>
+          <div class="header-cell">Duration</div>
+          <div class="header-cell">Total Price</div>
+          <div class="header-cell">Status</div>
+          <div class="header-cell">Actions</div>
+        </div>
+
+        <!-- Reservations List -->
+        <div class="table-body">
+          <div *ngFor="let reservation of reservations" class="table-row">
+            <!-- Vehicle -->
+            <div class="table-cell" data-label="Vehicle">
+              <div class="vehicle-info">
+                <div class="vehicle-name">{{ reservation.vehicle?.brand }} {{ reservation.vehicle?.model }}</div>
+                <div class="vehicle-year">{{ reservation.vehicle?.year }}</div>
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="table-cell" data-label="Start Date">
+              <div class="date-cell">
+                <fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>
+                <span>{{ reservation.startDate | date:'mediumDate' }}</span>
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="table-cell" data-label="End Date">
+              <div class="date-cell">
+                <fa-icon [icon]="faCalendarAlt" class="icon"></fa-icon>
+                <span>{{ reservation.endDate | date:'mediumDate' }}</span>
+              </div>
+            </div>
+
+            <!-- Duration -->
+            <div class="table-cell" data-label="Duration">
+              <div class="days-cell">
+                <fa-icon [icon]="faClock" class="icon"></fa-icon>
+                <span>{{ reservation.totalDays }} days</span>
+              </div>
+            </div>
+
+            <!-- Total Price -->
+            <div class="table-cell" data-label="Total Price">
+              <div class="price-cell">
+                <fa-icon [icon]="faMoneyBillWave" class="icon"></fa-icon>
+                <span>{{ reservation.totalPrice | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div class="table-cell" data-label="Status">
+              <span [class]="'status-badge ' + reservation.status.toLowerCase()">
+                {{ reservation.status }}
+              </span>
+            </div>
+
+            <!-- Actions -->
+            <div class="table-cell actions-cell" data-label="Actions">
+              <button mat-icon-button color="warn" 
+                      *ngIf="reservation.status === 'PENDING'"
+                      (click)="cancelReservation(reservation.id)"
+                      matTooltip="Cancel Reservation">
+                <fa-icon [icon]="faTimes" class="action-icon"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="reservations.length === 0">
+      <fa-icon [icon]="faCalendarAlt" class="empty-icon"></fa-icon>
+      <h3>No Reservations Found</h3>
+      <p>You haven't made any reservations yet.</p>
+    </div>
+  </mat-card-content>
+</mat-card>

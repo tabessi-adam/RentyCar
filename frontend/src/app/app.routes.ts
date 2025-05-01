@@ -165,7 +165,7 @@ export const routes: Routes = [
       },
       {
         path: 'reservations',
-        loadComponent: () => import('./dashboard/reservations/reservations.component').then(m => m.ReservationsComponent)
+        loadComponent: () => import('./client/reservations/reservations.component').then(m => m.ReservationsComponent)
       },
       {
         path: 'reviews',

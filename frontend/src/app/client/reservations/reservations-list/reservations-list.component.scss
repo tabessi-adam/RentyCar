@@ -1,0 +1,207 @@
+.reservations-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 800px;
+}
+
+.table-header {
+  display: flex;
+  background-color: #f8f9fa;
+  padding: 16px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #dee2e6;
+
+  .header-cell {
+    flex: 1;
+    padding: 0 8px;
+    text-align: left;
+  }
+}
+
+.table-body {
+  .table-row {
+    display: flex;
+    padding: 16px;
+    border-bottom: 1px solid #dee2e6;
+    align-items: center;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .table-cell {
+    flex: 1;
+    padding: 0 8px;
+  }
+}
+
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .vehicle-name {
+    font-weight: 500;
+    color: #212529;
+  }
+
+  .vehicle-year {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+}
+
+.date-cell, .days-cell, .price-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .icon {
+    color: #6c757d;
+    font-size: 16px;
+  }
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+
+  &.pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  &.accepted {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  &.declined {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+.action-icon {
+  font-size: 18px;
+}
+
+// Mobile styles
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .table {
+    min-width: 100%;
+  }
+
+  .table-body .table-row {
+    display: block;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: white;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .table-cell {
+    display: flex;
+    padding: 8px 0;
+    border: none;
+    position: relative;
+
+    &::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: #495057;
+      width: 120px;
+      flex-shrink: 0;
+    }
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  .vehicle-info {
+    margin-left: 0;
+  }
+
+  .date-cell, .days-cell, .price-cell {
+    .icon {
+      display: none;
+    }
+  }
+
+  .actions-cell {
+    text-align: right;
+    padding-top: 16px;
+    border-top: 1px solid #dee2e6;
+    margin-top: 8px;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 48px;
+    color: #6c757d;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    color: #212529;
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: #6c757d;
+    margin: 0;
+    font-size: 1rem;
+  }
+}
