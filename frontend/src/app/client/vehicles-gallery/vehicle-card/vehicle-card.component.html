@@ -39,7 +39,7 @@
           <span class="price-value">{{ vehicle.pricePerDay }} TND</span>
           <span class="price-unit">/ Day</span>
         </div>
-        <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'" (click)="$event.stopPropagation()">
+        <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'" (click)="handleBookNow($event)">
           Book Now
         </button>
       </div>
