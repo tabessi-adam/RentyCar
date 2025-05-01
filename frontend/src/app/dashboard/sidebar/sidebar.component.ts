@@ -26,11 +26,14 @@ export class SidebarComponent implements OnInit {
   @Input() isExpanded = true;
   @Output() expandedChange = new EventEmitter<boolean>();
   navItems: NavItem[] = [];
+  userRole: Role | undefined;
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.userRole = this.authService.userRole();
+  }
 
   ngOnInit() {
     // Load the saved state from localStorage
@@ -40,8 +43,7 @@ export class SidebarComponent implements OnInit {
       this.expandedChange.emit(this.isExpanded);
     }
     
-    const userRole = this.authService.userRole();
-    this.setNavItems(userRole);
+    this.setNavItems(this.userRole);
   }
 
   // Icons
