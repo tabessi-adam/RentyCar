@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { faCar, faHome, faUsers, faUserTie, faCarSide, faCalendarAlt, faStar, faUser, faSignOutAlt, faChevronLeft, faBuilding, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCar, faHome, faUsers, faUserTie, faCarSide, faCalendarAlt, faStar, faUser, faSignOutAlt, faChevronLeft, faBuilding, faBars, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../core/services/auth.service';
 import { Role } from '../../core/models/role.enum';
 
-type IconKey = 'car' | 'home' | 'users' | 'agents' | 'vehicles' | 'reservations' | 'reviews' | 'profile' | 'logout' | 'chevronLeft' | 'offices';
+type IconKey = 'car' | 'home' | 'users' | 'agents' | 'vehicles' | 'reservations' | 'reviews' | 'profile' | 'logout' | 'chevronLeft' | 'offices' | 'menu';
 
 interface NavItem {
   path: string;
@@ -27,22 +27,27 @@ export class SidebarComponent implements OnInit {
   @Output() expandedChange = new EventEmitter<boolean>();
   navItems: NavItem[] = [];
   userRole: Role | undefined;
+  isMobile = false;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {
     this.userRole = this.authService.userRole();
+    this.isMobile = window.innerWidth < 768;
   }
 
   ngOnInit() {
-    // Load the saved state from localStorage
-    const savedState = localStorage.getItem('sidebarExpanded');
-    if (savedState !== null) {
-      this.isExpanded = savedState === 'true';
-      this.expandedChange.emit(this.isExpanded);
+    // Always hide sidebar on mobile
+    if (this.isMobile) {
+      this.isExpanded = false;
+    } else {
+      const savedState = localStorage.getItem('sidebarExpanded');
+      if (savedState !== null) {
+        this.isExpanded = savedState === 'true';
+      }
     }
-    
+    this.expandedChange.emit(this.isExpanded);
     this.setNavItems(this.userRole);
   }
 
@@ -58,7 +63,8 @@ export class SidebarComponent implements OnInit {
     profile: faUser,
     logout: faSignOutAlt,
     chevronLeft: faChevronLeft,
-    offices: faBuilding
+    offices: faBuilding,
+    menu: faBars
   };
 
   setNavItems(role: Role | undefined) {
@@ -97,14 +103,28 @@ export class SidebarComponent implements OnInit {
   }
 
   toggleSidebar() {
-    this.isExpanded = !this.isExpanded;
-    // Save the state to localStorage
-    localStorage.setItem('sidebarExpanded', this.isExpanded.toString());
-    this.expandedChange.emit(this.isExpanded);
+    if (!this.isMobile) {
+      this.isExpanded = !this.isExpanded;
+      // Save the state to localStorage only for desktop
+      localStorage.setItem('sidebarExpanded', this.isExpanded.toString());
+      this.expandedChange.emit(this.isExpanded);
+    }
   }
 
   handleLogout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const newIsMobile = window.innerWidth < 768;
+    if (newIsMobile !== this.isMobile) {
+      this.isMobile = newIsMobile;
+      if (this.isMobile) {
+        this.isExpanded = false;
+        this.expandedChange.emit(this.isExpanded);
+      }
+    }
   }
 }

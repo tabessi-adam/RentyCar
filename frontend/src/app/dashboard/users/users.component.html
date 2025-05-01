@@ -6,9 +6,44 @@
   <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
     <div class="users-container">
       <div class="header-actions">
-        <h1>Users Management</h1>
+        <div class="management-dropdown">
+          <button class="dropdown-trigger" (click)="toggleDropdown()">
+            <h1>Users Management</h1>
+            <fa-icon [icon]="icons.chevronDown" class="dropdown-icon" [class.rotated]="isDropdownOpen"></fa-icon>
+          </button>
+          <div class="dropdown-menu" [class.show]="isDropdownOpen">
+            <a routerLink="/admin/dashboard" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.dashboard" class="item-icon"></fa-icon>
+              Dashboard
+            </a>
+            <a routerLink="/admin/users" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.users" class="item-icon"></fa-icon>
+              Users Management
+            </a>
+            <a routerLink="/admin/offices" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.offices" class="item-icon"></fa-icon>
+              Offices Management
+            </a>
+            <a routerLink="/admin/vehicles" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.vehicles" class="item-icon"></fa-icon>
+              Vehicles Management
+            </a>
+            <a routerLink="/admin/reservations" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.reservations" class="item-icon"></fa-icon>
+              Reservations Management
+            </a>
+            <a routerLink="/admin/reviews" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.reviews" class="item-icon"></fa-icon>
+              Reviews Management
+            </a>
+            <a routerLink="/admin/profile" class="dropdown-item" routerLinkActive="active">
+              <fa-icon [icon]="icons.profile" class="item-icon"></fa-icon>
+              Profile Management
+            </a>
+          </div>
+        </div>
         <button *ngIf="isAdmin" class="add-user-button" (click)="openAddUserModal()">
-          <i class="fas fa-plus"></i> Add New User
+          <fa-icon [icon]="icons.plus"></fa-icon> Add New User
         </button>
       </div>
       <app-users-list></app-users-list>

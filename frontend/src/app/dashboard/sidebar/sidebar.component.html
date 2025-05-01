@@ -1,4 +1,8 @@
 <div class="sidebar" [class.collapsed]="!isExpanded" [class.admin]="userRole === 'admin'" [class.agent]="userRole === 'agent'">
+  <div class="mobile-menu-button" (click)="toggleSidebar()">
+    <fa-icon [icon]="icons.menu" class="menu-icon"></fa-icon>
+  </div>
+  
   <div class="logo-content" (click)="toggleSidebar()">
     <fa-icon [icon]="icons.car" class="logo-icon"></fa-icon>
     <span class="logo-text" *ngIf="isExpanded">RentyCar</span>

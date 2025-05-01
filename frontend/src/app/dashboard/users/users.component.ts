@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { UsersListComponent } from './users-list/users-list.component';
@@ -9,6 +9,8 @@ import { Client } from '../../core/models/client.model';
 import { Agent } from '../../core/models/agent.model';
 import { AuthService } from '../../core/services/auth.service';
 import { Role } from '../../core/models/role.enum';
+import { faChevronDown, faPlus, faUsers, faBuilding, faCarSide, faCalendarCheck, faStar, faUser, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 type User = Client | Agent;
 
@@ -19,7 +21,8 @@ type User = Client | Agent;
     CommonModule,
     SidebarComponent,
     UsersListComponent,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
@@ -28,6 +31,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(UsersListComponent) usersList!: UsersListComponent;
   isSidebarExpanded = true;
   isAdmin = false;
+  isDropdownOpen = false;
+
+  // Icons
+  icons = {
+    chevronDown: faChevronDown,
+    plus: faPlus,
+    dashboard: faChartLine,
+    users: faUsers,
+    offices: faBuilding,
+    vehicles: faCarSide,
+    reservations: faCalendarCheck,
+    reviews: faStar,
+    profile: faUser
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -56,6 +73,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
     this.cdr.detectChanges();
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    this.cdr.detectChanges();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.management-dropdown')) {
+      this.isDropdownOpen = false;
+      this.cdr.detectChanges();
+    }
   }
 
   openAddUserModal() {

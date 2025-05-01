@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
@@ -7,6 +7,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VehiclesFilterComponent } from './vehicles-filter/vehicles-filter.component';
 import { VehicleFilters } from './vehicles-filter/vehicles-filter.component';
 import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
+import { faChevronDown, faPlus, faUsers, faBuilding, faCarSide, faCalendarCheck, faStar, faUser, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-vehicles',
@@ -15,14 +18,31 @@ import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
     SidebarComponent, 
     VehiclesListComponent, 
     MatDialogModule,
-    VehiclesFilterComponent
+    VehiclesFilterComponent,
+    FontAwesomeModule,
+    RouterModule
   ],
   templateUrl: './vehicles.component.html',
-  styleUrl: './vehicles.component.scss'
+  styleUrls: ['./vehicles.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VehiclesComponent implements AfterViewInit {
   @ViewChild(VehiclesListComponent) vehiclesList!: VehiclesListComponent;
   isSidebarExpanded = true;
+  isDropdownOpen = false;
+
+  // Icons
+  icons = {
+    chevronDown: faChevronDown,
+    plus: faPlus,
+    dashboard: faChartLine,
+    users: faUsers,
+    offices: faBuilding,
+    vehicles: faCarSide,
+    reservations: faCalendarCheck,
+    reviews: faStar,
+    profile: faUser
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -40,6 +60,20 @@ export class VehiclesComponent implements AfterViewInit {
   onSidebarExpandedChange(expanded: boolean) {
     this.isSidebarExpanded = expanded;
     this.cdr.detectChanges();
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    this.cdr.detectChanges();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.management-dropdown')) {
+      this.isDropdownOpen = false;
+      this.cdr.detectChanges();
+    }
   }
 
   openAddVehicleModal() {
