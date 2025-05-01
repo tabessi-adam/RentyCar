@@ -4,8 +4,11 @@
   <ng-container *ngIf="!isLoading; else loading">
     <div class="vehicle-content" *ngIf="vehicle">
       <div class="vehicle-header">
-        <h1 class="vehicle-title">{{ vehicle.brand }} {{ vehicle.model }}</h1>
-        <p class="office-name" *ngIf="vehicle.office">Located at: {{ vehicle.office.name }}</p>
+        <h1 class="vehicle-title">{{ vehicle.brand }} <span class="model-name">{{ vehicle.model }}</span></h1>
+        <p class="office-name" *ngIf="vehicle.office">
+          <i class="fas fa-map-marker-alt"></i>
+          Located at: {{ vehicle.office.name }}
+        </p>
       </div>
       <div class="vehicle-sections">
         <div class="left-section">
