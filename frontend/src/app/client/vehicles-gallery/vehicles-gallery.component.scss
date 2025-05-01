@@ -58,3 +58,61 @@
     }
   }
 }
+
+.vehicle-skeleton {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: pulse 1.5s ease-in-out infinite;
+
+  .skeleton-image {
+    height: 200px;
+    background: #e0e0e0;
+  }
+
+  .skeleton-content {
+    padding: 16px;
+  }
+
+  .skeleton-title {
+    height: 24px;
+    width: 80%;
+    background: #e0e0e0;
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+
+  .skeleton-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .skeleton-detail {
+    height: 16px;
+    width: 60%;
+    background: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .skeleton-price {
+    height: 20px;
+    width: 40%;
+    background: #e0e0e0;
+    border-radius: 4px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

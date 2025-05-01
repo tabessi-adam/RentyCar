@@ -8,8 +8,21 @@
     <app-search-bar (search)="onSearch($event)" (clear)="onClearSearch()"></app-search-bar>
     
     @if (isLoading) {
-      <div class="loading-message">
-        <p>Loading vehicles...</p>
+      <div class="vehicles-grid">
+        @for (item of [1,2,3,4,5,6]; track item) {
+          <div class="vehicle-skeleton">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-title"></div>
+              <div class="skeleton-details">
+                <div class="skeleton-detail"></div>
+                <div class="skeleton-detail"></div>
+                <div class="skeleton-detail"></div>
+              </div>
+              <div class="skeleton-price"></div>
+            </div>
+          </div>
+        }
       </div>
     } @else if (error) {
       <div class="error-message">
