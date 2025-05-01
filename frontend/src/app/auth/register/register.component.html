@@ -53,7 +53,10 @@
         </div>
         <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
           <span *ngIf="password?.errors?.['required']">Password is required</span>
-          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+          <span *ngIf="password?.errors?.['minLength']">Password must be at least 8 characters</span>
+          <span *ngIf="password?.errors?.['noUpperCase']">Password must contain at least one uppercase letter</span>
+          <span *ngIf="password?.errors?.['noLowerCase']">Password must contain at least one lowercase letter</span>
+          <span *ngIf="password?.errors?.['noNumber']">Password must contain at least one number</span>
         </div>
       </div>
 

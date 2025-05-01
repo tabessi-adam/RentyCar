@@ -39,11 +39,33 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  private passwordValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    if (!value) return null;
+
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasMinLength = value.length >= 8;
+
+    const errors: { [key: string]: boolean } = {};
+
+    if (!hasUpperCase) errors['noUpperCase'] = true;
+    if (!hasLowerCase) errors['noLowerCase'] = true;
+    if (!hasNumber) errors['noNumber'] = true;
+    if (!hasMinLength) errors['minLength'] = true;
+
+    return Object.keys(errors).length ? errors : null;
+  }
+
   private initializeForm(): void {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [
+        Validators.required,
+        this.passwordValidator.bind(this)
+      ]],
       confirmPassword: ['', [Validators.required]],
       phoneNumber: ['', [
         Validators.pattern('^[0-9]*$'),
