@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Confirm Reservation</h2>
+<mat-dialog-content>
+  <div class="confirmation-content">
+    <h3>Reservation Details</h3>
+    <p><strong>Vehicle:</strong> {{ data.vehicle.brand }} {{ data.vehicle.model }}</p>
+    <p><strong>Start Date:</strong> {{ data.startDate | date }}</p>
+    <p><strong>End Date:</strong> {{ data.endDate | date }}</p>
+    <p><strong>Total Price:</strong> {{ data.totalPrice }} TND</p>
+
+    <h3>Rental Rules and Conditions</h3>
+    <ol>
+      <li>You must be at least 21 years old to rent this vehicle.</li>
+      <li>A valid driver's license is required at the time of pickup.</li>
+      <li>The vehicle must be returned with the same fuel level as at pickup.</li>
+      <li>Any damages to the vehicle will be charged to the renter.</li>
+      <li>Smoking is not allowed in the vehicle.</li>
+      <li>Pets are not allowed in the vehicle.</li>
+      <li>Late returns will be charged an additional fee.</li>
+    </ol>
+
+    <div class="checkbox-container">
+      <div class="checkbox-wrapper">
+        <input type="checkbox" id="terms-checkbox" [(ngModel)]="acceptedTerms">
+        <label for="terms-checkbox">I have read and accept the rental rules and conditions</label>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!acceptedTerms" (click)="onConfirm()">Confirm Reservation</button>
+</mat-dialog-actions> 

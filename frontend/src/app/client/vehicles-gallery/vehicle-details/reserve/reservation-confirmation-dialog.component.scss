@@ -1,0 +1,136 @@
+:host {
+  display: block;
+}
+
+.confirmation-content {
+  padding: 24px;
+}
+
+h2.mat-dialog-title {
+  margin: 0;
+  padding: 24px 24px 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+h3 {
+  margin: 24px 0 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+p {
+  margin: 8px 0;
+  color: #424242;
+  line-height: 1.5;
+
+  strong {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+}
+
+ol {
+  margin: 16px 0 16px 20px;
+  padding-left: 8px;
+  color: #424242;
+  line-height: 1.6;
+
+  li {
+    margin-bottom: 8px;
+    padding-left: 8px;
+  }
+}
+
+.checkbox-container {
+  margin: 20px 0;
+  background-color: #f5f5f5;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    border: 1px solid #757575;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.15s ease;
+
+    &:checked {
+      background-color: #000000;
+      border-color: #000000;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 1px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 1.5px 1.5px 0;
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover {
+      border-color: #000000;
+    }
+  }
+
+  label {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #424242;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  margin: 0;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+
+  button {
+    margin-left: 8px;
+    min-width: 100px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    &[mat-dialog-close] {
+      color: #424242;
+    }
+
+    &[color="primary"] {
+      background-color: #2e7d32;
+      color: white;
+
+      &:hover {
+        background-color: #1b5e20;
+      }
+
+      &:disabled {
+        background-color: #9e9e9e;
+      }
+    }
+  }
+} 

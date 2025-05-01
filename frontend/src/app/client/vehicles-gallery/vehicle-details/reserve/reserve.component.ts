@@ -4,12 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { ReservationService } from '../../../../core/services/reservation.service';
 import { CreateReservationPayload } from '../../../../core/models/reservation.model';
 import { take, filter } from 'rxjs/operators';
+import { ReservationConfirmationDialogComponent } from './reservation-confirmation-dialog.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 interface DateRange {
   start: Date;
@@ -44,7 +47,9 @@ export class ReserveComponent implements OnInit {
   constructor(
     private reservationService: ReservationService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -107,11 +112,40 @@ export class ReserveComponent implements OnInit {
       return;
     }
 
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('Please log in to make a reservation', 'Login', {
+        duration: 5000
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/auth/login'], {
+          queryParams: { returnUrl: this.router.url }
+        });
+      });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ReservationConfirmationDialogComponent, {
+      width: '500px',
+      data: {
+        vehicle: this.vehicle,
+        startDate: this.selectedStartDate,
+        endDate: this.selectedEndDate,
+        totalPrice: this.calculateTotalPrice()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.processReservation();
+      }
+    });
+  }
+
+  private processReservation() {
     this.isReserving = true;
 
     const payload: CreateReservationPayload = {
       vehicleId: this.vehicle.id,
-      startDate: this.selectedStartDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+      startDate: this.selectedStartDate!.toISOString().split('T')[0],
       totalDays: this.calculateTotalDays()
     };
 
