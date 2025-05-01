@@ -180,7 +180,7 @@ export class ReserveComponent implements OnInit {
         this.snackBar.open('Reservation created successfully!', 'View Reservations', {
           duration: 5000
         }).onAction().subscribe(() => {
-          this.router.navigate(['/my-reservations']);
+          this.router.navigate(['/client/reservations']);
         });
       },
       error: (error) => {

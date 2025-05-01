@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { Reservation } from '../../../core/models/reservation.model';
@@ -9,11 +9,23 @@ import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes, faCalendarAlt, faClock, faMoneyBillWave, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reservations-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatCardModule, DatePipe, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    DatePipe,
+    FontAwesomeModule,
+    MatTooltipModule,
+    MatDialogModule
+  ],
   templateUrl: './reservations-list.component.html',
   styleUrl: './reservations-list.component.scss'
 })
@@ -28,7 +40,10 @@ export class ReservationsListComponent implements OnInit {
   faMoneyBillWave = faMoneyBillWave;
   faCalendarDay = faCalendarDay;
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(
+    private reservationService: ReservationService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.loadReservations();
@@ -45,8 +60,26 @@ export class ReservationsListComponent implements OnInit {
     });
   }
 
-  cancelReservation(id: string) {
-    this.reservationService.deleteReservation(id).subscribe({
+  confirmCancel(reservationId: string) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Cancel Reservation',
+        message: 'Are you sure you want to cancel this reservation? This action cannot be undone.',
+        confirmText: 'Yes, Cancel',
+        cancelText: 'No, Keep It'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cancelReservation(reservationId);
+      }
+    });
+  }
+
+  cancelReservation(reservationId: string) {
+    this.reservationService.deleteReservation(reservationId).subscribe({
       next: () => {
         this.loadReservations(); // Reload the list after cancellation
       },
@@ -55,4 +88,24 @@ export class ReservationsListComponent implements OnInit {
       }
     });
   }
+}
+
+@Component({
+  selector: 'app-confirmation-dialog',
+  template: `
+    <h2 mat-dialog-title>{{ data.title }}</h2>
+    <mat-dialog-content>
+      <p>{{ data.message }}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button [mat-dialog-close]="false">{{ data.cancelText }}</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">{{ data.confirmText }}</button>
+    </mat-dialog-actions>
+  `,
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule]
+})
+export class ConfirmationDialogComponent {
+  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {}
 }

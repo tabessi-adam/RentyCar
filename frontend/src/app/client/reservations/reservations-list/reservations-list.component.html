@@ -70,7 +70,7 @@
             <div class="table-cell actions-cell" data-label="Actions">
               <button mat-icon-button color="warn" 
                       *ngIf="reservation.status === 'PENDING'"
-                      (click)="cancelReservation(reservation.id)"
+                      (click)="confirmCancel(reservation.id)"
                       matTooltip="Cancel Reservation">
                 <fa-icon [icon]="faTimes" class="action-icon"></fa-icon>
               </button>
