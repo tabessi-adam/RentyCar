@@ -81,13 +81,36 @@
 
       <div class="form-group">
         <label for="phoneNumber">Phone Number (Optional)</label>
-        <input 
-          type="tel" 
-          id="phoneNumber" 
-          formControlName="phoneNumber" 
-          class="form-control"
-          placeholder="Enter your phone number"
-        >
+        <div class="phone-input-container">
+          <div class="country-selector" (click)="toggleCountryDropdown()">
+            <span class="flag">{{ selectedCountry.flag }}</span>
+            <span class="dial-code">{{ selectedCountry.dialCode }}</span>
+            <div class="country-dropdown" *ngIf="showCountryDropdown">
+              <div 
+                class="country-option" 
+                *ngFor="let country of countries" 
+                (click)="selectCountry(country)"
+                [class.selected]="country.code === selectedCountry.code"
+              >
+                <span class="flag">{{ country.flag }}</span>
+                <span class="dial-code">{{ country.dialCode }}</span>
+              </div>
+            </div>
+          </div>
+          <input 
+            type="tel" 
+            id="phoneNumber" 
+            formControlName="phoneNumber" 
+            class="form-control phone-input"
+            placeholder="Enter your phone number"
+            [class.is-invalid]="phoneNumber?.invalid && phoneNumber?.touched"
+          >
+        </div>
+        <div class="invalid-feedback" *ngIf="phoneNumber?.invalid && phoneNumber?.touched">
+          <span *ngIf="phoneNumber?.errors?.['pattern']">Please enter only numbers</span>
+          <span *ngIf="phoneNumber?.errors?.['minlength']">Phone number must be at least 8 digits</span>
+          <span *ngIf="phoneNumber?.errors?.['maxlength']">Phone number cannot exceed 15 digits</span>
+        </div>
       </div>
 
       <div *ngIf="errorMessage" class="alert alert-danger mt-3">

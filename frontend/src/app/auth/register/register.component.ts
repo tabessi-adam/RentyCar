@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { Role } from '../../core/models/role.enum';
+import { countries, Country } from '../../shared/data/countries';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,9 @@ export class RegisterComponent implements OnInit {
   errorMessage: string | null = null;
   showPassword = false;
   showConfirmPassword = false;
+  showCountryDropdown = false;
+  countries = countries;
+  selectedCountry: Country = countries[0]; // Default to Tunisia
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +45,11 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      phoneNumber: [''], // Optional, no validators
+      phoneNumber: ['', [
+        Validators.pattern('^[0-9]*$'),
+        Validators.minLength(8),
+        Validators.maxLength(15)
+      ]]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -58,6 +66,33 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const countrySelector = document.querySelector('.country-selector');
+    const dropdown = document.querySelector('.country-dropdown');
+    
+    if (countrySelector && dropdown) {
+      const clickedInside = countrySelector.contains(event.target as Node);
+      if (!clickedInside) {
+        this.showCountryDropdown = false;
+      }
+    }
+  }
+
+  toggleCountryDropdown(): void {
+    this.showCountryDropdown = !this.showCountryDropdown;
+  }
+
+  selectCountry(country: Country): void {
+    this.selectedCountry = country;
+    this.showCountryDropdown = false;
+  }
+
+  getFullPhoneNumber(): string {
+    const phoneNumber = this.phoneNumber?.value || '';
+    return this.selectedCountry.dialCode + phoneNumber;
+  }
+
   onSubmit(): void {
     if (this.registerForm?.valid) {
       this.isLoading = true;
@@ -67,7 +102,7 @@ export class RegisterComponent implements OnInit {
         name: this.registerForm.value.name,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        phoneNumber: this.registerForm.value.phoneNumber || undefined,
+        phoneNumber: this.getFullPhoneNumber() || undefined,
         role: Role.CLIENT
       };
 
