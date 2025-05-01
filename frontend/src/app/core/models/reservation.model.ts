@@ -28,6 +28,7 @@ export interface Reservation {
 export interface CreateReservationPayload {
   vehicleId: string;
   startDate: string; // Send as string in ISO format (e.g., yyyy-MM-dd)
+  endDate: string;   // Send as string in ISO format (e.g., yyyy-MM-dd)
   totalDays: number;
 }
 

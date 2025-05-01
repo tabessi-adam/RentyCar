@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { ReservationService } from '../../../../core/services/reservation.service';
-import { CreateReservationPayload } from '../../../../core/models/reservation.model';
+import { CreateReservationPayload, ReservationStatus } from '../../../../core/models/reservation.model';
 import { take, filter } from 'rxjs/operators';
 import { ReservationConfirmationDialogComponent } from './reservation-confirmation-dialog.component';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -17,11 +17,15 @@ import { AuthService } from '../../../../core/services/auth.service';
 interface DateRange {
   start: Date;
   end: Date;
+  status: ReservationStatus;
+  clientId: string;
 }
 
 interface ApiDateRange {
   startDate: string;
   endDate: string;
+  status: ReservationStatus;
+  clientId: string;
 }
 
 @Component({
@@ -73,7 +77,9 @@ export class ReserveComponent implements OnInit {
       next: (dates: ApiDateRange[]) => {
         this.rentedDates = dates.map(date => ({
           start: new Date(date.startDate),
-          end: new Date(date.endDate)
+          end: new Date(date.endDate),
+          status: date.status,
+          clientId: date.clientId
         }));
       },
       error: (error) => {
@@ -99,9 +105,19 @@ export class ReserveComponent implements OnInit {
 
   calculateTotalDays(): number {
     if (!this.selectedStartDate || !this.selectedEndDate) return 0;
-    return Math.ceil(
-      (this.selectedEndDate.getTime() - this.selectedStartDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    
+    // Set both dates to midnight to ensure accurate day calculation
+    const start = new Date(this.selectedStartDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(this.selectedEndDate);
+    end.setHours(0, 0, 0, 0);
+    
+    // Calculate the difference in days
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Add 1 to include both the start and end days
+    return diffDays + 1;
   }
 
   reserveVehicle() {
@@ -146,6 +162,7 @@ export class ReserveComponent implements OnInit {
     const payload: CreateReservationPayload = {
       vehicleId: this.vehicle.id,
       startDate: this.selectedStartDate!.toISOString().split('T')[0],
+      endDate: this.selectedEndDate!.toISOString().split('T')[0],
       totalDays: this.calculateTotalDays()
     };
 

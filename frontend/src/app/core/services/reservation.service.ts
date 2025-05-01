@@ -12,6 +12,8 @@ const API_URL = `${environment.apiUrl}/reservations`;
 interface DateRange {
   startDate: string;
   endDate: string;
+  status: ReservationStatus;
+  clientId: string;
 }
 
 @Injectable({

@@ -133,16 +133,17 @@ export class ReservationsController {
       throw new NotFoundException('Vehicle not found');
     }
 
-    // Get all accepted reservations for this vehicle
+    // Get all reservations for this vehicle
     const reservations = await this.reservationsService.findAll({ 
-      vehicleId: id,
-      status: ReservationStatus.ACCEPTED
+      vehicleId: id
     });
 
-    // Format the response to only include start and end dates
+    // Format the response to include start date, end date, status, and clientId
     return reservations.map(reservation => ({
       startDate: reservation.startDate,
-      endDate: reservation.endDate
+      endDate: reservation.endDate,
+      status: reservation.status,
+      clientId: reservation.clientId
     }));
   }
 } 

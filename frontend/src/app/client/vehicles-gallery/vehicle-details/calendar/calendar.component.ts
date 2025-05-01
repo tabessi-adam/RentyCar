@@ -1,10 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReservationStatus } from '../../../../core/models/reservation.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 interface DateRange {
   start: Date;
   end: Date;
+  status: ReservationStatus;
+  clientId: string;
 }
 
 @Component({
@@ -20,15 +24,19 @@ interface DateRange {
 export class CalendarComponent {
   @Input() selectedStartDate: Date | null = null;
   @Input() selectedEndDate: Date | null = null;
-  @Input() rentedDates: DateRange[] = [];
+  @Input() bookedDates: DateRange[] = [];
   @Output() dateRangeChange = new EventEmitter<{ start: Date | null, end: Date | null }>();
 
   currentMonth: Date = new Date();
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   calendarDays: (Date | null)[] = [];
+  currentClientId: string | null = null;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.generateCalendarDays();
+    this.authService.currentUser$.subscribe(user => {
+      this.currentClientId = user?.id || null;
+    });
   }
 
   ngOnChanges() {
@@ -82,8 +90,8 @@ export class CalendarComponent {
     this.generateCalendarDays();
   }
 
-  isDateRented(date: Date): boolean {
-    return this.rentedDates.some(range => {
+  getDateStatus(date: Date): ReservationStatus | null {
+    const matchingRange = this.bookedDates.find(range => {
       const start = new Date(range.start);
       const end = new Date(range.end);
       start.setHours(0, 0, 0, 0);
@@ -92,6 +100,7 @@ export class CalendarComponent {
       checkDate.setHours(0, 0, 0, 0);
       return checkDate >= start && checkDate <= end;
     });
+    return matchingRange ? matchingRange.status : null;
   }
 
   isToday(date: Date): boolean {
@@ -130,7 +139,32 @@ export class CalendarComponent {
       return classes.join(' '); // Return early for past dates
     }
     if (this.isToday(day)) classes.push('today');
-    if (this.isDateRented(day)) classes.push('rented');
+    
+    const status = this.getDateStatus(day);
+    const matchingRange = this.bookedDates.find(range => {
+      const start = new Date(range.start);
+      const end = new Date(range.end);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+      const checkDate = new Date(day);
+      checkDate.setHours(0, 0, 0, 0);
+      return checkDate >= start && checkDate <= end;
+    });
+
+    if (matchingRange) {
+      if (matchingRange.clientId === this.currentClientId) {
+        // Current client's reservations
+        if (status === ReservationStatus.PENDING || status?.toLowerCase() === 'pending') {
+          classes.push('pending');
+        } else if (status === ReservationStatus.ACCEPTED || status?.toLowerCase() === 'accepted') {
+          classes.push('accepted');
+        }
+      } else {
+        // Other clients' reservations
+        classes.push('other-client');
+      }
+    }
+    
     if (this.isSelected(day)) classes.push('selected');
     if (this.isInRange(day)) classes.push('in-range');
     
@@ -147,7 +181,7 @@ export class CalendarComponent {
 
     if (!this.selectedStartDate || (this.selectedStartDate && this.selectedEndDate)) {
       // Start new selection
-      if (this.isDateRented(day)) return; // Don't allow starting on a rented date
+      if (this.getDateStatus(day)) return; // Don't allow starting on a booked date
       this.selectedStartDate = new Date(day);
       this.selectedEndDate = null;
     } else {
@@ -159,14 +193,14 @@ export class CalendarComponent {
         this.selectedEndDate = new Date(day);
       }
 
-      // Check if any dates in the range are rented
+      // Check if any dates in the range are booked
       const start = new Date(this.selectedStartDate);
       const end = new Date(this.selectedEndDate);
       let current = new Date(start);
       
       while (current <= end) {
-        if (this.isDateRented(current)) {
-          // If any date in the range is rented, reset the selection
+        if (this.getDateStatus(current)) {
+          // If any date in the range is booked, reset the selection
           this.selectedStartDate = null;
           this.selectedEndDate = null;
           this.dateRangeChange.emit({ start: null, end: null });
