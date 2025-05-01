@@ -20,13 +20,16 @@ $transition-duration: 0.3s;
   .main-content {
     flex: 1;
     padding: 20px;
+    transition: margin-left 0.3s ease;
+    background-color: #f8f9fc;
     margin-left: 250px;
-    transition: margin-left 0.3s ease, width 0.3s ease;
-    width: calc(100% - 250px);
 
-    &.sidebar-collapsed {
-      margin-left: 70px;
-      width: calc(100% - 70px);
+    &.expanded {
+      margin-left: 250px;
+    }
+
+    &:not(.expanded) {
+      margin-left: 80px;
     }
 
     // Common styles for all dashboard content containers
@@ -58,4 +61,12 @@ $transition-duration: 0.3s;
 .sidebar.collapsed ~ .main-content {
   transform: scale(1.01);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 10px;
+  }
 }

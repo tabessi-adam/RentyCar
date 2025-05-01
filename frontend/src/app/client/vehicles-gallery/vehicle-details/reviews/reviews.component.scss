@@ -74,8 +74,16 @@
     margin-bottom: 0.5rem;
 
     .star {
-      color: #ffc107;
       margin-right: 0.25rem;
+      
+      i {
+        color: #ddd;
+        transition: color 0.2s;
+      }
+
+      i.fas {
+        color: #ffc107;
+      }
     }
   }
 
@@ -101,10 +109,17 @@
       .star {
         cursor: pointer;
         margin-right: 0.25rem;
-        color: #ddd;
-        transition: color 0.2s;
+        
+        i {
+          color: #ddd;
+          transition: color 0.2s;
+        }
 
-        &:hover, &.active {
+        i.fas {
+          color: #ffc107;
+        }
+
+        &:hover i {
           color: #ffc107;
         }
       }
@@ -196,10 +211,17 @@
         .star {
           cursor: pointer;
           margin-right: 0.25rem;
-          color: #ddd;
-          transition: color 0.2s;
+          
+          i {
+            color: #ddd;
+            transition: color 0.2s;
+          }
 
-          &:hover, &.active {
+          i.fas {
+            color: #ffc107;
+          }
+
+          &:hover i {
             color: #ffc107;
           }
         }

@@ -1,0 +1,156 @@
+.dashboard-cards {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 180px);
+    gap: 20px;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .card-wrapper {
+    aspect-ratio: 1;
+    width: 180px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      flex: 1;
+    }
+
+    .card-title {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-value {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin: 0;
+      color: white;
+    }
+
+    .card-icon {
+      opacity: 0.8;
+      font-size: 1.8rem;
+      margin-left: 10px;
+    }
+
+    .card-link {
+      display: inline-block;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+      position: relative;
+      padding-right: 10px;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &::after {
+        content: '→';
+        position: absolute;
+        right: 0;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover::after {
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  // Color variants with gradient overlays
+  .card-primary {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    color: white;
+  }
+
+  .card-success {
+    background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+    color: white;
+  }
+
+  .card-info {
+    background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    color: white;
+  }
+
+  .card-warning {
+    background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+    color: white;
+  }
+
+  .card-secondary {
+    background: linear-gradient(135deg, #858796 0%, #60616f 100%);
+    color: white;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1200px) {
+    .cards-grid {
+      grid-template-columns: repeat(3, 180px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .cards-grid {
+      grid-template-columns: repeat(2, 180px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cards-grid {
+      grid-template-columns: 180px;
+    }
+  }
+} 

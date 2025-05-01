@@ -3,7 +3,9 @@
     [isExpanded]="isSidebarExpanded"
     (expandedChange)="onSidebarExpandedChange($event)">
   </app-sidebar>
-  <main class="main-content" [class.sidebar-collapsed]="!isSidebarExpanded">
-    <router-outlet></router-outlet>
+  <main class="main-content" [class.expanded]="isSidebarExpanded">
+    <div class="container-fluid">
+      <app-dashboard-cards></app-dashboard-cards>
+    </div>
   </main>
 </div>

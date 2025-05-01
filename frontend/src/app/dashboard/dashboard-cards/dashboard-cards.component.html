@@ -1,0 +1,24 @@
+<div class="dashboard-cards">
+  <div class="container">
+    <div class="cards-grid">
+      <div *ngFor="let card of cards" class="card-wrapper">
+        <div class="card" [ngClass]="'card-' + card.color">
+          <div class="card-body">
+            <div class="card-content">
+              <div class="card-text">
+                <h6 class="card-title">{{ card.title }}</h6>
+                <h2 class="card-value">{{ card.value }}</h2>
+              </div>
+              <div class="card-icon">
+                <fa-icon [icon]="card.icon" size="2x"></fa-icon>
+              </div>
+            </div>
+            <a *ngIf="card.link" [routerLink]="card.link" class="card-link">
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
