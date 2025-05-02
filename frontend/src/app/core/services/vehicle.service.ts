@@ -240,6 +240,11 @@ export class VehicleService {
       if (filters.limit) {
         params = params.append('limit', filters.limit.toString());
       }
+
+      // Handle office filter
+      if (filters.officeId) {
+        params = params.append('officeId', filters.officeId);
+      }
     }
     
     return this.http.get<{ data: Vehicle[], meta: { total: number, page: number, limit: number, totalPages: number } }>(url, { params })

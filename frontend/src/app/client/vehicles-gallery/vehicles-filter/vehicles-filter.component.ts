@@ -1,12 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FuelType, Transmission } from '../../../core/models/vehicle.model';
+import { OfficeService } from '../../../core/services/office.service';
+import { Office } from '../../../core/models/office.model';
 
 interface VehicleFilters {
   specifications: {
     fuelType: FuelType | '';
     transmission: Transmission | '';
+  };
+  locations: {
+    officeId: string | '';
   };
   price: {
     minPrice: number | null;
@@ -31,15 +36,19 @@ interface VehicleFilters {
   templateUrl: './vehicles-filter.component.html',
   styleUrl: './vehicles-filter.component.scss'
 })
-export class VehiclesFilterComponent {
+export class VehiclesFilterComponent implements OnInit {
   @Output() filtersChanged = new EventEmitter<any>();
   @Output() clearFilters = new EventEmitter<void>();
 
   isMobileFiltersOpen = false;
+  offices: Office[] = [];
   filters: VehicleFilters = {
     specifications: {
       fuelType: '',
       transmission: ''
+    },
+    locations: {
+      officeId: ''
     },
     price: {
       minPrice: null,
@@ -61,6 +70,18 @@ export class VehiclesFilterComponent {
   transmissionOptions = Object.values(Transmission);
   yearOptions: number[] = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i);
 
+  constructor(private officeService: OfficeService) {}
+
+  ngOnInit() {
+    this.loadOffices();
+  }
+
+  loadOffices() {
+    this.officeService.getAllOffices().subscribe(offices => {
+      this.offices = offices;
+    });
+  }
+
   toggleMobileFilters(): void {
     this.isMobileFiltersOpen = !this.isMobileFiltersOpen;
   }
@@ -69,6 +90,7 @@ export class VehiclesFilterComponent {
     const flattenedFilters = {
       fuelType: this.filters.specifications.fuelType,
       transmission: this.filters.specifications.transmission,
+      officeId: this.filters.locations.officeId,
       minPrice: this.filters.price.minPrice,
       maxPrice: this.filters.price.maxPrice,
       minYear: this.filters.year.minYear,
@@ -86,6 +108,9 @@ export class VehiclesFilterComponent {
       specifications: {
         fuelType: '',
         transmission: ''
+      },
+      locations: {
+        officeId: ''
       },
       price: {
         minPrice: null,
@@ -106,6 +131,7 @@ export class VehiclesFilterComponent {
     this.filtersChanged.emit({
       fuelType: '',
       transmission: '',
+      officeId: '',
       minPrice: null,
       maxPrice: null,
       minYear: null,

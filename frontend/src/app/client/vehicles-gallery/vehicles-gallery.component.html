@@ -49,7 +49,7 @@
           </button>
           
           <div class="pagination-pages">
-            @for (page of [].constructor(totalPages); track page; let i = $index) {
+            @for (page of [].constructor(totalPages); track $index; let i = $index) {
               <button 
                 class="pagination-button" 
                 [class.active]="currentPage === i + 1"

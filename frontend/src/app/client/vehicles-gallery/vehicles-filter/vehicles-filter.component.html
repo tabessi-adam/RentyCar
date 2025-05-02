@@ -25,6 +25,19 @@
       </div>
     </div>
 
+    <!-- Locations Section -->
+    <div class="filter-section">
+      <h4>Locations</h4>
+      <div class="filter-content">
+        <select [(ngModel)]="filters.locations.officeId" (change)="onFilterChange()">
+          <option value="">All locations</option>
+          <option *ngFor="let office of offices" [value]="office.id">
+            {{ office.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
     <!-- Price Range Section -->
     <div class="filter-section">
       <h4>Price Range</h4>

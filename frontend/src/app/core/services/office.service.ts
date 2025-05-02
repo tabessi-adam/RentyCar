@@ -33,10 +33,9 @@ export class OfficeService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET / (Admin or Agent)
+  // GET / (Public)
   getAllOffices(): Observable<Office[]> {
-    this.checkAdminOrAgentRole();
-    return this.http.get<Office[]>(API_URL, { headers: this.getAuthHeaders() })
+    return this.http.get<Office[]>(API_URL)
       .pipe(catchError(this.handleError));
   }
 
