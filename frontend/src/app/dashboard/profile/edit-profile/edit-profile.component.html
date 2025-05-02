@@ -33,6 +33,7 @@
               [disabled]="isUploadingPicture"
             >
               @if (isUploadingPicture) {
+                <span class="spinner"></span>
                 Uploading...
               } @else {
                 Upload New Picture
@@ -45,6 +46,7 @@
                 [disabled]="isUploadingPicture"
               >
                 @if (isUploadingPicture) {
+                  <span class="spinner"></span>
                   Deleting...
                 } @else {
                   Delete Picture
@@ -76,12 +78,19 @@
                 <label>Scale: {{ scale.toFixed(2) }}</label>
                 <input 
                   type="range" 
-                  min="0.5" 
-                  max="2" 
+                  [min]="minScale" 
+                  [max]="maxScale" 
                   step="0.01" 
                   [(ngModel)]="scale"
-                  (input)="onScaleChange($event)"
+                  (input)="onScaleChange()"
                 >
+              </div>
+              <div class="rotate-control">
+                <label>Rotation</label>
+                <div class="rotate-buttons">
+                  <button (click)="onRotateChange(-90)">↺</button>
+                  <button (click)="onRotateChange(90)">↻</button>
+                </div>
               </div>
               <div class="editor-buttons">
                 <button class="cancel-button" (click)="cancelEdit()">Cancel</button>
@@ -91,6 +100,7 @@
                   [disabled]="isUploadingPicture"
                 >
                   @if (isUploadingPicture) {
+                    <span class="spinner"></span>
                     Uploading...
                   } @else {
                     Save Changes
@@ -137,7 +147,12 @@
 
         <div class="form-actions">
           <button type="submit" [disabled]="!profileForm.form.valid || isSubmitting">
-            {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+            @if (isSubmitting) {
+              <span class="spinner"></span>
+              Saving...
+            } @else {
+              Save Changes
+            }
           </button>
         </div>
       </form>

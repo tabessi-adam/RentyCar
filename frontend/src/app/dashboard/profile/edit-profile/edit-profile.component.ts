@@ -29,13 +29,19 @@ export class EditProfileComponent implements OnInit {
   isAdmin: boolean = false;
   isUploadingPicture = false;
   
-  // Image scaling properties
+  // Image editor properties
   showImageEditor = false;
   selectedFile: File | null = null;
   scale = 1;
+  minScale = 1;
+  maxScale = 3;
+  rotation = 0;
   position = { x: 0, y: 0 };
   isDragging = false;
   dragStart = { x: 0, y: 0 };
+  imageDimensions = { width: 0, height: 0 };
+  canvasDimensions = { width: 400, height: 400 };
+  aspectRatio = 1;
 
   constructor(
     private adminService: AdminService,
@@ -132,6 +138,7 @@ export class EditProfileComponent implements OnInit {
       this.selectedFile = file;
       this.showImageEditor = true;
       this.scale = 1;
+      this.rotation = 0;
       this.position = { x: 0, y: 0 };
 
       // Create preview
@@ -141,6 +148,17 @@ export class EditProfileComponent implements OnInit {
           const img = this.previewImage.nativeElement;
           img.src = e.target.result;
           img.onload = () => {
+            // Store original image dimensions
+            this.imageDimensions = {
+              width: img.naturalWidth || img.width,
+              height: img.naturalHeight || img.height
+            };
+            
+            // Calculate aspect ratio
+            this.aspectRatio = this.imageDimensions.width / this.imageDimensions.height;
+            
+            // Calculate initial scale to fit the canvas
+            this.calculateInitialScale();
             this.updatePreview();
           };
         }
@@ -149,10 +167,101 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  onScaleChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.scale = parseFloat(input.value);
+  calculateInitialScale() {
+    const { width: imgWidth, height: imgHeight } = this.imageDimensions;
+    const { width: canvasWidth, height: canvasHeight } = this.canvasDimensions;
+    
+    // Calculate scale to fit the canvas while maintaining aspect ratio
+    const scaleX = canvasWidth / imgWidth;
+    const scaleY = canvasHeight / imgHeight;
+    
+    this.minScale = Math.max(scaleX, scaleY, 1);
+    this.scale = this.minScale;
+    
+    // Reset position to center
+    this.position = { x: 0, y: 0 };
+  }
+
+  onScaleChange() {
+    // Ensure scale is within bounds
+    this.scale = Math.max(this.minScale, Math.min(this.maxScale, this.scale));
+    
+    // Recalculate position to maintain centering
+    const scaledWidth = this.imageDimensions.width * this.scale;
+    const scaledHeight = this.imageDimensions.height * this.scale;
+    
+    const maxX = (scaledWidth - this.canvasDimensions.width) / 2;
+    const maxY = (scaledHeight - this.canvasDimensions.height) / 2;
+    
+    this.position = {
+      x: Math.max(-maxX, Math.min(maxX, this.position.x)),
+      y: Math.max(-maxY, Math.min(maxY, this.position.y))
+    };
+    
     this.updatePreview();
+  }
+
+  onRotateChange(degrees: number) {
+    this.rotation = (this.rotation + degrees) % 360;
+    this.updatePreview();
+  }
+
+  onMouseDown(event: MouseEvent) {
+    if (!this.canvas) return;
+    
+    this.isDragging = true;
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    
+    // Calculate the mouse position relative to the canvas
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    
+    // Calculate the drag start position relative to the image position
+    this.dragStart = {
+      x: mouseX - this.position.x,
+      y: mouseY - this.position.y
+    };
+    
+    // Prevent text selection during drag
+    event.preventDefault();
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (!this.isDragging || !this.canvas) return;
+    
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    
+    // Calculate the mouse position relative to the canvas
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    
+    // Calculate new position based on mouse movement
+    const newX = mouseX - this.dragStart.x;
+    const newY = mouseY - this.dragStart.y;
+    
+    // Calculate scaled dimensions
+    const scaledWidth = this.imageDimensions.width * this.scale;
+    const scaledHeight = this.imageDimensions.height * this.scale;
+    
+    // Calculate maximum allowed position
+    const maxX = (scaledWidth - this.canvasDimensions.width) / 2;
+    const maxY = (scaledHeight - this.canvasDimensions.height) / 2;
+    
+    // Constrain position within bounds
+    this.position = {
+      x: Math.max(-maxX, Math.min(maxX, newX)),
+      y: Math.max(-maxY, Math.min(maxY, newY))
+    };
+    
+    this.updatePreview();
+  }
+
+  onMouseUp() {
+    this.isDragging = false;
+  }
+
+  onMouseLeave() {
+    this.isDragging = false;
   }
 
   updatePreview() {
@@ -162,25 +271,54 @@ export class EditProfileComponent implements OnInit {
     const ctx = canvas.getContext('2d');
     const img = this.previewImage.nativeElement;
 
-    // Set canvas size to match the preview container
-    canvas.width = 300;
-    canvas.height = 300;
+    // Set canvas size for high-DPI displays
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width = this.canvasDimensions.width * pixelRatio;
+    canvas.height = this.canvasDimensions.height * pixelRatio;
+    canvas.style.width = `${this.canvasDimensions.width}px`;
+    canvas.style.height = `${this.canvasDimensions.height}px`;
+    ctx.scale(pixelRatio, pixelRatio);
 
     // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+
+    // Calculate center points
+    const centerX = this.canvasDimensions.width / 2;
+    const centerY = this.canvasDimensions.height / 2;
+    const radius = Math.min(centerX, centerY);
+
+    // Apply circular clipping
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.clip();
+
+    // Apply transformations (rotation and positioning)
+    ctx.translate(centerX, centerY);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+    ctx.translate(-centerX, -centerY);
 
     // Calculate scaled dimensions
-    const scaledWidth = img.width * this.scale;
-    const scaledHeight = img.height * this.scale;
+    const scaledWidth = this.imageDimensions.width * this.scale;
+    const scaledHeight = this.imageDimensions.height * this.scale;
 
     // Draw image centered
     ctx.drawImage(
       img,
-      (canvas.width - scaledWidth) / 2 + this.position.x,
-      (canvas.height - scaledHeight) / 2 + this.position.y,
+      centerX - scaledWidth / 2 + this.position.x,
+      centerY - scaledHeight / 2 + this.position.y,
       scaledWidth,
       scaledHeight
     );
+
+    ctx.restore();
+
+    // Add subtle shadow for polished look
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.lineWidth = 4;
+    ctx.stroke();
   }
 
   cancelEdit() {
@@ -197,62 +335,75 @@ export class EditProfileComponent implements OnInit {
     this.isUploadingPicture = true;
     this.message = '';
 
-    // Convert canvas to blob
-    this.canvas.nativeElement.toBlob((blob: Blob) => {
-      const file = new File([blob], this.selectedFile!.name, { type: this.selectedFile!.type });
+    // Convert canvas to blob with compression
+    this.canvas.nativeElement.toBlob(
+      (blob: Blob) => {
+        const file = new File([blob], this.selectedFile!.name, {
+          type: 'image/jpeg',
+          lastModified: Date.now(),
+        });
 
-      if (this.isAdmin) {
-        this.adminService.uploadProfilePicture(file).subscribe({
-          next: (response) => {
-            if (this.profile) {
-              this.profile.profilePictureUrl = response.profilePictureUrl;
-              this.profile.profilePicturePublicId = response.profilePicturePublicId;
-              
-              // Update the auth service's current user
-              const currentUser = this.authService.currentUser;
-              if (currentUser) {
-                currentUser.profilePictureUrl = response.profilePictureUrl;
-                this.authService.updateCurrentUser(currentUser);
+        if (this.isAdmin) {
+          this.adminService.uploadProfilePicture(file).subscribe({
+            next: (response) => {
+              if (this.profile) {
+                this.profile.profilePictureUrl = response.profilePictureUrl;
+                this.profile.profilePicturePublicId = response.profilePicturePublicId;
+                
+                // Update the auth service's current user
+                const currentUser = this.authService.currentUser;
+                if (currentUser) {
+                  currentUser.profilePictureUrl = response.profilePictureUrl;
+                  this.authService.updateCurrentUser(currentUser);
+                }
               }
-            }
-            this.isUploadingPicture = false;
-            this.showImageEditor = false;
-            this.selectedFile = null;
-            this.showMessage('Profile picture updated successfully');
-          },
-          error: (error) => {
-            this.showMessage('Failed to upload profile picture. Please try again.', true);
-            this.isUploadingPicture = false;
-            console.error('Error uploading profile picture:', error);
-          }
-        });
-      } else {
-        this.agentService.uploadProfilePicture(file).subscribe({
-          next: (response) => {
-            if (this.profile) {
-              this.profile.profilePictureUrl = response.profilePictureUrl;
-              this.profile.profilePicturePublicId = response.profilePicturePublicId;
-              
-              // Update the auth service's current user
-              const currentUser = this.authService.currentUser;
-              if (currentUser) {
-                currentUser.profilePictureUrl = response.profilePictureUrl;
-                this.authService.updateCurrentUser(currentUser);
+              this.isUploadingPicture = false;
+              this.showImageEditor = false;
+              this.selectedFile = null;
+              if (this.fileInput) {
+                this.fileInput.nativeElement.value = '';
               }
+              this.showMessage('Profile picture updated successfully');
+            },
+            error: (error) => {
+              this.showMessage('Failed to upload profile picture. Please try again.', true);
+              this.isUploadingPicture = false;
+              console.error('Error uploading profile picture:', error);
             }
-            this.isUploadingPicture = false;
-            this.showImageEditor = false;
-            this.selectedFile = null;
-            this.showMessage('Profile picture updated successfully');
-          },
-          error: (error) => {
-            this.showMessage('Failed to upload profile picture. Please try again.', true);
-            this.isUploadingPicture = false;
-            console.error('Error uploading profile picture:', error);
-          }
-        });
-      }
-    }, this.selectedFile.type);
+          });
+        } else {
+          this.agentService.uploadProfilePicture(file).subscribe({
+            next: (response) => {
+              if (this.profile) {
+                this.profile.profilePictureUrl = response.profilePictureUrl;
+                this.profile.profilePicturePublicId = response.profilePicturePublicId;
+                
+                // Update the auth service's current user
+                const currentUser = this.authService.currentUser;
+                if (currentUser) {
+                  currentUser.profilePictureUrl = response.profilePictureUrl;
+                  this.authService.updateCurrentUser(currentUser);
+                }
+              }
+              this.isUploadingPicture = false;
+              this.showImageEditor = false;
+              this.selectedFile = null;
+              if (this.fileInput) {
+                this.fileInput.nativeElement.value = '';
+              }
+              this.showMessage('Profile picture updated successfully');
+            },
+            error: (error) => {
+              this.showMessage('Failed to upload profile picture. Please try again.', true);
+              this.isUploadingPicture = false;
+              console.error('Error uploading profile picture:', error);
+            }
+          });
+        }
+      },
+      'image/jpeg',
+      0.8 // Compress to 80% quality for smaller file size
+    );
   }
 
   deleteProfilePicture() {
@@ -308,28 +459,6 @@ export class EditProfileComponent implements OnInit {
         }
       });
     }
-  }
-
-  onMouseDown(event: MouseEvent) {
-    this.isDragging = true;
-    this.dragStart = {
-      x: event.clientX - this.position.x,
-      y: event.clientY - this.position.y
-    };
-  }
-
-  onMouseMove(event: MouseEvent) {
-    if (!this.isDragging) return;
-    
-    this.position = {
-      x: event.clientX - this.dragStart.x,
-      y: event.clientY - this.dragStart.y
-    };
-    this.updatePreview();
-  }
-
-  onMouseUp() {
-    this.isDragging = false;
   }
 
   private showMessage(text: string, isError = false) {
