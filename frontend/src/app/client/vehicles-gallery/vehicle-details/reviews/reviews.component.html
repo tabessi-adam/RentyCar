@@ -116,3 +116,14 @@
     </div>
   </div>
 </div>
+
+<!-- Not Logged In Message -->
+<div class="not-logged-in-message" *ngIf="showNotLoggedInMessage">
+  <div class="message-content">
+    <i class="fas fa-user-lock"></i>
+    <div class="message-text">
+      <h3>Authentication Required</h3>
+      <p>Please log in to submit a review. You need to be logged in to share your experience with this vehicle.</p>
+    </div>
+  </div>
+</div>

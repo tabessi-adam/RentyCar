@@ -26,6 +26,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   userReview: Review | null = null;
   showAlreadyReviewedMessage = false;
   showNotRentedMessage = false;
+  showNotLoggedInMessage = false;
   currentUserName: string | null = null;
   currentUserId: string | null = null;
   private authSubscription: Subscription | null = null;
@@ -114,6 +115,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (!this.currentUserId) {
+      this.showNotLoggedInMessage = true;
+      this.errorMessage = 'Please log in to submit a review.';
+      return;
+    }
+
     if (this.reviewForm.valid && !this.isSubmitting && !this.hasUserReviewed) {
       if (this.showNotRentedMessage) {
         this.errorMessage = 'You can only review vehicles you have rented.';
@@ -123,6 +130,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.isSubmitting = true;
       this.errorMessage = null;
       this.showAlreadyReviewedMessage = false;
+      this.showNotLoggedInMessage = false;
 
       const reviewData: CreateReviewPayload = {
         ...this.reviewForm.value,
