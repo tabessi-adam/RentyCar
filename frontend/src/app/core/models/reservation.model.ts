@@ -17,6 +17,7 @@ export interface Reservation {
   status: ReservationStatus;
   totalDays: number;
   totalPrice: number;
+  damageDeposit: number;
   createdAt: string;
   updatedAt: string;
   // Optional populated data (if backend sends it)

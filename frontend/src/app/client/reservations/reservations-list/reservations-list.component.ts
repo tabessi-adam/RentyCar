@@ -31,7 +31,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 })
 export class ReservationsListComponent implements OnInit {
   reservations: Reservation[] = [];
-  displayedColumns: string[] = ['vehicle', 'startDate', 'endDate', 'totalDays', 'totalPrice', 'status', 'actions'];
+  displayedColumns: string[] = ['vehicle', 'startDate', 'endDate', 'totalDays', 'totalPrice', 'damageDeposit', 'status', 'actions'];
 
   // Font Awesome icons
   faTimes = faTimes;

@@ -154,7 +154,8 @@ export class ReserveComponent implements OnInit {
         vehicle: this.vehicle,
         startDate: this.selectedStartDate,
         endDate: this.selectedEndDate,
-        totalPrice: this.calculateTotalPrice()
+        totalPrice: this.calculateTotalPrice(),
+        damageDeposit: this.calculateTotalPrice() * 2
       }
     });
 

@@ -12,6 +12,7 @@
           <div class="header-cell">End Date</div>
           <div class="header-cell">Duration</div>
           <div class="header-cell">Total Price</div>
+          <div class="header-cell">Damage Deposit</div>
           <div class="header-cell">Status</div>
           <div class="header-cell">Actions</div>
         </div>
@@ -56,6 +57,14 @@
               <div class="price-cell">
                 <fa-icon [icon]="faMoneyBillWave" class="icon"></fa-icon>
                 <span>{{ reservation.totalPrice | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <!-- Damage Deposit -->
+            <div class="table-cell" data-label="Damage Deposit">
+              <div class="price-cell">
+                <fa-icon [icon]="faMoneyBillWave" class="icon"></fa-icon>
+                <span>{{ reservation.damageDeposit | number:'1.2-2' }}</span>
               </div>
             </div>
 
