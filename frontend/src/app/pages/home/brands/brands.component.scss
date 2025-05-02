@@ -1,0 +1,69 @@
+.brands-section {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section-title {
+  text-align: left;
+  font-size: 2rem;
+  margin-bottom: 50px;
+  position: relative;
+  color: #333;
+  font-weight: 700;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 5px;
+    background-color: #36c63c;
+    margin-top: 10px;
+    position: absolute;
+    left: 0;
+  }
+}
+
+.brands-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.brands-scroll {
+  width: 100%;
+  overflow: hidden;
+}
+
+.brands-track {
+  display: flex;
+  animation: scroll 30s linear infinite;
+  gap: 50px;
+}
+
+.brands-track img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
