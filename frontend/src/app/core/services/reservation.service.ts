@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, map } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Reservation, CreateReservationPayload, UpdateReservationPayload, UpdateReservationStatusPayload, ReservationStatus } from '../models/reservation.model';
 import { AuthService } from './auth.service';
@@ -84,8 +84,33 @@ export class ReservationService {
 
   // GET /my-reservations
   getMyReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${API_URL}/my-reservations`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    console.log('ReservationService - Fetching my reservations');
+    console.log('ReservationService - Auth Headers:', this.getAuthHeaders());
+    
+    return this.http.get<Reservation[] | { data: Reservation[], meta: any }>(`${API_URL}/my-reservations`, { 
+      headers: this.getAuthHeaders() 
+    }).pipe(
+      tap(response => console.log('ReservationService - Raw API Response:', response)),
+      map(response => {
+        // Handle both array and paginated response formats
+        if (Array.isArray(response)) {
+          console.log('ReservationService - Received array response:', response);
+          return response;
+        }
+        
+        if (response && response.data) {
+          console.log('ReservationService - Received paginated response:', response.data);
+          return response.data;
+        }
+        
+        console.error('ReservationService - Invalid response format:', response);
+        return [];
+      }),
+      catchError(error => {
+        console.error('ReservationService - Error fetching reservations:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // GET /:id

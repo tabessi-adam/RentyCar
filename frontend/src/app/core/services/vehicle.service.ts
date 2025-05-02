@@ -54,7 +54,12 @@ export class VehicleService {
   // GET /<role>/vehicles
   getAllVehicles(filters?: any): Observable<Vehicle[]> {
     const apiUrl = this.getApiPath();
+    console.log('VehicleService - API URL:', apiUrl);
+    console.log('VehicleService - User Role:', this.authService.userRole());
+    console.log('VehicleService - Auth Headers:', this.getAuthHeaders());
+
     if (!apiUrl) {
+      console.error('VehicleService - No API URL available');
       return throwError(() => new Error('User role unknown'));
     }
 
@@ -62,9 +67,7 @@ export class VehicleService {
     let params = new HttpParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        // Only add the filter if it has a value and is not an empty string
         if (value !== null && value !== undefined && value !== '') {
-          // For boolean values, only send them if they are true
           if (typeof value === 'boolean') {
             if (value === true) {
               params = params.append(key, 'true');
@@ -76,21 +79,28 @@ export class VehicleService {
       });
     }
 
-    return this.http.get<Vehicle[]>(apiUrl, { 
+    return this.http.get<{ data: Vehicle[], meta: any }>(apiUrl, { 
       headers: this.getAuthHeaders(),
       params
     }).pipe(
+      tap(response => console.log('VehicleService - Raw API Response:', response)),
       map(response => {
-        if (!Array.isArray(response)) {
+        if (!response || !response.data) {
+          console.error('VehicleService - Invalid response format:', response);
           return [];
         }
-        return response.map(vehicle => ({
+        const mappedVehicles = response.data.map(vehicle => ({
           ...vehicle,
           baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
           currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
         }));
+        console.log('VehicleService - Mapped vehicles:', mappedVehicles);
+        return mappedVehicles;
       }),
-      catchError(this.handleError)
+      catchError(error => {
+        console.error('VehicleService - Error fetching vehicles:', error);
+        return throwError(() => error);
+      })
     );
   }
 
