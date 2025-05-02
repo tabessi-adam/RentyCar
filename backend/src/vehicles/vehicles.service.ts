@@ -123,12 +123,19 @@ export class VehiclesService {
       if (filters.hasUSBCable !== undefined) {
         queryBuilder.andWhere('vehicle.hasUSBCable = :hasUSBCable', { hasUSBCable: filters.hasUSBCable });
       }
+
+      // Apply pagination
+      const page = filters.page || 1;
+      const limit = filters.limit || 10;
+      const skip = (page - 1) * limit;
+
+      queryBuilder.skip(skip).take(limit);
     }
 
     console.log('VehiclesService - Generated SQL query:', queryBuilder.getSql());
     console.log('VehiclesService - Query parameters:', queryBuilder.getParameters());
     
-    const vehicles = await queryBuilder.getMany();
+    const [vehicles, total] = await queryBuilder.getManyAndCount();
     console.log('VehiclesService - Found vehicles:', vehicles.length);
     
     // Add currentStatus to each vehicle
@@ -136,8 +143,16 @@ export class VehiclesService {
       ...vehicle,
       currentStatus: vehicle.currentStatus
     }));
-    console.log('VehiclesService - Vehicles with status:', vehiclesWithStatus.length);
-    return vehiclesWithStatus;
+
+    return {
+      data: vehiclesWithStatus,
+      meta: {
+        total,
+        page: filters?.page || 1,
+        limit: filters?.limit || 10,
+        totalPages: Math.ceil(total / (filters?.limit || 10))
+      }
+    };
   }
 
   async findOne(id: string) {

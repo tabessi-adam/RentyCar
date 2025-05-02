@@ -38,6 +38,35 @@
           <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
         }
       </div>
+
+      @if (totalPages > 1) {
+        <div class="pagination">
+          <button 
+            class="pagination-button" 
+            [disabled]="currentPage === 1"
+            (click)="onPageChange(currentPage - 1)">
+            Previous
+          </button>
+          
+          <div class="pagination-pages">
+            @for (page of [].constructor(totalPages); track page; let i = $index) {
+              <button 
+                class="pagination-button" 
+                [class.active]="currentPage === i + 1"
+                (click)="onPageChange(i + 1)">
+                {{ i + 1 }}
+              </button>
+            }
+          </div>
+          
+          <button 
+            class="pagination-button" 
+            [disabled]="currentPage === totalPages"
+            (click)="onPageChange(currentPage + 1)">
+            Next
+          </button>
+        </div>
+      }
     }
   </section>
 </main>

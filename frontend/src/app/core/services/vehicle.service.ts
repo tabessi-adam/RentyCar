@@ -171,7 +171,7 @@ export class VehicleService {
   }
 
   // Get public vehicles without authentication
-  getPublicVehicles(filters?: any): Observable<Vehicle[]> {
+  getPublicVehicles(filters?: any): Observable<{ data: Vehicle[], meta: { total: number, page: number, limit: number, totalPages: number } }> {
     const url = `${BASE_API_URL}/vehicles/public`;
     
     // Format query parameters
@@ -232,20 +232,26 @@ export class VehicleService {
       if (filters.hasUSBCable === true) {
         params = params.append('hasUSBCable', 'true');
       }
+
+      // Handle pagination
+      if (filters.page) {
+        params = params.append('page', filters.page.toString());
+      }
+      if (filters.limit) {
+        params = params.append('limit', filters.limit.toString());
+      }
     }
     
-    return this.http.get<Vehicle[]>(url, { params })
+    return this.http.get<{ data: Vehicle[], meta: { total: number, page: number, limit: number, totalPages: number } }>(url, { params })
       .pipe(
-        map(response => {
-          if (!Array.isArray(response)) {
-            return [];
-          }
-          return response.map(vehicle => ({
+        map(response => ({
+          data: response.data.map(vehicle => ({
             ...vehicle,
             baseStatus: vehicle.baseStatus || VehicleStatus.AVAILABLE,
             currentStatus: vehicle.currentStatus || VehicleStatus.AVAILABLE
-          }));
-        }),
+          })),
+          meta: response.meta
+        })),
         catchError(this.handleError)
       );
   }

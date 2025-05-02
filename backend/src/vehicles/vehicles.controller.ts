@@ -22,13 +22,13 @@ export class VehiclesController {
   async findAllPublic(@Query() filters: VehicleFiltersDto) {
     console.log('VehiclesController - Finding all public vehicles with filters:', filters);
     try {
-      const vehicles = await this.vehiclesService.findAll(filters);
-      console.log('VehiclesController - Found vehicles:', vehicles.length);
-      if (!vehicles || !Array.isArray(vehicles)) {
-        console.error('VehiclesController - Invalid vehicles data:', vehicles);
-        return [];
+      const response = await this.vehiclesService.findAll(filters);
+      console.log('VehiclesController - Found vehicles:', response.data.length);
+      if (!response.data || !Array.isArray(response.data)) {
+        console.error('VehiclesController - Invalid vehicles data:', response.data);
+        return { data: [], meta: { total: 0, page: 1, limit: 10, totalPages: 0 } };
       }
-      return vehicles;
+      return response;
     } catch (error) {
       console.error('VehiclesController - Error finding public vehicles:', error);
       console.error('VehiclesController - Error stack:', error.stack);
