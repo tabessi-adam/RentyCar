@@ -7,103 +7,7 @@
     <div class="error-message">{{ error }}</div>
   } @else if (profile) {
     <div class="profile-card">
-      <!-- Profile Picture Section -->
-      <div class="profile-field profile-picture-section">
-        <label>Profile Picture</label>
-        <div class="profile-picture-container">
-          @if (profile.profilePictureUrl) {
-            <img 
-              [src]="profile.profilePictureUrl" 
-              alt="Profile Picture"
-              class="profile-picture"
-            >
-          } @else {
-            <div class="default-profile-icon">
-              <i class="fas fa-user"></i>
-            </div>
-          }
-          <div class="profile-picture-actions">
-            <input 
-              type="file" 
-              #fileInput
-              (change)="onFileSelected($event)"
-              accept="image/jpeg,image/png,image/webp"
-              style="display: none"
-            >
-            <button 
-              class="upload-button" 
-              (click)="fileInput.click()"
-              [disabled]="isUploadingPicture"
-            >
-              @if (isUploadingPicture) {
-                Uploading...
-              } @else {
-                Upload New Picture
-              }
-            </button>
-            @if (profile.profilePictureUrl) {
-              <button 
-                class="delete-button" 
-                (click)="deleteProfilePicture()"
-                [disabled]="isUploadingPicture"
-              >
-                @if (isUploadingPicture) {
-                  Deleting...
-                } @else {
-                  Delete Picture
-                }
-              </button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <!-- Image Editor Modal -->
-      @if (showImageEditor) {
-        <div class="image-editor-modal">
-          <div class="image-editor-container">
-            <h3>Edit Profile Picture</h3>
-            <div class="image-preview-container">
-              <canvas 
-                #canvas
-                class="preview-canvas"
-                (mousedown)="onMouseDown($event)"
-                (mousemove)="onMouseMove($event)"
-                (mouseup)="onMouseUp()"
-                (mouseleave)="onMouseUp()"
-              ></canvas>
-              <img #previewImage style="display: none">
-            </div>
-            <div class="editor-controls">
-              <div class="scale-control">
-                <label>Scale: {{ scale.toFixed(2) }}</label>
-                <input 
-                  type="range" 
-                  min="0.5" 
-                  max="2" 
-                  step="0.01" 
-                  [(ngModel)]="scale"
-                  (input)="onScaleChange($event)"
-                >
-              </div>
-              <div class="editor-buttons">
-                <button class="cancel-button" (click)="cancelEdit()">Cancel</button>
-                <button 
-                  class="save-button" 
-                  (click)="uploadProfilePicture()"
-                  [disabled]="isUploadingPicture"
-                >
-                  @if (isUploadingPicture) {
-                    Uploading...
-                  } @else {
-                    Save Changes
-                  }
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
+      <app-profile-picture></app-profile-picture>
 
       <div class="profile-field">
         <label>Email</label>
@@ -126,8 +30,6 @@
           </div>
         }
       </div>
-
-     
 
       <div class="profile-field">
         <label>Phone Number</label>

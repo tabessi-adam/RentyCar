@@ -1,0 +1,103 @@
+<div class="profile-picture-section">
+  <label>Profile Picture</label>
+  <div class="profile-picture-container">
+    @if (profilePictureUrl) {
+      <img
+        [src]="profilePictureUrl"
+        alt="Profile Picture"
+        class="profile-picture"
+      >
+    } @else {
+      <div class="default-profile-icon">
+        <i class="fas fa-user"></i>
+      </div>
+    }
+    <div class="profile-picture-actions">
+      <input
+        type="file"
+        #fileInput
+        (change)="onFileSelected($event)"
+        accept="image/jpeg,image/png,image/webp"
+        style="display: none"
+      >
+      <button
+        class="upload-button"
+        (click)="fileInput.click()"
+        [disabled]="isUploadingPicture"
+      >
+        @if (isUploadingPicture) {
+          <span class="spinner"></span> Uploading...
+        } @else {
+          Upload New Picture
+        }
+      </button>
+      @if (profilePictureUrl) {
+        <button
+          class="delete-button"
+          (click)="deleteProfilePicture()"
+          [disabled]="isUploadingPicture"
+        >
+          Delete Picture
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="error-message">{{ error }}</div>
+  }
+
+  @if (showImageEditor) {
+    <div class="image-editor-modal">
+      <div class="image-editor-container">
+        <h3>Edit Profile Picture</h3>
+        <div class="image-preview-container">
+          <canvas
+            #canvas
+            class="preview-canvas"
+            (mousedown)="onMouseDown($event)"
+            (mousemove)="onMouseMove($event)"
+            (mouseup)="onMouseUp()"
+            (mouseleave)="onMouseUp()"
+          ></canvas>
+          <img #previewImage style="display: none">
+        </div>
+        <div class="editor-controls">
+          <div class="scale-control">
+            <label>Zoom: {{ scale.toFixed(2) }}</label>
+            <input
+              type="range"
+              [min]="minScale"
+              max="3"
+              step="0.01"
+              [(ngModel)]="scale"
+              (input)="onScaleChange()"
+            >
+          </div>
+          <div class="rotate-control">
+            <label>Rotate</label>
+            <div class="rotate-buttons">
+              <button (click)="onRotateChange(-90)">↺ 90°</button>
+              <button (click)="onRotateChange(90)">↻ 90°</button>
+            </div>
+          </div>
+          <div class="editor-buttons">
+            <button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+            <button
+              class="save-button"
+              (click)="uploadProfilePicture()"
+              [disabled]="isUploadingPicture"
+            >
+              @if (isUploadingPicture) {
+                <span class="spinner"></span>
+                Uploading...
+              } @else {
+                Save Changes
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
