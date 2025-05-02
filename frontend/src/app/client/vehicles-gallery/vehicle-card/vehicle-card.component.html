@@ -11,7 +11,7 @@
 
   <div class="info-box">
     <div class="vehicle-title">
-      <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
+      <h3 class="truncate">{{ vehicle.brand }} {{ vehicle.model }}</h3>
     </div>
 
     <div class="features-and-footer">
@@ -36,8 +36,10 @@
 
       <div class="card-footer">
         <div class="price">
-          <span class="price-value">{{ vehicle.pricePerDay }} TND</span>
-          <span class="price-unit">/ Day</span>
+          <div class="price-container">
+            <span class="price-value">{{ vehicle.pricePerDay }}</span>
+            <span class="price-unit">TND / Day</span>
+          </div>
         </div>
         <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'" (click)="handleBookNow($event)">
           Book Now
