@@ -5,6 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
 
 // Add all icons to the library
 library.add(fas, far, fab);
@@ -12,9 +13,12 @@ library.add(fas, far, fab);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FontAwesomeModule, ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [RouterOutlet, FontAwesomeModule, ScrollToTopComponent],
+  template: `
+    <router-outlet></router-outlet>
+    <app-scroll-to-top></app-scroll-to-top>
+  `,
+  styles: []
 })
 export class AppComponent {
   title = 'frontend';
