@@ -10,37 +10,37 @@
     <div class="calendar-legend">
       <div class="legend-item">
         <div class="color-box selected"></div>
-        <span>Selected Dates</span>
+        <span>{{ 'SELECTED_DATES' | translate }}</span>
       </div>
       <div class="legend-item">
         <div class="color-box pending"></div>
-        <span>Your Pending Requests</span>
+        <span>{{ 'YOUR_PENDING_REQUESTS' | translate }}</span>
       </div>
       <div class="legend-item">
         <div class="color-box accepted"></div>
-        <span>Your Accepted Requests</span>
+        <span>{{ 'YOUR_ACCEPTED_REQUESTS' | translate }}</span>
       </div>
       <div class="legend-item">
         <div class="color-box other-client"></div>
-        <span>Reserved Days</span>
+        <span>{{ 'RESERVED_DAYS' | translate }}</span>
       </div>
     </div>
 
     <div class="price-summary" *ngIf="selectedStartDate && selectedEndDate">
       <div class="price-row">
-        <span>Price per day</span>
+        <span>{{ 'PRICE_PER_DAY' | translate }}</span>
         <span>{{ vehicle.pricePerDay }} TND</span>
       </div>
       <div class="price-row">
-        <span>Number of days</span>
+        <span>{{ 'NUMBER_OF_DAYS' | translate }}</span>
         <span>{{ calculateTotalDays() }}</span>
       </div>
       <div class="price-row total">
-        <span>Total Price</span>
+        <span>{{ 'TOTAL_PRICE' | translate }}</span>
         <span>{{ calculateTotalPrice() }} TND</span>
       </div>
       <div class="price-row damage-deposit">
-        <span>Damage Deposit (2x Total Price)</span>
+        <span>{{ 'DAMAGE_DEPOSIT' | translate }} (2x {{ 'TOTAL_PRICE' | translate }})</span>
         <span>{{ calculateTotalPrice() * 2 }} TND</span>
       </div>
     </div>
@@ -51,7 +51,7 @@
             class="reserve-button"
             [disabled]="!selectedStartDate || !selectedEndDate || isReserving"
             (click)="reserveVehicle()">
-      {{ isReserving ? 'Reserving...' : 'Reserve Now' }}
+      {{ isReserving ? ('RESERVING' | translate) : ('RESERVE_NOW' | translate) }}
     </button>
   </mat-card-actions>
 </mat-card>

@@ -7,6 +7,7 @@ import { VehiclesFilterComponent } from './vehicles-filter/vehicles-filter.compo
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vehicles-gallery',
@@ -17,7 +18,8 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     VehiclesFilterComponent,
     NavbarComponent,
     FooterComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    TranslateModule
   ],
   templateUrl: './vehicles-gallery.component.html',
   styleUrl: './vehicles-gallery.component.scss'

@@ -1,8 +1,8 @@
 <div class="vehicles-filter">
   <div class="filter-header">
-    <h3>Filters</h3>
+    <h3>{{ 'VEHICLES.FILTERS.TITLE' | translate }}</h3>
     <div class="header-actions">
-      <button class="clear-filters" (click)="handleClearFilters()">Clear All</button>
+      <button class="clear-filters" (click)="handleClearFilters()">{{ 'VEHICLES.FILTERS.CLEAR_ALL' | translate }}</button>
       <button class="mobile-toggle" (click)="toggleMobileFilters()">
         <i class="fas" [ngClass]="{'fa-chevron-down': !isMobileFiltersOpen, 'fa-chevron-up': isMobileFiltersOpen}"></i>
       </button>
@@ -12,25 +12,29 @@
   <div class="filter-sections" [class.mobile-hidden]="!isMobileFiltersOpen">
     <!-- Specifications Section -->
     <div class="filter-section">
-      <h4>Specifications</h4>
+      <h4>{{ 'VEHICLES.FILTERS.SPECIFICATIONS' | translate }}</h4>
       <div class="filter-content">
         <select [(ngModel)]="filters.specifications.fuelType" (change)="onFilterChange()">
-          <option value="">All Fuel Types</option>
-          <option *ngFor="let type of fuelTypeOptions" [value]="type">{{ type }}</option>
+          <option value="">{{ 'VEHICLES.FILTERS.ALL_FUEL_TYPES' | translate }}</option>
+          <option *ngFor="let type of fuelTypeOptions" [value]="type">
+            {{ 'VEHICLES.FILTERS.FUEL_TYPES.' + type | translate }}
+          </option>
         </select>
         <select [(ngModel)]="filters.specifications.transmission" (change)="onFilterChange()">
-          <option value="">All Transmissions</option>
-          <option *ngFor="let type of transmissionOptions" [value]="type">{{ type }}</option>
+          <option value="">{{ 'VEHICLES.FILTERS.ALL_TRANSMISSIONS' | translate }}</option>
+          <option *ngFor="let type of transmissionOptions" [value]="type">
+            {{ 'VEHICLES.FILTERS.TRANSMISSIONS.' + type | translate }}
+          </option>
         </select>
       </div>
     </div>
 
     <!-- Locations Section -->
     <div class="filter-section">
-      <h4>Locations</h4>
+      <h4>{{ 'VEHICLES.FILTERS.LOCATIONS' | translate }}</h4>
       <div class="filter-content">
         <select [(ngModel)]="filters.locations.officeId" (change)="onFilterChange()">
-          <option value="">All locations</option>
+          <option value="">{{ 'VEHICLES.FILTERS.ALL_LOCATIONS' | translate }}</option>
           <option *ngFor="let office of offices" [value]="office.id">
             {{ office.name }}
           </option>
@@ -40,30 +44,30 @@
 
     <!-- Price Range Section -->
     <div class="filter-section">
-      <h4>Price Range</h4>
+      <h4>{{ 'VEHICLES.FILTERS.PRICE_RANGE' | translate }}</h4>
       <div class="filter-content">
         <div class="range-inputs">
           <input type="number" [(ngModel)]="filters.price.minPrice" (change)="onFilterChange()" 
-                 placeholder="Min Price" min="0">
-          <span>to</span>
+                 [placeholder]="'VEHICLES.FILTERS.MIN_PRICE' | translate" min="0">
+          <span>{{ 'VEHICLES.FILTERS.TO' | translate }}</span>
           <input type="number" [(ngModel)]="filters.price.maxPrice" (change)="onFilterChange()" 
-                 placeholder="Max Price" min="0">
+                 [placeholder]="'VEHICLES.FILTERS.MAX_PRICE' | translate" min="0">
         </div>
       </div>
     </div>
 
     <!-- Year Range Section -->
     <div class="filter-section">
-      <h4>Year Range</h4>
+      <h4>{{ 'VEHICLES.FILTERS.YEAR_RANGE' | translate }}</h4>
       <div class="filter-content">
         <div class="range-inputs">
           <select [(ngModel)]="filters.year.minYear" (change)="onFilterChange()">
-            <option [value]="null">Min Year</option>
+            <option [value]="null">{{ 'VEHICLES.FILTERS.MIN_YEAR' | translate }}</option>
             <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
           </select>
-          <span>to</span>
+          <span>{{ 'VEHICLES.FILTERS.TO' | translate }}</span>
           <select [(ngModel)]="filters.year.maxYear" (change)="onFilterChange()">
-            <option [value]="null">Max Year</option>
+            <option [value]="null">{{ 'VEHICLES.FILTERS.MAX_YEAR' | translate }}</option>
             <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
           </select>
         </div>
@@ -72,24 +76,24 @@
 
     <!-- Features Section -->
     <div class="filter-section">
-      <h4>Features</h4>
+      <h4>{{ 'VEHICLES.FILTERS.FEATURES.TITLE' | translate }}</h4>
       <div class="filter-content">
         <div class="feature-grid">
           <label>
             <input type="checkbox" [(ngModel)]="filters.features.hasGPS" (change)="onFilterChange()">
-            GPS
+            {{ 'VEHICLES.FILTERS.FEATURES.GPS' | translate }}
           </label>
           <label>
             <input type="checkbox" [(ngModel)]="filters.features.hasBluetooth" (change)="onFilterChange()">
-            Bluetooth
+            {{ 'VEHICLES.FILTERS.FEATURES.BLUETOOTH' | translate }}
           </label>
           <label>
             <input type="checkbox" [(ngModel)]="filters.features.hasAirConditioning" (change)="onFilterChange()">
-            Air Conditioning
+            {{ 'VEHICLES.FILTERS.FEATURES.AIR_CONDITIONING' | translate }}
           </label>
           <label>
             <input type="checkbox" [(ngModel)]="filters.features.hasUSBCable" (change)="onFilterChange()">
-            USB Cable
+            {{ 'VEHICLES.FILTERS.FEATURES.USB_CABLE' | translate }}
           </label>
         </div>
       </div>

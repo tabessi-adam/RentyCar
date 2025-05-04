@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { ReservationService } from '../../../../core/services/reservation.service';
@@ -36,7 +37,8 @@ interface ApiDateRange {
     FormsModule,
     MatButtonModule,
     MatCardModule,
-    CalendarComponent
+    CalendarComponent,
+    TranslateModule
   ],
   templateUrl: './reserve.component.html',
   styleUrl: './reserve.component.scss'

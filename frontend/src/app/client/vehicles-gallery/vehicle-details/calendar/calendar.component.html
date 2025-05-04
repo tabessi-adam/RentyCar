@@ -1,21 +1,21 @@
 <div class="calendar-container">
   <div class="calendar-header">
-    <h3>Select Dates</h3>
+    <h3>{{ 'CALENDAR.SELECT_DATES' | translate }}</h3>
     <div class="selected-dates" *ngIf="selectedStartDate || selectedEndDate">
-      <span *ngIf="selectedStartDate">From: {{ selectedStartDate | date:'mediumDate' }}</span>
-      <span *ngIf="selectedEndDate">To: {{ selectedEndDate | date:'mediumDate' }}</span>
+      <span *ngIf="selectedStartDate">{{ 'CALENDAR.FROM' | translate }}: {{ selectedStartDate | date:'mediumDate' }}</span>
+      <span *ngIf="selectedEndDate">{{ 'CALENDAR.TO' | translate }}: {{ selectedEndDate | date:'mediumDate' }}</span>
     </div>
   </div>
 
   <div class="calendar">
     <div class="calendar-controls">
       <button (click)="previousMonth()">&lt;</button>
-      <span class="month-year">{{ currentMonth | date:'MMMM yyyy' }}</span>
+      <span class="month-year">{{ getMonthName(currentMonth.getMonth()) }} {{ currentMonth.getFullYear() }}</span>
       <button (click)="nextMonth()">&gt;</button>
     </div>
     
     <div class="weekdays">
-      <div *ngFor="let day of weekDays">{{ day }}</div>
+      <div *ngFor="let day of weekDays">{{ day | translate }}</div>
     </div>
     
     <div class="days">

@@ -1,4 +1,10 @@
 {
+  "PREVIOUS": "Précédent",
+  "NEXT": "Suivant",
+  "PAGINATION": {
+    "PREVIOUS": "Précédent",
+    "NEXT": "Suivant"
+  },
   "navbar": {
     "home": "Accueil",
     "collection": "Notre Collection",
@@ -159,5 +165,124 @@
         "description": "Hammamet, célèbre pour ses plages magnifiques et sa vie nocturne animée, est une destination touristique de premier plan. Notre service offre un transport fiable vers toutes les principales attractions et stations balnéaires."
       }
     }
+  },
+  "VEHICLES": {
+    "FILTERS": {
+      "TITLE": "Filtres",
+      "CLEAR_ALL": "Tout Effacer",
+      "SPECIFICATIONS": "Spécifications",
+      "ALL_FUEL_TYPES": "Tous les Types de Carburant",
+      "ALL_TRANSMISSIONS": "Toutes les Transmissions",
+      "LOCATIONS": "Emplacements",
+      "ALL_LOCATIONS": "Tous les Emplacements",
+      "PRICE_RANGE": "Fourchette de Prix",
+      "MIN_PRICE": "Prix Minimum",
+      "MAX_PRICE": "Prix Maximum",
+      "TO": "à",
+      "YEAR_RANGE": "Fourchette d'Années",
+      "MIN_YEAR": "Année Minimum",
+      "MAX_YEAR": "Année Maximum",
+      "FEATURES": {
+        "TITLE": "Caractéristiques",
+        "GPS": "GPS",
+        "BLUETOOTH": "Bluetooth",
+        "AIR_CONDITIONING": "Climatisation",
+        "USB_CABLE": "Câble USB"
+      },
+      "FUEL_TYPES": {
+        "HYBRID": "Hybride",
+        "DIESEL": "Diesel",
+        "PETROL": "Essence",
+        "ELECTRIC": "Électrique"
+      },
+      "TRANSMISSIONS": {
+        "AUTOMATIC": "Automatique",
+        "MANUAL": "Manuelle"
+      }
+    },
+    "CARD": {
+      "NO_IMAGE": "Aucune Image Disponible",
+      "PRICE_PER_DAY": "TND / Jour",
+      "BOOK_NOW": "Réserver ",
+      "FEATURES": {
+        "KILOMETERS": "Km",
+        "TRANSMISSION": "Transmission",
+        "FUEL_TYPE": "Type de Carburant",
+        "COLOR": "Couleur"
+      },
+      "COLORS": {
+        "WHITE": "Blanc",
+        "BLACK": "Noir",
+        "SILVER": "Argent",
+        "GRAY": "Gris",
+        "RED": "Rouge",
+        "BLUE": "Bleu",
+        "GREEN": "Vert",
+        "YELLOW": "Jaune",
+        "ORANGE": "Orange",
+        "BROWN": "Marron",
+        "BEIGE": "Beige",
+        "GOLD": "Or",
+        "PURPLE": "Violet",
+        "PINK": "Rose"
+      }
+    },
+    "GALLERY": {
+      "NO_VEHICLES": "Aucun véhicule ne correspond à vos filtres.",
+      "PAGINATION": {
+        "PREVIOUS": "Précédent",
+        "NEXT": "Suivant"
+      }
+    }
+  },
+  "CALENDAR": {
+    "SELECT_DATES": "Sélectionner les Dates",
+    "FROM": "Du",
+    "TO": "Au",
+    "SUN": "Dim",
+    "MON": "Lun",
+    "TUE": "Mar",
+    "WED": "Mer",
+    "THU": "Jeu",
+    "FRI": "Ven",
+    "SAT": "Sam",
+    "JANUARY": "Janvier",
+    "FEBRUARY": "Février",
+    "MARCH": "Mars",
+    "APRIL": "Avril",
+    "MAY": "Mai",
+    "JUNE": "Juin",
+    "JULY": "Juillet",
+    "AUGUST": "Août",
+    "SEPTEMBER": "Septembre",
+    "OCTOBER": "Octobre",
+    "NOVEMBER": "Novembre",
+    "DECEMBER": "Décembre"
+  },
+  "SELECTED_DATES": "Dates Sélectionnées",
+  "YOUR_PENDING_REQUESTS": "Vos Demandes en Attente",
+  "YOUR_ACCEPTED_REQUESTS": "Vos Demandes Acceptées",
+  "RESERVED_DAYS": "Jours Réservés",
+  "PRICE_PER_DAY": "Prix par Jour",
+  "NUMBER_OF_DAYS": "Nombre de Jours",
+  "TOTAL_PRICE": "Prix Total",
+  "DAMAGE_DEPOSIT": "Caution",
+  "RESERVING": "Réservation en cours...",
+  "RESERVE_NOW": "Réserver Maintenant",
+  "VEHICLE_DETAILS": {
+    "LOCATED_AT": "Situé à",
+    "SPECIFICATIONS": "Spécifications du Véhicule",
+    "KILOMETERS_DRIVEN": "Kilométrage",
+    "TRANSMISSION": "Transmission",
+    "FUEL_TYPE": "Type de Carburant",
+    "YEAR": "Année",
+    "FEATURES": "Caractéristiques du Véhicule",
+    "AIR_CONDITIONING": "Climatisation",
+    "BLUETOOTH": "Bluetooth",
+    "GPS": "GPS",
+    "USB_CABLE": "Câble USB",
+    "NO_FEATURES": "Aucune caractéristique supplémentaire disponible",
+    "CUSTOMER_REVIEWS": "Avis des Clients",
+    "THUMBNAIL": "Miniature"
   }
 } 

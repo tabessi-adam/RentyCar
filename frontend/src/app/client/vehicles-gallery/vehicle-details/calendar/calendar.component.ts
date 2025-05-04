@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReservationStatus } from '../../../../core/models/reservation.model';
 import { AuthService } from '../../../../core/services/auth.service';
 
@@ -16,7 +17,8 @@ interface DateRange {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
@@ -28,15 +30,26 @@ export class CalendarComponent {
   @Output() dateRangeChange = new EventEmitter<{ start: Date | null, end: Date | null }>();
 
   currentMonth: Date = new Date();
-  weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  weekDays = ['CALENDAR.SUN', 'CALENDAR.MON', 'CALENDAR.TUE', 'CALENDAR.WED', 'CALENDAR.THU', 'CALENDAR.FRI', 'CALENDAR.SAT'];
   calendarDays: (Date | null)[] = [];
   currentClientId: string | null = null;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private translateService: TranslateService
+  ) {
     this.generateCalendarDays();
     this.authService.currentUser$.subscribe(user => {
       this.currentClientId = user?.id || null;
     });
+  }
+
+  getMonthName(monthIndex: number): string {
+    const months = [
+      'CALENDAR.JANUARY', 'CALENDAR.FEBRUARY', 'CALENDAR.MARCH', 'CALENDAR.APRIL', 'CALENDAR.MAY', 'CALENDAR.JUNE',
+      'CALENDAR.JULY', 'CALENDAR.AUGUST', 'CALENDAR.SEPTEMBER', 'CALENDAR.OCTOBER', 'CALENDAR.NOVEMBER', 'CALENDAR.DECEMBER'
+    ];
+    return this.translateService.instant(months[monthIndex]);
   }
 
   ngOnChanges() {

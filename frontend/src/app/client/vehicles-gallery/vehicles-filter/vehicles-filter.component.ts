@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { FuelType, Transmission } from '../../../core/models/vehicle.model';
 import { OfficeService } from '../../../core/services/office.service';
 import { Office } from '../../../core/models/office.model';
@@ -32,7 +33,7 @@ interface VehicleFilters {
 @Component({
   selector: 'app-vehicles-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './vehicles-filter.component.html',
   styleUrl: './vehicles-filter.component.scss'
 })

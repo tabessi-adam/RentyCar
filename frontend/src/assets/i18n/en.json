@@ -159,5 +159,107 @@
         "description": "Hammamet, famous for its beautiful beaches and vibrant nightlife, is a top tourist destination. Our service provides reliable transportation to all major attractions and resorts."
       }
     }
+  },
+  "VEHICLES": {
+    "FILTERS": {
+      "TITLE": "Filters",
+      "CLEAR_ALL": "Clear All",
+      "SPECIFICATIONS": "Specifications",
+      "ALL_FUEL_TYPES": "All Fuel Types",
+      "ALL_TRANSMISSIONS": "All Transmissions",
+      "LOCATIONS": "Locations",
+      "ALL_LOCATIONS": "All Locations",
+      "PRICE_RANGE": "Price Range",
+      "MIN_PRICE": "Min Price",
+      "MAX_PRICE": "Max Price",
+      "TO": "to",
+      "YEAR_RANGE": "Year Range",
+      "MIN_YEAR": "Min Year",
+      "MAX_YEAR": "Max Year",
+      "FEATURES": {
+        "TITLE": "Features",
+        "GPS": "GPS",
+        "BLUETOOTH": "Bluetooth",
+        "AIR_CONDITIONING": "Air Conditioning",
+        "USB_CABLE": "USB Cable"
+      },
+      "FUEL_TYPES": {
+        "HYBRID": "Hybrid",
+        "DIESEL": "Diesel",
+        "PETROL": "Petrol",
+        "ELECTRIC": "Electric"
+      },
+      "TRANSMISSIONS": {
+        "AUTOMATIC": "Automatic",
+        "MANUAL": "Manual"
+      }
+    },
+    "CARD": {
+      "NO_IMAGE": "No Image Available",
+      "PRICE_PER_DAY": "TND / Day",
+      "BOOK_NOW": "Book Now",
+      "FEATURES": {
+        "KILOMETERS": "Km",
+        "TRANSMISSION": "Transmission",
+        "FUEL_TYPE": "Fuel Type",
+        "COLOR": "Color"
+      },
+      "COLORS": {
+        "WHITE": "White",
+        "BLACK": "Black",
+        "SILVER": "Silver",
+        "GRAY": "Gray",
+        "RED": "Red",
+        "BLUE": "Blue",
+        "GREEN": "Green",
+        "YELLOW": "Yellow",
+        "ORANGE": "Orange",
+        "BROWN": "Brown",
+        "BEIGE": "Beige",
+        "GOLD": "Gold",
+        "PURPLE": "Purple",
+        "PINK": "Pink"
+      }
+    }
+  },
+  "CALENDAR": {
+    "SELECT_DATES": "Select Dates",
+    "FROM": "From",
+    "TO": "To",
+    "SUN": "Sun",
+    "MON": "Mon",
+    "TUE": "Tue",
+    "WED": "Wed",
+    "THU": "Thu",
+    "FRI": "Fri",
+    "SAT": "Sat",
+    "JANUARY": "January",
+    "FEBRUARY": "February",
+    "MARCH": "March",
+    "APRIL": "April",
+    "MAY": "May",
+    "JUNE": "June",
+    "JULY": "July",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "October",
+    "NOVEMBER": "November",
+    "DECEMBER": "December"
+  },
+  "VEHICLE_DETAILS": {
+    "LOCATED_AT": "Located at",
+    "SPECIFICATIONS": "Vehicle Specifications",
+    "KILOMETERS_DRIVEN": "Kilometers Driven",
+    "TRANSMISSION": "Transmission",
+    "FUEL_TYPE": "Fuel Type",
+    "YEAR": "Year",
+    "FEATURES": "Vehicle Features",
+    "AIR_CONDITIONING": "Air Conditioning",
+    "BLUETOOTH": "Bluetooth",
+    "GPS": "GPS",
+    "USB_CABLE": "USB Cable",
+    "NO_FEATURES": "No additional features available",
+    "CUSTOMER_REVIEWS": "Customer Reviews",
+    "THUMBNAIL": "Thumbnail"
   }
 } 

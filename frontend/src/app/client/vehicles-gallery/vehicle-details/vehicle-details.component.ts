@@ -8,6 +8,7 @@ import { VehicleService } from '../../../core/services/vehicle.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
 import { CommonModule } from '@angular/common';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -18,8 +19,8 @@ import { ReviewsComponent } from './reviews/reviews.component';
     FooterComponent,
     VehicleCarouselComponent,
     ReserveComponent,
-  
-    ReviewsComponent
+    ReviewsComponent,
+    TranslateModule
   ],
   templateUrl: './vehicle-details.component.html',
   styleUrl: './vehicle-details.component.scss'

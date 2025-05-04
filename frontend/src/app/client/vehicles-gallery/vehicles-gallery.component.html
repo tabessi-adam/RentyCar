@@ -30,7 +30,7 @@
       </div>
     } @else if (vehicles.length === 0) {
       <div class="no-vehicles-message">
-        <p>No vehicles found matching your filters.</p>
+        <p>{{ 'VEHICLES.GALLERY.NO_VEHICLES' | translate }}</p>
       </div>
     } @else {
       <div class="vehicles-grid">
@@ -45,7 +45,7 @@
             class="pagination-button" 
             [disabled]="currentPage === 1"
             (click)="onPageChange(currentPage - 1)">
-            Previous
+            {{ 'PREVIOUS' | translate }}
           </button>
           
           <div class="pagination-pages">
@@ -63,7 +63,7 @@
             class="pagination-button" 
             [disabled]="currentPage === totalPages"
             (click)="onPageChange(currentPage + 1)">
-            Next
+            {{ 'NEXT' | translate }}
           </button>
         </div>
       }

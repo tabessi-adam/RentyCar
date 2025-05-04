@@ -7,7 +7,7 @@
         <h1 class="vehicle-title">{{ vehicle.brand }} <span class="model-name">{{ vehicle.model }}</span></h1>
         <p class="office-name" *ngIf="vehicle.office">
           <i class="fas fa-map-marker-alt"></i>
-          Located at: {{ vehicle.office.name }}
+          {{ 'VEHICLE_DETAILS.LOCATED_AT' | translate }}: {{ vehicle.office.name }}
         </p>
       </div>
       <div class="vehicle-sections">
@@ -16,61 +16,61 @@
             <app-vehicle-carousel [images]="vehicleImages"></app-vehicle-carousel>
           </div>
           
-          <h2 class="section-title">Vehicle Specifications</h2>
+          <h2 class="section-title">{{ 'VEHICLE_DETAILS.SPECIFICATIONS' | translate }}</h2>
           <div class="vehicle-specifications">
             <div class="specs-grid">
               <div class="spec-item">
                 <i class="fas fa-road"></i>
                 <div class="spec-info">
-                  <span class="spec-label">Kilometers Driven</span>
+                  <span class="spec-label">{{ 'VEHICLE_DETAILS.KILOMETERS_DRIVEN' | translate }}</span>
                   <span class="spec-value">{{ vehicle.kilometersDriven | number }} Km</span>
                 </div>
               </div>
               <div class="spec-item">
                 <i class="fas fa-cogs"></i>
                 <div class="spec-info">
-                  <span class="spec-label">Transmission</span>
-                  <span class="spec-value">{{ vehicle.transmission }}</span>
+                  <span class="spec-label">{{ 'VEHICLE_DETAILS.TRANSMISSION' | translate }}</span>
+                  <span class="spec-value">{{ 'VEHICLES.FILTERS.TRANSMISSIONS.' + vehicle.transmission | translate }}</span>
                 </div>
               </div>
               <div class="spec-item">
                 <i class="fas fa-gas-pump"></i>
                 <div class="spec-info">
-                  <span class="spec-label">Fuel Type</span>
-                  <span class="spec-value">{{ vehicle.fuelType }}</span>
+                  <span class="spec-label">{{ 'VEHICLE_DETAILS.FUEL_TYPE' | translate }}</span>
+                  <span class="spec-value">{{ 'VEHICLES.FILTERS.FUEL_TYPES.' + vehicle.fuelType | translate }}</span>
                 </div>
               </div>
               <div class="spec-item">
                 <i class="fas fa-calendar-alt"></i>
                 <div class="spec-info">
-                  <span class="spec-label">Year</span>
+                  <span class="spec-label">{{ 'VEHICLE_DETAILS.YEAR' | translate }}</span>
                   <span class="spec-value">{{ vehicle.year }}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <h2 class="section-title">Vehicle Features</h2>
+          <h2 class="section-title">{{ 'VEHICLE_DETAILS.FEATURES' | translate }}</h2>
           <div class="vehicle-features">
             <ul class="features-list">
               <li class="feature-item" *ngIf="vehicle.hasAirConditioning">
                 <i class="fas fa-snowflake"></i>
-                <span class="feature-label">Air Conditioning</span>
+                <span class="feature-label">{{ 'VEHICLE_DETAILS.AIR_CONDITIONING' | translate }}</span>
               </li>
               <li class="feature-item" *ngIf="vehicle.hasBluetooth">
                 <i class="fas fa-bluetooth"></i>
-                <span class="feature-label">Bluetooth</span>
+                <span class="feature-label">{{ 'VEHICLE_DETAILS.BLUETOOTH' | translate }}</span>
               </li>
               <li class="feature-item" *ngIf="vehicle.hasGPS">
                 <i class="fas fa-map-marker-alt"></i>
-                <span class="feature-label">GPS</span>
+                <span class="feature-label">{{ 'VEHICLE_DETAILS.GPS' | translate }}</span>
               </li>
               <li class="feature-item" *ngIf="vehicle.hasUSBCable">
                 <i class="fas fa-usb"></i>
-                <span class="feature-label">USB Cable</span>
+                <span class="feature-label">{{ 'VEHICLE_DETAILS.USB_CABLE' | translate }}</span>
               </li>
               <li class="no-features" *ngIf="!vehicle.hasAirConditioning && !vehicle.hasBluetooth && !vehicle.hasGPS && !vehicle.hasUSBCable">
-                No additional features available
+                {{ 'VEHICLE_DETAILS.NO_FEATURES' | translate }}
               </li>
             </ul>
           </div>
@@ -79,7 +79,7 @@
             <app-reserve [vehicle]="vehicle"></app-reserve>
           </div>
 
-          <h2 class="section-title">Customer Reviews</h2>
+          <h2 class="section-title">{{ 'VEHICLE_DETAILS.CUSTOMER_REVIEWS' | translate }}</h2>
           <div class="reviews-section">
             <app-reviews [vehicleId]="vehicle.id"></app-reviews>
           </div>
