@@ -261,5 +261,25 @@
     "NO_FEATURES": "No additional features available",
     "CUSTOMER_REVIEWS": "Customer Reviews",
     "THUMBNAIL": "Thumbnail"
+  },
+  "REVIEWS": {
+    "ERROR": "An error occurred while loading reviews",
+    "ANONYMOUS": "Anonymous",
+    "NO_REVIEWS": "No reviews yet. Be the first to review this vehicle!",
+    "LEAVE_REVIEW": "Leave a Review",
+    "REVIEWING_AS": "Reviewing as:",
+    "RATING": "Rating",
+    "YOUR_REVIEW": "Your Review",
+    "SHARE_EXPERIENCE": "Share your experience with this vehicle",
+    "MIN_CHARS": "Please write a review (minimum 10 characters)",
+    "CANCEL": "Cancel",
+    "SAVING": "Saving...",
+    "SAVE_CHANGES": "Save Changes",
+    "SUBMITTING": "Submitting...",
+    "SUBMIT_REVIEW": "Submit Review",
+    "ALREADY_REVIEWED": "You have already reviewed this vehicle",
+    "EDIT_REVIEW": "Edit Review",
+    "DELETE_REVIEW": "Delete Review",
+    "CONFIRM_DELETE": "Are you sure you want to delete your review?"
   }
 } 

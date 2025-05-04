@@ -284,5 +284,25 @@
     "NO_FEATURES": "Aucune caractéristique supplémentaire disponible",
     "CUSTOMER_REVIEWS": "Avis des Clients",
     "THUMBNAIL": "Miniature"
+  },
+  "REVIEWS": {
+    "ERROR": "Une erreur s'est produite lors du chargement des avis",
+    "ANONYMOUS": "Anonyme",
+    "NO_REVIEWS": "Aucun avis pour le moment. Soyez le premier à évaluer ce véhicule !",
+    "LEAVE_REVIEW": "Laisser un Avis",
+    "REVIEWING_AS": "Évaluation en tant que :",
+    "RATING": "Note",
+    "YOUR_REVIEW": "Votre Avis",
+    "SHARE_EXPERIENCE": "Partagez votre expérience avec ce véhicule",
+    "MIN_CHARS": "Veuillez écrire un avis (minimum 10 caractères)",
+    "CANCEL": "Annuler",
+    "SAVING": "Enregistrement en cours...",
+    "SAVE_CHANGES": "Enregistrer les Modifications",
+    "SUBMITTING": "Envoi en cours...",
+    "SUBMIT_REVIEW": "Soumettre l'Avis",
+    "ALREADY_REVIEWED": "Vous avez déjà évalué ce véhicule",
+    "EDIT_REVIEW": "Modifier l'Avis",
+    "DELETE_REVIEW": "Supprimer l'Avis",
+    "CONFIRM_DELETE": "Êtes-vous sûr de vouloir supprimer votre avis ?"
   }
 } 

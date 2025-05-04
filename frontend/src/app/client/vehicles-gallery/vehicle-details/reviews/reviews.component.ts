@@ -6,11 +6,12 @@ import { Review, CreateReviewPayload } from '../../../../core/models/review.mode
 import { AuthService } from '../../../../core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reviews',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
@@ -34,7 +35,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private reviewService: ReviewService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateService: TranslateService
   ) {
     this.reviewForm = this.fb.group({
       rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
@@ -206,7 +208,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   deleteReview() {
-    if (this.userReview && confirm('Are you sure you want to delete your review?')) {
+    if (this.userReview && confirm(this.translateService.instant('REVIEWS.CONFIRM_DELETE'))) {
       this.reviewService.deleteReview(this.userReview.id).subscribe({
         next: () => {
           this.reviews = this.reviews.filter(r => r.id !== this.userReview?.id);
