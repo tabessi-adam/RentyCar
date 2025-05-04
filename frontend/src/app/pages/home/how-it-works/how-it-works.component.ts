@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 // Font Awesome imports
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCarSide, faCalendar, faClipboardCheck, faBell } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +10,7 @@ import { faCarSide, faCalendar, faClipboardCheck, faBell } from '@fortawesome/fr
   templateUrl: './how-it-works.component.html',
   styleUrls: ['./how-it-works.component.scss'],
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule]
+  imports: [FontAwesomeModule, CommonModule, TranslateModule]
 })
 export class HowItWorksComponent {
   primaryColor = '#36c63c';
@@ -24,23 +25,23 @@ export class HowItWorksComponent {
   features = [
     {
       icon: this.faCarSide,
-      title: 'Browse Vehicles',
-      description: 'Browse our wide selection of vehicles and select the perfect one for your needs'
+      key: 'browse'
     },
     {
       icon: this.faCalendar,
-      title: 'Select Dates',
-      description: 'Pick your rental start date and specify the number of days you need the vehicle'
+      key: 'select'
     },
     {
       icon: this.faClipboardCheck,
-      title: 'Review & Submit',
-      description: 'Review your selection and submit your reservation request. Our system will calculate the total price'
+      key: 'review'
     },
     {
       icon: this.faBell,
-      title: 'Wait for Confirmation',
-      description: 'Wait for our team to review and confirm your reservation. You\'ll receive a notification once approved'
+      key: 'wait'
     }
   ];
+
+  getStepKey(index: number): string {
+    return this.features[index].key;
+  }
 }

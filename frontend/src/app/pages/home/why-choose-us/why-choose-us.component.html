@@ -1,10 +1,10 @@
 <section class="why-choose-us">
   <div class="container">
-    <h2 class="section-title">Why Choose Us</h2>
+    <h2 class="section-title">{{ 'whyChooseUs.title' | translate }}</h2>
     
     <div class="content-wrapper">
       <div class="description">
-        <p>At Auto rent, we understand that choosing the right car rental service is important. Here's why we stand out from the rest and why we're the perfect choice for your next journey:</p>
+        <p>{{ 'whyChooseUs.description' | translate }}</p>
       </div>
       
       <div class="features-grid">
@@ -12,7 +12,7 @@
           <div class="icon-wrapper">
             <fa-icon [icon]="feature.icon"></fa-icon>
           </div>
-          <h3 class="feature-title">{{feature.title}}</h3>
+          <h3 class="feature-title">{{ 'whyChooseUs.features.' + feature.key | translate }}</h3>
         </div>
       </div>
     </div>

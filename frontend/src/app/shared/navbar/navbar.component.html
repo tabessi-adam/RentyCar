@@ -1,4 +1,16 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation">
+  <!-- Language Toggle -->
+  <div class="navbar__language" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
+    <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
+      {{ currentLanguage() === 'en' ? 'EN' : 'FR' }}
+      <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
+    </button>
+    <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
+      <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">English</button>
+      <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">Français</button>
+    </div>
+  </div>
+
   <!-- Logo and Name -->
   <div class="navbar__brand" (click)="navigateToHome()" tabindex="0" (keydown)="handleKeydown($event, 'home')">
     <img src="assets/images/logos/logo.png" alt="RentyCar Logo" class="navbar__logo">
@@ -7,18 +19,18 @@
 
   <!-- Desktop Navigation -->
   <ul class="navbar__links">
-    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-    <li><a routerLink="/collection" routerLinkActive="active">Our Collection</a></li>
-    <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
-    <li><a routerLink="/locations" routerLinkActive="active">Locations</a></li>
-    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ 'navbar.home' | translate }}</a></li>
+    <li><a routerLink="/collection" routerLinkActive="active">{{ 'navbar.collection' | translate }}</a></li>
+    <li><a routerLink="/about" routerLinkActive="active">{{ 'navbar.about' | translate }}</a></li>
+    <li><a routerLink="/locations" routerLinkActive="active">{{ 'navbar.locations' | translate }}</a></li>
+    <li><a routerLink="/contact" routerLinkActive="active">{{ 'navbar.contact' | translate }}</a></li>
   </ul>
 
   <!-- Desktop Auth Section -->
   <div class="navbar__auth">
     <ng-container *ngIf="!isAuthenticated; else loggedInTemplate">
-      <button routerLink="/login" class="btn btn--secondary">Login</button>
-      <button routerLink="/register" class="btn btn--primary">Register</button>
+      <button routerLink="/login" class="btn btn--secondary">{{ 'navbar.login' | translate }}</button>
+      <button routerLink="/register" class="btn btn--primary">{{ 'navbar.register' | translate }}</button>
     </ng-container>
 
     <ng-template #loggedInTemplate>
@@ -36,9 +48,9 @@
         }
         <span>{{ (clientService.userName() || 'User') | lowercase }}</span>
         <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
-          <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>
-          <a routerLink="/client/reservations" role="menuitem">My Reservations</a>
-          <a (click)="logout()" role="menuitem">Logout</a>
+          <a routerLink="/client/client-profile" role="menuitem">{{ 'navbar.editProfile' | translate }}</a>
+          <a routerLink="/client/reservations" role="menuitem">{{ 'navbar.myReservations' | translate }}</a>
+          <a (click)="logout()" role="menuitem">{{ 'navbar.logout' | translate }}</a>
         </div>
       </div>
     </ng-template>
@@ -54,21 +66,21 @@
 
   <!-- Mobile Menu -->
   <div class="navbar__mobile-menu" [class.active]="isMobileMenuOpen" id="mobile-menu" role="menu">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="menuitem">Home</a>
-    <a routerLink="/collection" routerLinkActive="active" role="menuitem">Our Collection</a>
-    <a routerLink="/locations" routerLinkActive="active" role="menuitem">Locations</a>
-    <a routerLink="/about" routerLinkActive="active" role="menuitem">About Us</a>
-    <a routerLink="/contact" routerLinkActive="active" role="menuitem">Contact</a>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="menuitem">{{ 'navbar.home' | translate }}</a>
+    <a routerLink="/collection" routerLinkActive="active" role="menuitem">{{ 'navbar.collection' | translate }}</a>
+    <a routerLink="/locations" routerLinkActive="active" role="menuitem">{{ 'navbar.locations' | translate }}</a>
+    <a routerLink="/about" routerLinkActive="active" role="menuitem">{{ 'navbar.about' | translate }}</a>
+    <a routerLink="/contact" routerLinkActive="active" role="menuitem">{{ 'navbar.contact' | translate }}</a>
     
     <ng-container *ngIf="!isAuthenticated; else mobileLoggedIn">
-      <a routerLink="/login" role="menuitem">Login</a>
-      <a routerLink="/register" role="menuitem">Register</a>
+      <a routerLink="/login" role="menuitem">{{ 'navbar.login' | translate }}</a>
+      <a routerLink="/register" role="menuitem">{{ 'navbar.register' | translate }}</a>
     </ng-container>
     
     <ng-template #mobileLoggedIn>
-      <a routerLink="/client/reservations" role="menuitem">My Reservations</a>
-      <a routerLink="/client/client-profile" role="menuitem">Edit Profile</a>
-      <a (click)="logout()" role="menuitem">Logout</a>
+      <a routerLink="/client/reservations" role="menuitem">{{ 'navbar.myReservations' | translate }}</a>
+      <a routerLink="/client/client-profile" role="menuitem">{{ 'navbar.editProfile' | translate }}</a>
+      <a (click)="logout()" role="menuitem">{{ 'navbar.logout' | translate }}</a>
     </ng-template>
   </div>
 </nav>

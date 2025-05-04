@@ -1,0 +1,163 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "collection": "Notre Collection",
+    "about": "À Propos de Nous",
+    "locations": "Emplacements",
+    "contact": "Contact",
+    "login": "Connexion",
+    "register": "Inscription",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "editProfile": "Modifier le Profil",
+    "myReservations": "Mes Réservations"
+  },
+  "hero": {
+    "title": "Trouvez la Voiture Parfaite",
+    "subtitle": "Vous cherchez un véhicule ?",
+    "description": "Vous êtes au bon endroit.",
+    "features": {
+      "quality": "Haute qualité à bas prix.",
+      "services": "Services haut de gamme.",
+      "support": "Assistance routière 24h/24 et 7j/7."
+    },
+    "buttons": {
+      "book": "Réserver Maintenant",
+      "learn": "En Savoir Plus"
+    }
+  },
+  "brands": {
+    "title": "Nos Marques"
+  },
+  "howItWorks": {
+    "title": "Comment ça marche",
+    "steps": {
+      "browse": {
+        "title": "Parcourir les Véhicules",
+        "description": "Parcourez notre large sélection de véhicules et choisissez celui qui correspond parfaitement à vos besoins"
+      },
+      "select": {
+        "title": "Sélectionner les Dates",
+        "description": "Choisissez la date de début de location et indiquez le nombre de jours nécessaires"
+      },
+      "review": {
+        "title": "Vérifier et Soumettre",
+        "description": "Vérifiez votre sélection et envoyez votre demande de réservation. Notre système calculera le prix total"
+      },
+      "wait": {
+        "title": "Attendre la Confirmation",
+        "description": "Attendez que notre équipe examine et confirme votre réservation. Vous recevrez une notification une fois approuvée"
+      }
+    }
+  },
+  "whyChooseUs": {
+    "title": "Pourquoi Nous Choisir",
+    "description": "Chez Auto rent, nous comprenons que choisir le bon service de location de voiture est important. Voici pourquoi nous nous démarquons des autres et pourquoi nous sommes le choix parfait pour votre prochain voyage :",
+    "features": {
+      "vehicles": "Large Gamme de Véhicules",
+      "prices": "Prix Abordables",
+      "support": "Service Client 24/7",
+      "booking": "Processus de Réservation Facile"
+    }
+  },
+  "footer": {
+    "brand": {
+      "name": "RentyCar",
+      "logo": "Logo RentyCar",
+      "description": "Votre partenaire de confiance pour la location de voitures de luxe. Vivez le frisson de conduire des véhicules haut de gamme grâce à notre service exceptionnel."
+    },
+    "quickLinks": {
+      "title": "Liens Rapides",
+      "home": "Accueil",
+      "collection": "Notre Collection",
+      "about": "À Propos de Nous",
+      "locations": "Emplacements",
+      "contact": "Contact"
+    },
+    "contact": {
+      "title": "Informations de Contact",
+      "address": "Sousse, Hmeda Kbira",
+      "phone": "+216 21 167 417",
+      "email": "info@rentycar.com",
+      "hours": "Lun - Ven : 9h00 - 18h00"
+    },
+    "social": {
+      "title": "Suivez-nous"
+    },
+    "copyright": "© 2025 RentyCar. Tous droits réservés.",
+    "legal": {
+      "privacy": "Politique de Confidentialité",
+      "terms": "Conditions d'Utilisation",
+      "cookies": "Politique de Cookies"
+    }
+  },
+  "aboutUs": {
+    "title": "À Propos de Nous",
+    "description": "Nous nous engageons à offrir un service exceptionnel et à créer des expériences mémorables pour nos clients. Notre mission est de rendre votre voyage fluide et agréable.",
+    "mission": {
+      "title": "Notre Mission",
+      "description": "Révolutionner la manière dont les gens vivent le transport en offrant des services fiables, confortables et efficaces qui dépassent les attentes."
+    },
+    "values": {
+      "title": "Nos Valeurs Fondamentales",
+      "customerSatisfaction": {
+        "title": "Satisfaction du Client",
+        "description": "Nous plaçons vos besoins en priorité et veillons à ce que chaque trajet soit confortable et agréable."
+      },
+      "safety": {
+        "title": "La Sécurité Avant Tout",
+        "description": "Votre sécurité est notre priorité absolue. Nous maintenons les normes les plus élevées en matière d'entretien des véhicules et de formation des conducteurs."
+      },
+      "reliability": {
+        "title": "Fiabilité",
+        "description": "Nous nous engageons à être ponctuels à chaque fois, pour vous garantir d'arriver à destination comme prévu."
+      },
+      "sustainability": {
+        "title": "Durabilité",
+        "description": "Nous nous engageons à réduire notre impact environnemental grâce à des pratiques respectueuses de l'environnement."
+      }
+    },
+    "team": {
+      "title": "Notre Équipe",
+      "member": "Membre de l'Équipe",
+      "members": {
+        "ceo": {
+          "role": "PDG & Fondateur"
+        },
+        "operations": {
+          "role": "Responsable des Opérations"
+        },
+        "customerService": {
+          "role": "Directeur du Service Client"
+        }
+      }
+    }
+  },
+  "locations": {
+    "title": "Nos Emplacements",
+    "description": "Nous opérons dans trois magnifiques villes à travers la Tunisie, offrant des services de transport exceptionnels aux locaux comme aux visiteurs. Découvrez nos emplacements et les expériences uniques que chaque ville propose.",
+    "cities": {
+      "sousse": {
+        "name": "Sousse",
+        "address": "Médina de Sousse",
+        "service": "Service 24h/24 et 7j/7",
+        "phone": "+216 21 167 417",
+        "description": "Sousse, connue comme la \"Perle du Sahel\", offre un mélange parfait d'histoire et de modernité. Notre service ici vous relie à la médina animée, aux plages magnifiques et au centre-ville dynamique."
+      },
+      "monastir": {
+        "name": "Monastir",
+        "address": "Avenue Habib Bourguiba",
+        "service": "Service 24h/24 et 7j/7",
+        "phone": "+216 21 167 417",
+        "description": "Monastir, avec son riche passé et son magnifique littoral, est une destination idéale pour les loisirs comme pour les affaires. Notre service garantit des déplacements confortables dans toute la ville et ses environs."
+      },
+      "hammamet": {
+        "name": "Hammamet",
+        "address": "Yasmine Hammamet",
+        "service": "Service 24h/24 et 7j/7",
+        "phone": "+216 21 167 417",
+        "description": "Hammamet, célèbre pour ses plages magnifiques et sa vie nocturne animée, est une destination touristique de premier plan. Notre service offre un transport fiable vers toutes les principales attractions et stations balnéaires."
+      }
+    }
+  }
+} 

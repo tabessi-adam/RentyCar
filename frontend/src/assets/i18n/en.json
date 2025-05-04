@@ -1,0 +1,163 @@
+{
+  "navbar": {
+    "home": "Home",
+    "collection": "Our Collection",
+    "about": "About Us",
+    "locations": "Locations",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "profile": "Profile",
+    "logout": "Logout",
+    "editProfile": "Edit Profile",
+    "myReservations": "My Reservations"
+  },
+  "hero": {
+    "title": "Find Your Perfect Car",
+    "subtitle": "Looking for a vehicle?",
+    "description": "You're in the perfect spot.",
+    "features": {
+      "quality": "High quality at a low cost.",
+      "services": "Premium services.",
+      "support": "24/7 roadside support."
+    },
+    "buttons": {
+      "book": "Book Now",
+      "learn": "Learn More"
+    }
+  },
+  "brands": {
+    "title": "Our Brands"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "steps": {
+      "browse": {
+        "title": "Browse Vehicles",
+        "description": "Browse our wide selection of vehicles and select the perfect one for your needs"
+      },
+      "select": {
+        "title": "Select Dates",
+        "description": "Pick your rental start date and specify the number of days you need the vehicle"
+      },
+      "review": {
+        "title": "Review & Submit",
+        "description": "Review your selection and submit your reservation request. Our system will calculate the total price"
+      },
+      "wait": {
+        "title": "Wait for Confirmation",
+        "description": "Wait for our team to review and confirm your reservation. You'll receive a notification once approved"
+      }
+    }
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "description": "At Auto rent, we understand that choosing the right car rental service is important. Here's why we stand out from the rest and why we're the perfect choice for your next journey:",
+    "features": {
+      "vehicles": "Wide Range of Vehicles",
+      "prices": "Affordable Prices",
+      "support": "24/7 Customer Support",
+      "booking": "Easy Booking Process"
+    }
+  },
+  "footer": {
+    "brand": {
+      "name": "RentyCar",
+      "logo": "RentyCar Logo",
+      "description": "Your trusted partner in luxury car rentals. Experience the thrill of driving premium vehicles with our exceptional service."
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "home": "Home",
+      "collection": "Our Collection",
+      "about": "About Us",
+      "locations": "Locations",
+      "contact": "Contact"
+    },
+    "contact": {
+      "title": "Contact Info",
+      "address": "Sousse, Hmeda Kbira",
+      "phone": "+216 21 167 417",
+      "email": "info@rentycar.com",
+      "hours": "Mon - Fri: 9:00 AM - 6:00 PM"
+    },
+    "social": {
+      "title": "Follow Us"
+    },
+    "copyright": "© 2025 RentyCar. All rights reserved.",
+    "legal": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    }
+  },
+  "aboutUs": {
+    "title": "About Us",
+    "description": "We are dedicated to providing exceptional service and creating memorable experiences for our clients. Our mission is to make your journey seamless and enjoyable.",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To revolutionize the way people experience transportation by providing reliable, comfortable, and efficient services that exceed expectations."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "customerSatisfaction": {
+        "title": "Customer Satisfaction",
+        "description": "We prioritize your needs and ensure every journey is comfortable and enjoyable."
+      },
+      "safety": {
+        "title": "Safety First",
+        "description": "Your safety is our top priority. We maintain the highest standards of vehicle maintenance and driver training."
+      },
+      "reliability": {
+        "title": "Reliability",
+        "description": "We are committed to being on time, every time, ensuring you reach your destination as planned."
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "description": "We are dedicated to reducing our environmental impact through eco-friendly practices."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "member": "Team Member",
+      "members": {
+        "ceo": {
+          "role": "CEO & Founder"
+        },
+        "operations": {
+          "role": "Operations Manager"
+        },
+        "customerService": {
+          "role": "Customer Service Director"
+        }
+      }
+    }
+  },
+  "locations": {
+    "title": "Our Locations",
+    "description": "We operate in three beautiful cities across Tunisia, providing exceptional transportation services to both locals and visitors. Discover our locations and the unique experiences each city offers.",
+    "cities": {
+      "sousse": {
+        "name": "Sousse",
+        "address": "Medina of Sousse",
+        "service": "24/7 Service",
+        "phone": "+216 21 167 417",
+        "description": "Sousse, known as the \"Pearl of the Sahel,\" offers a perfect blend of history and modernity. Our service here connects you to the vibrant medina, beautiful beaches, and the bustling city center."
+      },
+      "monastir": {
+        "name": "Monastir",
+        "address": "Habib Bourguiba Avenue",
+        "service": "24/7 Service",
+        "phone": "+216 21 167 417",
+        "description": "Monastir, with its rich history and beautiful coastline, is a perfect destination for both leisure and business. Our service ensures comfortable travel throughout the city and its surroundings."
+      },
+      "hammamet": {
+        "name": "Hammamet",
+        "address": "Yasmine Hammamet",
+        "service": "24/7 Service",
+        "phone": "+216 21 167 417",
+        "description": "Hammamet, famous for its beautiful beaches and vibrant nightlife, is a top tourist destination. Our service provides reliable transportation to all major attractions and resorts."
+      }
+    }
+  }
+} 

@@ -1,17 +1,17 @@
 <section class="why-choose-us">
-  <div class="container">
-    <h2 class="section-title">How it works</h2>
-    
-    <div class="features-grid">
-      <div class="feature-item" *ngFor="let feature of features">
-        <div class="icon-container">
-          <fa-icon [icon]="feature.icon"></fa-icon>
+    <div class="container">
+        <h2 class="section-title">{{ 'howItWorks.title' | translate }}</h2>
+        
+        <div class="features-grid">
+            <div class="feature-item" *ngFor="let feature of features; let i = index">
+                <div class="icon-container">
+                    <fa-icon [icon]="feature.icon"></fa-icon>
+                </div>
+                <div class="content">
+                    <h3>{{ 'howItWorks.steps.' + getStepKey(i) + '.title' | translate }}</h3>
+                    <p>{{ 'howItWorks.steps.' + getStepKey(i) + '.description' | translate }}</p>
+                </div>
+            </div>
         </div>
-        <div class="content">
-          <h3>{{feature.title}}</h3>
-          <p>{{feature.description}}</p>
-        </div>
-      </div>
     </div>
-  </div>
 </section>

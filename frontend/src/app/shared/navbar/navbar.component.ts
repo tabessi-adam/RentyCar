@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -7,26 +7,35 @@ import { ClientService } from '../../core/services/client.service';
 import { Subscription } from 'rxjs';
 import { signal } from '@angular/core';
 import { User } from '../../core/models/auth.model';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslationService } from '../../core/services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive]
+  imports: [CommonModule, RouterLink, RouterLinkActive, TranslateModule]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  private translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
+  public clientService = inject(ClientService);
+  private authService = inject(AuthService);
+
   isMobileMenuOpen = false;
   isProfileDropdownOpen = false;
+  isLanguageDropdownOpen = false;
   isAuthenticated = false;
   private authSubscription?: Subscription;
   profilePictureUrl = signal<string | undefined>(undefined);
 
   constructor(
-    public authService: AuthService,
-    private router: Router,
-    public clientService: ClientService
-  ) {}
+    private router: Router
+  ) {
+    this.currentLanguage();
+  }
 
   ngOnInit() {
     // Subscribe to auth state changes
@@ -59,7 +68,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.navbar__profile') && !target.closest('.navbar__hamburger')) {
+    if (!target.closest('.navbar__profile') && 
+        !target.closest('.navbar__hamburger') && 
+        !target.closest('.navbar__language')) {
       this.closeMenus();
     }
   }
@@ -79,6 +90,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   toggleProfileDropdown() {
     this.isProfileDropdownOpen = !this.isProfileDropdownOpen;
     if (this.isProfileDropdownOpen) this.isMobileMenuOpen = false;
+  }
+
+  toggleLanguageDropdown() {
+    this.isLanguageDropdownOpen = !this.isLanguageDropdownOpen;
+    if (this.isLanguageDropdownOpen) {
+      this.isProfileDropdownOpen = false;
+      this.isMobileMenuOpen = false;
+    }
   }
 
   navigateToHome() {
@@ -106,6 +125,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleLanguageKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleLanguageDropdown();
+    }
+  }
+
   // Get dashboard route based on user role
   getDashboardRoute(): string {
     const user = this.authService.currentUser;
@@ -125,9 +151,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private closeMenus() {
     this.isMobileMenuOpen = false;
     this.isProfileDropdownOpen = false;
+    this.isLanguageDropdownOpen = false;
   }
 
   get currentUser() {
     return this.authService.currentUser;
+  }
+
+  currentLanguage(): string {
+    return this.translate.currentLang;
+  }
+
+  switchLanguage(lang: string): void {
+    this.translationService.switchLanguage(lang);
+    this.isLanguageDropdownOpen = false;
   }
 }

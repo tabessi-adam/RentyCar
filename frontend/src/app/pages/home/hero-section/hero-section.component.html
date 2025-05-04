@@ -6,30 +6,30 @@
     <div class="hero__container">
         <div class="hero__content">
             <div class="hero__text">
-                <p class="hero__subtitle">Find Your Perfect Car</p>
+                <p class="hero__subtitle">{{ 'hero.title' | translate }}</p>
                 <h1 class="hero__title">
-                    Looking for a vehicle? <br />
-                    You're in the perfect spot.
+                    {{ 'hero.subtitle' | translate }} <br />
+                    {{ 'hero.description' | translate }}
                 </h1>
 
                 <ul class="hero__features">
                     <li class="hero__feature">
                         <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
-                        <span class="hero__feature-text">High quality at a low cost.</span>
+                        <span class="hero__feature-text">{{ 'hero.features.quality' | translate }}</span>
                     </li>
                     <li class="hero__feature">
                         <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
-                        <span class="hero__feature-text">Premium services.</span>
+                        <span class="hero__feature-text">{{ 'hero.features.services' | translate }}</span>
                     </li>
                     <li class="hero__feature">
                         <fa-icon [icon]="faCheckCircle" class="hero__icon"></fa-icon>
-                        <span class="hero__feature-text">24/7 roadside support.</span>
+                        <span class="hero__feature-text">{{ 'hero.features.support' | translate }}</span>
                     </li>
                 </ul>
 
                 <div class="hero__actions">
-                    <button (click)="onBookNowClick()" class="hero__button hero__button--primary">Book Now</button>
-                    <a [routerLink]="['/about']" class="hero__button hero__button--outline">Learn More</a>
+                    <button (click)="onBookNowClick()" class="hero__button hero__button--primary">{{ 'hero.buttons.book' | translate }}</button>
+                    <a [routerLink]="['/about']" class="hero__button hero__button--outline">{{ 'hero.buttons.learn' | translate }}</a>
                 </div>
             </div>
         </div>
