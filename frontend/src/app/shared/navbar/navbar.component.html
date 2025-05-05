@@ -1,16 +1,4 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation">
-  <!-- Language Toggle -->
-  <div class="navbar__language" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
-    <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
-      {{ currentLanguage() === 'en' ? 'EN' : 'FR' }}
-      <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
-    </button>
-    <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
-      <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">English</button>
-      <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">Français</button>
-    </div>
-  </div>
-
   <!-- Logo and Name -->
   <div class="navbar__brand" (click)="navigateToHome()" tabindex="0" (keydown)="handleKeydown($event, 'home')">
     <img src="assets/images/logos/logo.png" alt="RentyCar Logo" class="navbar__logo">
@@ -53,16 +41,54 @@
           <a (click)="logout()" role="menuitem">{{ 'navbar.logout' | translate }}</a>
         </div>
       </div>
+      <div class="navbar__language" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
+        <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
+          <img [src]="currentLanguage() === 'en' ? 'assets/images/flags/gb.svg' : 'assets/images/flags/fr.svg'" 
+               [alt]="currentLanguage() === 'en' ? 'English' : 'Français'"
+               class="flag-icon">
+          <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
+        </button>
+        <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
+          <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">
+            <img src="assets/images/flags/gb.svg" alt="English" class="flag-icon">
+            <span>English</span>
+          </button>
+          <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">
+            <img src="assets/images/flags/fr.svg" alt="Français" class="flag-icon">
+            <span>Français</span>
+          </button>
+        </div>
+      </div>
     </ng-template>
   </div>
 
   <!-- Mobile Hamburger -->
-  <button class="navbar__hamburger" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"
-          aria-label="Toggle mobile menu" [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div class="navbar__mobile-controls">
+    <div class="navbar__language navbar__language--mobile" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
+      <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
+        <img [src]="currentLanguage() === 'en' ? 'assets/images/flags/gb.svg' : 'assets/images/flags/fr.svg'" 
+             [alt]="currentLanguage() === 'en' ? 'English' : 'Français'"
+             class="flag-icon">
+        <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
+      </button>
+      <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
+        <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">
+          <img src="assets/images/flags/gb.svg" alt="English" class="flag-icon">
+          <span>English</span>
+        </button>
+        <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">
+          <img src="assets/images/flags/fr.svg" alt="Français" class="flag-icon">
+          <span>Français</span>
+        </button>
+      </div>
+    </div>
+    <button class="navbar__hamburger" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"
+            aria-label="Toggle mobile menu" [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 
   <!-- Mobile Menu -->
   <div class="navbar__mobile-menu" [class.active]="isMobileMenuOpen" id="mobile-menu" role="menu">

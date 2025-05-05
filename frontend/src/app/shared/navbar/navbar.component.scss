@@ -53,18 +53,35 @@ $breakpoint-tablet-large: 912px;
         color: $text-dark;
     }
 
-    &__language {
-        position: absolute;
-        top: 0.5rem;
-        right: 1rem;
-        z-index: 1002;
-        margin-right: 1rem;
+    &__mobile-controls {
+        display: none;
+        align-items: center;
+        gap: 1rem;
 
         @media (max-width: $breakpoint-tablet-medium) {
+            display: flex;
+        }
+    }
+
+    &__language {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: -8rem;
+        z-index: 1002;
+
+        @media (max-width: $breakpoint-tablet-medium) {
+            display: none;
+        }
+
+        &--mobile {
+            display: none;
             position: static;
-            margin-right: 0;
-            margin-left: auto;
-            order: 1;
+            margin: 0;
+
+            @media (max-width: $breakpoint-tablet-medium) {
+                display: flex;
+            }
         }
     }
 
@@ -81,6 +98,13 @@ $breakpoint-tablet-large: 912px;
         display: flex;
         align-items: center;
         gap: 0.3rem;
+
+        .flag-icon {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
 
         i {
             font-size: 0.7rem;
@@ -112,7 +136,9 @@ $breakpoint-tablet-large: 912px;
         transition: opacity 0.25s ease, transform 0.25s ease;
 
         button {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             width: 100%;
             padding: 0.6rem 1rem;
             background: none;
@@ -122,6 +148,13 @@ $breakpoint-tablet-large: 912px;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
+
+            .flag-icon {
+                width: 20px;
+                height: 15px;
+                object-fit: cover;
+                border-radius: 2px;
+            }
 
             &:hover {
                 background-color: rgba(0, 0, 0, 0.05);
@@ -177,6 +210,7 @@ $breakpoint-tablet-large: 912px;
         align-items: center;
         z-index: 1001;
         margin-right: 4rem;
+        position: relative;
 
         @media (max-width: $breakpoint-tablet-medium) {
             display: none;
@@ -312,7 +346,6 @@ $breakpoint-tablet-large: 912px;
         position: relative;
         border-radius: 50%;
         transition: background-color 0.25s ease;
-        order: 2;
         
         &:hover {
             background-color: rgba(0, 0, 0, 0.05);
