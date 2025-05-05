@@ -41,7 +41,7 @@
             <span class="price-unit">{{ 'VEHICLES.CARD.PRICE_PER_DAY' | translate }}</span>
           </div>
         </div>
-        <button class="book-now" [disabled]="vehicle.currentStatus !== 'AVAILABLE'" (click)="handleBookNow($event)">
+        <button class="book-now" (click)="handleBookNow($event)">
           {{ 'VEHICLES.CARD.BOOK_NOW' | translate }}
         </button>
       </div>

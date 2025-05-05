@@ -334,6 +334,7 @@
   },
   "RESERVATIONS_LIST": {
     "TITLE": "My Reservations",
+    "SUBTITLE": "View and manage your vehicle reservations",
     "VEHICLE": "Vehicle",
     "START_DATE": "Start Date",
     "END_DATE": "End Date",
