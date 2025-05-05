@@ -15,51 +15,54 @@
   </ul>
 
   <!-- Desktop Auth Section -->
-  <div class="navbar__auth">
-    <ng-container *ngIf="!isAuthenticated; else loggedInTemplate">
-      <button routerLink="/login" class="btn btn--secondary">{{ 'navbar.login' | translate }}</button>
-      <button routerLink="/register" class="btn btn--primary">{{ 'navbar.register' | translate }}</button>
-    </ng-container>
+  <div class="navbar__right-section">
+    <div class="navbar__auth">
+      <ng-container *ngIf="!isAuthenticated; else loggedInTemplate">
+        <button routerLink="/login" class="btn btn--secondary">{{ 'navbar.login' | translate }}</button>
+        <button routerLink="/register" class="btn btn--primary">{{ 'navbar.register' | translate }}</button>
+      </ng-container>
 
-    <ng-template #loggedInTemplate>
-      <div class="navbar__profile" tabindex="0" (click)="toggleProfileDropdown()" 
-           (keydown)="handleProfileKeydown($event)" [attr.aria-expanded]="isProfileDropdownOpen" 
-           aria-label="Profile menu">
-        @if (profilePictureUrl()) {
-          <img [src]="profilePictureUrl()" 
-               alt="Profile picture" 
-               class="navbar__profile-picture">
-        } @else {
-          <div class="navbar__default-profile-icon">
-            <i class="fas fa-user"></i>
+      <ng-template #loggedInTemplate>
+        <div class="navbar__profile" tabindex="0" (click)="toggleProfileDropdown()" 
+             (keydown)="handleProfileKeydown($event)" [attr.aria-expanded]="isProfileDropdownOpen" 
+             aria-label="Profile menu">
+          @if (profilePictureUrl()) {
+            <img [src]="profilePictureUrl()" 
+                 alt="Profile picture" 
+                 class="navbar__profile-picture">
+          } @else {
+            <div class="navbar__default-profile-icon">
+              <i class="fas fa-user"></i>
+            </div>
+          }
+          <span>{{ (clientService.userName() || 'User') | lowercase }}</span>
+          <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
+            <a routerLink="/client/client-profile" role="menuitem">{{ 'navbar.editProfile' | translate }}</a>
+            <a routerLink="/client/reservations" role="menuitem">{{ 'navbar.myReservations' | translate }}</a>
+            <a (click)="logout()" role="menuitem">{{ 'navbar.logout' | translate }}</a>
           </div>
-        }
-        <span>{{ (clientService.userName() || 'User') | lowercase }}</span>
-        <div class="navbar__dropdown" [class.active]="isProfileDropdownOpen" role="menu">
-          <a routerLink="/client/client-profile" role="menuitem">{{ 'navbar.editProfile' | translate }}</a>
-          <a routerLink="/client/reservations" role="menuitem">{{ 'navbar.myReservations' | translate }}</a>
-          <a (click)="logout()" role="menuitem">{{ 'navbar.logout' | translate }}</a>
         </div>
-      </div>
-      <div class="navbar__language" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
-        <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
-          <img [src]="currentLanguage() === 'en' ? 'assets/images/flags/gb.svg' : 'assets/images/flags/fr.svg'" 
-               [alt]="currentLanguage() === 'en' ? 'English' : 'Français'"
-               class="flag-icon">
-          <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
+      </ng-template>
+    </div>
+
+    <div class="navbar__language" tabindex="0" (click)="toggleLanguageDropdown()" (keydown)="handleLanguageKeydown($event)" [attr.aria-expanded]="isLanguageDropdownOpen">
+      <button class="navbar__language-toggle" [attr.aria-label]="'Switch language'">
+        <img [src]="currentLanguage() === 'en' ? 'assets/images/flags/gb.svg' : 'assets/images/flags/fr.svg'" 
+             [alt]="currentLanguage() === 'en' ? 'English' : 'Français'"
+             class="flag-icon">
+        <i class="fas fa-chevron-down" [class.rotated]="isLanguageDropdownOpen"></i>
+      </button>
+      <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
+        <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">
+          <img src="assets/images/flags/gb.svg" alt="English" class="flag-icon">
+          <span>English</span>
         </button>
-        <div class="navbar__language-dropdown" [class.active]="isLanguageDropdownOpen" *ngIf="isLanguageDropdownOpen">
-          <button (click)="switchLanguage('en')" [class.active]="currentLanguage() === 'en'">
-            <img src="assets/images/flags/gb.svg" alt="English" class="flag-icon">
-            <span>English</span>
-          </button>
-          <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">
-            <img src="assets/images/flags/fr.svg" alt="Français" class="flag-icon">
-            <span>Français</span>
-          </button>
-        </div>
+        <button (click)="switchLanguage('fr')" [class.active]="currentLanguage() === 'fr'">
+          <img src="assets/images/flags/fr.svg" alt="Français" class="flag-icon">
+          <span>Français</span>
+        </button>
       </div>
-    </ng-template>
+    </div>
   </div>
 
   <!-- Mobile Hamburger -->
