@@ -26,7 +26,7 @@ $background-light: #f8f9fa;
   margin-bottom: 80px;
 
   .section-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 1.5rem;
     position: relative;
     display: inline-block;
@@ -87,10 +87,26 @@ $background-light: #f8f9fa;
 // Values Section
 .values-section {
   margin-bottom: 80px;
+  text-align: center;
 
   .section-title {
     text-align: center;
     margin-bottom: 50px;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: $secondary-color;
+    }
   }
 
   .values-grid {
@@ -142,9 +158,27 @@ $background-light: #f8f9fa;
 
 // Team Section
 .team-section {
+  text-align: center;
+  margin-bottom: 80px;
+
   .section-title {
     text-align: center;
     margin-bottom: 50px;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: $secondary-color;
+    }
   }
 
   .team-grid {
@@ -203,14 +237,16 @@ $background-light: #f8f9fa;
     padding: 30px;
   }
 
-  .hero-section {
+  .hero-section,
+  .values-section,
+  .team-section {
     .section-title {
       font-size: 2.5rem;
     }
+  }
 
-    .hero-description {
-      font-size: 1.1rem;
-    }
+  .hero-description {
+    font-size: 1.1rem;
   }
 
   .values-grid,
@@ -220,7 +256,9 @@ $background-light: #f8f9fa;
 }
 
 @media (max-width: 480px) {
-  .hero-section {
+  .hero-section,
+  .values-section,
+  .team-section {
     .section-title {
       font-size: 2rem;
     }
