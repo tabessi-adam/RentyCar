@@ -1,27 +1,27 @@
 <mat-card class="reservations-card">
   <mat-card-header>
-    <mat-card-title>My Reservations</mat-card-title>
+    <mat-card-title>{{ 'RESERVATIONS_LIST.TITLE' | translate }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="table-container">
       <div class="table">
         <!-- Desktop Header -->
         <div class="table-header desktop-only">
-          <div class="header-cell">Vehicle</div>
-          <div class="header-cell">Start Date</div>
-          <div class="header-cell">End Date</div>
-          <div class="header-cell">Duration</div>
-          <div class="header-cell">Total Price</div>
-          <div class="header-cell">Damage Deposit</div>
-          <div class="header-cell">Status</div>
-          <div class="header-cell">Actions</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.VEHICLE' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.START_DATE' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.END_DATE' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.DURATION' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.TOTAL_PRICE' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.DAMAGE_DEPOSIT' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.STATUS_TITLE' | translate }}</div>
+          <div class="header-cell">{{ 'RESERVATIONS_LIST.ACTIONS' | translate }}</div>
         </div>
 
         <!-- Reservations List -->
         <div class="table-body">
           <div *ngFor="let reservation of reservations" class="table-row">
             <!-- Vehicle -->
-            <div class="table-cell" data-label="Vehicle">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.VEHICLE' | translate">
               <div class="vehicle-info">
                 <div class="vehicle-name">{{ reservation.vehicle?.brand }} {{ reservation.vehicle?.model }}</div>
                 <div class="vehicle-year">{{ reservation.vehicle?.year }}</div>
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Start Date -->
-            <div class="table-cell" data-label="Start Date">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.START_DATE' | translate">
               <div class="date-cell">
                 <fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>
                 <span>{{ reservation.startDate | date:'mediumDate' }}</span>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- End Date -->
-            <div class="table-cell" data-label="End Date">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.END_DATE' | translate">
               <div class="date-cell">
                 <fa-icon [icon]="faCalendarAlt" class="icon"></fa-icon>
                 <span>{{ reservation.endDate | date:'mediumDate' }}</span>
@@ -45,15 +45,15 @@
             </div>
 
             <!-- Duration -->
-            <div class="table-cell" data-label="Duration">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.DURATION' | translate">
               <div class="days-cell">
                 <fa-icon [icon]="faClock" class="icon"></fa-icon>
-                <span>{{ reservation.totalDays }} days</span>
+                <span>{{ reservation.totalDays }} {{ 'RESERVATIONS_LIST.DAYS' | translate }}</span>
               </div>
             </div>
 
             <!-- Total Price -->
-            <div class="table-cell" data-label="Total Price">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.TOTAL_PRICE' | translate">
               <div class="price-cell">
                 <fa-icon [icon]="faMoneyBillWave" class="icon"></fa-icon>
                 <span>{{ reservation.totalPrice | number:'1.2-2' }}</span>
@@ -61,7 +61,7 @@
             </div>
 
             <!-- Damage Deposit -->
-            <div class="table-cell" data-label="Damage Deposit">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.DAMAGE_DEPOSIT' | translate">
               <div class="price-cell">
                 <fa-icon [icon]="faMoneyBillWave" class="icon"></fa-icon>
                 <span>{{ reservation.damageDeposit | number:'1.2-2' }}</span>
@@ -69,18 +69,18 @@
             </div>
 
             <!-- Status -->
-            <div class="table-cell" data-label="Status">
+            <div class="table-cell" [attr.data-label]="'RESERVATIONS_LIST.STATUS_TITLE' | translate">
               <span [class]="'status-badge ' + reservation.status.toLowerCase()">
-                {{ reservation.status }}
+                {{ getStatusTranslation(reservation.status) }}
               </span>
             </div>
 
             <!-- Actions -->
-            <div class="table-cell actions-cell" data-label="Actions">
+            <div class="table-cell actions-cell" [attr.data-label]="'RESERVATIONS_LIST.ACTIONS' | translate">
               <button mat-icon-button color="warn" 
                       *ngIf="reservation.status === 'PENDING'"
                       (click)="confirmCancel(reservation.id)"
-                      matTooltip="Cancel Reservation">
+                      [matTooltip]="'RESERVATIONS_LIST.CANCEL_RESERVATION' | translate">
                 <fa-icon [icon]="faTimes" class="action-icon"></fa-icon>
               </button>
             </div>
@@ -92,8 +92,8 @@
     <!-- Empty state -->
     <div class="empty-state" *ngIf="reservations.length === 0">
       <fa-icon [icon]="faCalendarAlt" class="empty-icon"></fa-icon>
-      <h3>No Reservations Found</h3>
-      <p>You haven't made any reservations yet.</p>
+      <h3>{{ 'RESERVATIONS_LIST.NO_RESERVATIONS.TITLE' | translate }}</h3>
+      <p>{{ 'RESERVATIONS_LIST.NO_RESERVATIONS.MESSAGE' | translate }}</p>
     </div>
   </mat-card-content>
 </mat-card>

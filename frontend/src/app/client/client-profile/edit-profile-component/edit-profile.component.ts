@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { ClientService, ClientProfile } from '../../../core/services/client.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfilePictureComponent } from '../profile-picture-component/profile-picture.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.scss',
-  imports: [FormsModule, CommonModule, ProfilePictureComponent]
+  imports: [FormsModule, CommonModule, ProfilePictureComponent, TranslateModule]
 })
 export class EditProfileComponent implements OnInit {
   profile: ClientProfile | null = null;

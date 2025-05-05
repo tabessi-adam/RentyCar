@@ -1,8 +1,8 @@
 <div class="edit-profile-container">
-  <h1 class="page-title">Edit Your Profile</h1>
+  <h1 class="page-title">{{ 'EDIT_PROFILE.TITLE' | translate }}</h1>
   
   @if (isLoading) {
-    <div class="loading-message">Loading profile...</div>
+    <div class="loading-message">{{ 'EDIT_PROFILE.LOADING' | translate }}</div>
   } @else if (error) {
     <div class="error-message">{{ error }}</div>
   } @else if (profile) {
@@ -10,81 +10,81 @@
       <app-profile-picture></app-profile-picture>
 
       <div class="profile-field">
-        <label>Email</label>
+        <label>{{ 'EDIT_PROFILE.EMAIL' | translate }}</label>
         <div class="view-mode">
           <span>{{ profile.email }}</span>
         </div>
       </div>
       <div class="profile-field">
-        <label>Name</label>
+        <label>{{ 'EDIT_PROFILE.NAME' | translate }}</label>
         @if (editingField === 'name') {
           <div class="edit-mode">
             <input type="text" [(ngModel)]="tempValue">
-            <button class="save-button" (click)="saveField('name')">Save</button>
-            <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+            <button class="save-button" (click)="saveField('name')">{{ 'EDIT_PROFILE.SAVE' | translate }}</button>
+            <button class="cancel-button" (click)="cancelEditing()">{{ 'EDIT_PROFILE.CANCEL' | translate }}</button>
           </div>
         } @else {
           <div class="view-mode">
             <span>{{ profile.name }}</span>
-            <button class="edit-button" (click)="startEditing('name')">Edit</button>
+            <button class="edit-button" (click)="startEditing('name')">{{ 'EDIT_PROFILE.EDIT' | translate }}</button>
           </div>
         }
       </div>
 
       <div class="profile-field">
-        <label>Phone Number</label>
+        <label>{{ 'EDIT_PROFILE.PHONE_NUMBER' | translate }}</label>
         @if (editingField === 'phoneNumber') {
           <div class="edit-mode">
             <input type="text" [(ngModel)]="tempValue">
-            <button class="save-button" (click)="saveField('phoneNumber')">Save</button>
-            <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+            <button class="save-button" (click)="saveField('phoneNumber')">{{ 'EDIT_PROFILE.SAVE' | translate }}</button>
+            <button class="cancel-button" (click)="cancelEditing()">{{ 'EDIT_PROFILE.CANCEL' | translate }}</button>
           </div>
         } @else {
           <div class="view-mode">
-            <span>{{ profile.phoneNumber || 'Not set' }}</span>
-            <button class="edit-button" (click)="startEditing('phoneNumber')">Edit</button>
+            <span>{{ profile.phoneNumber || ('EDIT_PROFILE.NOT_SET' | translate) }}</span>
+            <button class="edit-button" (click)="startEditing('phoneNumber')">{{ 'EDIT_PROFILE.EDIT' | translate }}</button>
           </div>
         }
       </div>
 
       <div class="profile-field">
-        <label>Password</label>
+        <label>{{ 'EDIT_PROFILE.PASSWORD' | translate }}</label>
         @if (editingField === 'password') {
           <div class="edit-mode password-update">
             <div class="password-field">
-              <label>Current Password</label>
-              <input type="password" [(ngModel)]="oldPassword" placeholder="Enter current password">
+              <label>{{ 'EDIT_PROFILE.CURRENT_PASSWORD' | translate }}</label>
+              <input type="password" [(ngModel)]="oldPassword" [placeholder]="'EDIT_PROFILE.ENTER_CURRENT_PASSWORD' | translate">
             </div>
             <div class="password-field">
-              <label>New Password</label>
-              <input type="password" [(ngModel)]="newPassword" placeholder="Enter new password">
+              <label>{{ 'EDIT_PROFILE.NEW_PASSWORD' | translate }}</label>
+              <input type="password" [(ngModel)]="newPassword" [placeholder]="'EDIT_PROFILE.ENTER_NEW_PASSWORD' | translate">
             </div>
             <div class="password-field">
-              <label>Confirm New Password</label>
-              <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm new password">
+              <label>{{ 'EDIT_PROFILE.CONFIRM_PASSWORD' | translate }}</label>
+              <input type="password" [(ngModel)]="confirmPassword" [placeholder]="'EDIT_PROFILE.CONFIRM_NEW_PASSWORD' | translate">
             </div>
             <div class="password-buttons">
-              <button class="save-button" (click)="updatePassword()">Update Password</button>
-              <button class="cancel-button" (click)="cancelEditing()">Cancel</button>
+              <button class="save-button" (click)="updatePassword()">{{ 'EDIT_PROFILE.UPDATE_PASSWORD' | translate }}</button>
+              <button class="cancel-button" (click)="cancelEditing()">{{ 'EDIT_PROFILE.CANCEL' | translate }}</button>
             </div>
           </div>
         } @else {
           <div class="view-mode">
             <span>********</span>
-            <button class="edit-button" (click)="startEditing('password')">Change Password</button>
+            <button class="edit-button" (click)="startEditing('password')">{{ 'EDIT_PROFILE.CHANGE_PASSWORD' | translate }}</button>
           </div>
         }
       </div>
 
       <div class="profile-field">
-        <label>Account Creation Date</label>
+        <label>{{ 'EDIT_PROFILE.ACCOUNT_CREATION_DATE' | translate }}</label>
         <div class="view-mode">
           <span>{{ formatDate(profile.createdAt) }}</span>
         </div>
       </div>
 
       <div class="profile-field">
-        <label>Last Update Date</label>
+        <label>{{ 'EDIT_PROFILE.LAST_UPDATE_DATE' | translate }}</label>
         <div class="view-mode">
           <span>{{ formatDate(profile.updatedAt) }}</span>
         </div>

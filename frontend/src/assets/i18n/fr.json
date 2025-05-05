@@ -304,5 +304,83 @@
     "EDIT_REVIEW": "Modifier l'Avis",
     "DELETE_REVIEW": "Supprimer l'Avis",
     "CONFIRM_DELETE": "Êtes-vous sûr de vouloir supprimer votre avis ?"
+  },
+  "EDIT_PROFILE": {
+    "TITLE": "Modifier Votre Profil",
+    "LOADING": "Chargement du profil...",
+    "EMAIL": "Email",
+    "NAME": "Nom",
+    "PHONE_NUMBER": "Numéro de Téléphone",
+    "NOT_SET": "Non défini",
+    "PASSWORD": "Mot de Passe",
+    "CURRENT_PASSWORD": "Mot de Passe Actuel",
+    "NEW_PASSWORD": "Nouveau Mot de Passe",
+    "CONFIRM_PASSWORD": "Confirmer le Nouveau Mot de Passe",
+    "ENTER_CURRENT_PASSWORD": "Entrez votre mot de passe actuel",
+    "ENTER_NEW_PASSWORD": "Entrez votre nouveau mot de passe",
+    "CONFIRM_NEW_PASSWORD": "Confirmez votre nouveau mot de passe",
+    "ACCOUNT_CREATION_DATE": "Date de Création du Compte",
+    "LAST_UPDATE_DATE": "Dernière Mise à Jour",
+    "SAVE": "Enregistrer",
+    "CANCEL": "Annuler",
+    "EDIT": "Modifier",
+    "CHANGE_PASSWORD": "Changer le Mot de Passe",
+    "UPDATE_PASSWORD": "Mettre à Jour le Mot de Passe",
+    "PASSWORD_UPDATED": "Mot de passe mis à jour avec succès",
+    "PASSWORD_ERROR": "Erreur lors de la mise à jour du mot de passe",
+    "PASSWORD_MISMATCH": "Les nouveaux mots de passe ne correspondent pas",
+    "PASSWORD_INCORRECT": "Le mot de passe actuel est incorrect",
+    "FIELD_UPDATED": "Champ mis à jour avec succès",
+    "FIELD_ERROR": "Erreur lors de la mise à jour du champ"
+  },
+  "DELETE_PROFILE": {
+    "TITLE": "Supprimer Votre Profil",
+    "WARNING": "Attention : La suppression de votre compte est définitive et irréversible. Toutes vos données seront perdues et il n'y aura aucun moyen de les récupérer. Êtes-vous sûr de vouloir continuer ?",
+    "DELETE_ACCOUNT": "Supprimer le Compte",
+    "CONFIRMATION_TITLE": "Êtes-vous absolument sûr ?",
+    "CONFIRMATION_MESSAGE": "Cette action ne peut pas être annulée. Votre compte et toutes les données associées seront définitivement supprimés.",
+    "CANCEL": "Annuler",
+    "DELETING": "Suppression en cours...",
+    "CONFIRM_DELETE": "Confirmer la Suppression",
+    "ERROR": "Échec de la suppression du compte. Veuillez réessayer plus tard."
+  },
+  "PROFILE_PICTURE": {
+    "TITLE": "Photo de Profil",
+    "ALT_TEXT": "Photo de Profil",
+    "UPLOADING": "Téléchargement en cours...",
+    "UPLOAD_NEW": "Télécharger une Nouvelle Photo",
+    "DELETE": "Supprimer la Photo",
+    "ERROR": "Échec du téléchargement de la photo de profil. Veuillez réessayer.",
+    "DELETE_ERROR": "Échec de la suppression de la photo de profil. Veuillez réessayer.",
+    "INVALID_FILE": "Veuillez sélectionner un fichier image valide (JPEG, PNG ou WebP)",
+    "FILE_TOO_LARGE": "Le fichier est trop volumineux. La taille maximale est de 5 Mo"
+  },
+  "RESERVATIONS_LIST": {
+    "TITLE": "Mes Réservations",
+    "VEHICLE": "Véhicule",
+    "START_DATE": "Date de Début",
+    "END_DATE": "Date de Fin",
+    "DURATION": "Durée",
+    "TOTAL_PRICE": "Prix Total",
+    "DAMAGE_DEPOSIT": "Caution",
+    "STATUS_TITLE": "Statut",
+    "ACTIONS": "Actions",
+    "DAYS": "jours",
+    "CANCEL_RESERVATION": "Annuler la Réservation",
+    "NO_RESERVATIONS": {
+      "TITLE": "Aucune Réservation Trouvée",
+      "MESSAGE": "Vous n'avez pas encore effectué de réservation."
+    },
+    "STATUS": {
+      "PENDING": "En Attente",
+      "ACCEPTED": "Acceptée",
+      "REJECTED": "Rejetée",
+      "CANCELLED": "Annulée",
+      "COMPLETED": "Terminée"
+    }
+  },
+  "SEARCH_BAR": {
+    "PLACEHOLDER": "Rechercher des véhicules...",
+    "ARIA_LABEL": "Rechercher des véhicules"
   }
 } 

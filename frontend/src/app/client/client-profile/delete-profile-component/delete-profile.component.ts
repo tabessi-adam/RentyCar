@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientService } from '../../../core/services/client.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-delete-profile',
   templateUrl: './delete-profile.component.html',
-  styleUrl: './delete-profile.component.scss'
+  styleUrl: './delete-profile.component.scss',
+  imports: [TranslateModule]
 })
 export class DeleteProfileComponent {
   showConfirmation = false;

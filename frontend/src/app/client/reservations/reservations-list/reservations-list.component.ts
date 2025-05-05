@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes, faCalendarAlt, faClock, faMoneyBillWave, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservations-list',
@@ -24,7 +25,8 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
     DatePipe,
     FontAwesomeModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslateModule
   ],
   templateUrl: './reservations-list.component.html',
   styleUrl: './reservations-list.component.scss'
@@ -42,11 +44,18 @@ export class ReservationsListComponent implements OnInit {
 
   constructor(
     private reservationService: ReservationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.loadReservations();
+  }
+
+  getStatusTranslation(status: string): string {
+    const statusKey = `RESERVATIONS_LIST.STATUS.${status}`;
+    const translation = this.translate.instant(statusKey);
+    return translation === statusKey ? status : translation;
   }
 
   loadReservations() {

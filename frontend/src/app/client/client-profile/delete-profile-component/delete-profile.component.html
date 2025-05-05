@@ -1,36 +1,36 @@
 <div class="delete-profile-container">
-  <h1 class="page-title">Delete Your Profile</h1>
+  <h1 class="page-title">{{ 'DELETE_PROFILE.TITLE' | translate }}</h1>
   
   <div class="warning-card">
     <div class="warning-message">
-      Warning: Deleting your account is permanent and irreversible. All your data will be lost, and there will be no way to recover it. Are you sure you want to proceed?
+      {{ 'DELETE_PROFILE.WARNING' | translate }}
     </div>
     
     <button class="delete-button" (click)="openConfirmation()">
-      Delete Account
+      {{ 'DELETE_PROFILE.DELETE_ACCOUNT' | translate }}
     </button>
   </div>
   
   @if (showConfirmation) {
     <div class="confirmation-dialog">
       <div class="confirmation-content">
-        <h2>Are you absolutely sure?</h2>
-        <p>This action cannot be undone. Your account and all associated data will be permanently deleted.</p>
+        <h2>{{ 'DELETE_PROFILE.CONFIRMATION_TITLE' | translate }}</h2>
+        <p>{{ 'DELETE_PROFILE.CONFIRMATION_MESSAGE' | translate }}</p>
         
         @if (error) {
-          <div class="error-message">{{ error }}</div>
+          <div class="error-message">{{ 'DELETE_PROFILE.ERROR' | translate }}</div>
         }
         
         <div class="confirmation-buttons">
-          <button class="cancel-button" (click)="closeConfirmation()">Cancel</button>
+          <button class="cancel-button" (click)="closeConfirmation()">{{ 'DELETE_PROFILE.CANCEL' | translate }}</button>
           <button 
             class="confirm-delete-button" 
             (click)="confirmDelete()"
             [disabled]="isDeleting">
             @if (isDeleting) {
-              Deleting...
+              {{ 'DELETE_PROFILE.DELETING' | translate }}
             } @else {
-              Confirm Delete
+              {{ 'DELETE_PROFILE.CONFIRM_DELETE' | translate }}
             }
           </button>
         </div>

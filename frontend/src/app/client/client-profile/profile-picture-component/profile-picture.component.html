@@ -1,10 +1,10 @@
 <div class="profile-picture-section">
-  <label>Profile Picture</label>
+  <label>{{ 'PROFILE_PICTURE.TITLE' | translate }}</label>
   <div class="profile-picture-container">
     @if (profilePictureUrl) {
       <img
         [src]="profilePictureUrl"
-        alt="Profile Picture"
+        [alt]="'PROFILE_PICTURE.ALT_TEXT' | translate"
         class="profile-picture"
       >
     } @else {
@@ -26,9 +26,9 @@
         [disabled]="isUploadingPicture"
       >
         @if (isUploadingPicture) {
-          <span class="spinner"></span> Uploading...
+          <span class="spinner"></span> {{ 'PROFILE_PICTURE.UPLOADING' | translate }}
         } @else {
-          Upload New Picture
+          {{ 'PROFILE_PICTURE.UPLOAD_NEW' | translate }}
         }
       </button>
       @if (profilePictureUrl) {
@@ -37,7 +37,7 @@
           (click)="deleteProfilePicture()"
           [disabled]="isUploadingPicture"
         >
-          Delete Picture
+          {{ 'PROFILE_PICTURE.DELETE' | translate }}
         </button>
       }
     </div>

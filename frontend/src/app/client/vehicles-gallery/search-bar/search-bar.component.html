@@ -3,7 +3,8 @@
     type="text" 
     [(ngModel)]="searchQuery" 
     (keyup.enter)="onSearch()"
-    placeholder="Search vehicles..."
+    [placeholder]="'SEARCH_BAR.PLACEHOLDER' | translate"
+    [attr.aria-label]="'SEARCH_BAR.ARIA_LABEL' | translate"
     class="search-input"
   >
   <button (click)="onSearch()" class="search-button">
