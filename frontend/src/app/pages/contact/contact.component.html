@@ -1,102 +1,103 @@
 <div class="contact-container">
   <section class="hero-section">
-    <h1 class="section-title">Contact Us</h1>
-    <p>Get in touch with our team for any questions or inquiries</p>
+    <h1 class="section-title">{{ 'CONTACT.TITLE' | translate }}</h1>
+    <p>{{ 'CONTACT.SUBTITLE' | translate }}</p>
   </section>
 
   <div class="contact-grid">
     <div class="contact-info">
       <div class="info-card">
         <i class="fas fa-map-marker-alt"></i>
-        <h3>Our Locations</h3>
-        <p>Sousse, Monastir, Hammamet</p>
+        <h3>{{ 'CONTACT.LOCATIONS.TITLE' | translate }}</h3>
+        <p>{{ 'CONTACT.LOCATIONS.CITIES' | translate }}</p>
       </div>
 
       <div class="info-card">
         <i class="fas fa-phone"></i>
-        <h3>Phone</h3>
-        <p>+216 21 167 417</p>
+        <h3>{{ 'CONTACT.PHONE.TITLE' | translate }}</h3>
+        <p>{{ 'CONTACT.PHONE.NUMBER' | translate }}</p>
       </div>
 
       <div class="info-card">
         <i class="fas fa-envelope"></i>
-        <h3>Email</h3>
-        <p>tabessiadam2&#64;gmail.com</p>
+        <h3>{{ 'CONTACT.EMAIL.TITLE' | translate }}</h3>
+        <p>{{ 'CONTACT.EMAIL.ADDRESS' | translate }}</p>
       </div>
     </div>
 
     <div class="contact-form">
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="name">Full Name</label>
+          <label for="name">{{ 'CONTACT.FORM.NAME.LABEL' | translate }}</label>
           <input
             type="text"
             id="name"
             formControlName="name"
-            placeholder="Enter your full name"
+            [placeholder]="'CONTACT.FORM.NAME.PLACEHOLDER' | translate"
           />
           <div class="error-message" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors">
-            <span *ngIf="contactForm.get('name')?.errors?.['required']">Name is required</span>
-            <span *ngIf="contactForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+            <span *ngIf="contactForm.get('name')?.errors?.['required']">{{ 'CONTACT.FORM.NAME.REQUIRED' | translate }}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">{{ 'CONTACT.FORM.EMAIL.LABEL' | translate }}</label>
           <input
             type="email"
             id="email"
             formControlName="email"
-            placeholder="Enter your email"
+            [placeholder]="'CONTACT.FORM.EMAIL.PLACEHOLDER' | translate"
           />
           <div class="error-message" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors">
-            <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
-            <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+            <span *ngIf="contactForm.get('email')?.errors?.['required']">{{ 'CONTACT.FORM.EMAIL.REQUIRED' | translate }}</span>
+            <span *ngIf="contactForm.get('email')?.errors?.['email']">{{ 'CONTACT.FORM.EMAIL.INVALID' | translate }}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="phone">Phone Number</label>
+          <label for="phone">{{ 'CONTACT.FORM.PHONE.LABEL' | translate }}</label>
           <input
             type="tel"
             id="phone"
             formControlName="phone"
-            placeholder="Enter your phone number"
+            [placeholder]="'CONTACT.FORM.PHONE.PLACEHOLDER' | translate"
           />
           <div class="error-message" *ngIf="contactForm.get('phone')?.touched && contactForm.get('phone')?.errors">
-            <span *ngIf="contactForm.get('phone')?.errors?.['required']">Phone number is required</span>
-            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">Please enter a valid 8-digit phone number</span>
+            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">{{ 'CONTACT.FORM.PHONE.INVALID' | translate }}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="location">Location</label>
+          <label for="location">{{ 'CONTACT.FORM.LOCATION.LABEL' | translate }}</label>
           <select id="location" formControlName="location">
-            <option value="">Select a location</option>
+            <option value="">{{ 'CONTACT.FORM.LOCATION.PLACEHOLDER' | translate }}</option>
             <option *ngFor="let location of locations" [value]="location.id">
               {{ location.name }}
             </option>
           </select>
           <div class="error-message" *ngIf="contactForm.get('location')?.touched && contactForm.get('location')?.errors">
-            <span *ngIf="contactForm.get('location')?.errors?.['required']">Please select a location</span>
+            <span *ngIf="contactForm.get('location')?.errors?.['required']">{{ 'CONTACT.FORM.LOCATION.REQUIRED' | translate }}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="message">Message</label>
+          <label for="message">{{ 'CONTACT.FORM.MESSAGE.LABEL' | translate }}</label>
           <textarea
             id="message"
             formControlName="message"
-            placeholder="Enter your message"
+            [placeholder]="'CONTACT.FORM.MESSAGE.PLACEHOLDER' | translate"
             rows="5"
           ></textarea>
           <div class="error-message" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.errors">
-            <span *ngIf="contactForm.get('message')?.errors?.['required']">Message is required</span>
-            <span *ngIf="contactForm.get('message')?.errors?.['minlength']">Message must be at least 10 characters</span>
+            <span *ngIf="contactForm.get('message')?.errors?.['required']">{{ 'CONTACT.FORM.MESSAGE.REQUIRED' | translate }}</span>
+            <span *ngIf="contactForm.get('message')?.errors?.['minlength']">{{ 'CONTACT.FORM.MESSAGE.MIN_LENGTH' | translate }}</span>
           </div>
         </div>
 
-        <button type="submit" [disabled]="contactForm.invalid">Send Message</button>
+        <button type="submit" [disabled]="contactForm.invalid">
+          <span *ngIf="!isLoading">{{ 'CONTACT.FORM.SUBMIT' | translate }}</span>
+          <span *ngIf="isLoading">{{ 'CONTACT.FORM.SUBMITTING' | translate }}</span>
+        </button>
       </form>
     </div>
   </div>

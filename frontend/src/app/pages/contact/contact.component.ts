@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contact',
@@ -12,13 +13,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    TranslateModule
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
+  isLoading = false;
   locations = [
     { id: 'sousse', name: 'Sousse' },
     { id: 'monastir', name: 'Monastir' },
@@ -39,10 +42,16 @@ export class ContactComponent implements OnInit {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
+      this.isLoading = true;
       // Here you would typically send the form data to your backend
       console.log('Form submitted:', this.contactForm.value);
-      // Reset form after submission
-      this.contactForm.reset();
+      
+      // Simulate API call
+      setTimeout(() => {
+        this.isLoading = false;
+        // Reset form after submission
+        this.contactForm.reset();
+      }, 1000);
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {

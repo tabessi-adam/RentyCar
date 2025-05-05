@@ -1,49 +1,49 @@
 <app-navbar></app-navbar>
 <div class="register-container">
   <div class="register-card">
-    <h2 class="heading-underline">Create Account</h2>
+    <h2 class="heading-underline">{{ 'REGISTER.TITLE' | translate }}</h2>
     
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
       <div class="form-group">
-        <label for="name">Full Name</label>
+        <label for="name">{{ 'REGISTER.NAME' | translate }}</label>
         <input 
           type="text" 
           id="name" 
           formControlName="name" 
           class="form-control"
-          placeholder="Enter your full name"
+          [placeholder]="'REGISTER.NAME_PLACEHOLDER' | translate"
           [class.is-invalid]="name?.invalid && name?.touched"
         >
         <div class="invalid-feedback" *ngIf="name?.invalid && name?.touched">
-          <span *ngIf="name?.errors?.['required']">Name is required</span>
+          <span *ngIf="name?.errors?.['required']">{{ 'REGISTER.NAME_REQUIRED' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ 'REGISTER.EMAIL' | translate }}</label>
         <input 
           type="email" 
           id="email" 
           formControlName="email" 
           class="form-control"
-          placeholder="Enter your email"
+          [placeholder]="'REGISTER.EMAIL_PLACEHOLDER' | translate"
           [class.is-invalid]="email?.invalid && email?.touched"
         >
         <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
-          <span *ngIf="email?.errors?.['required']">Email is required</span>
-          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="email?.errors?.['required']">{{ 'REGISTER.EMAIL_REQUIRED' | translate }}</span>
+          <span *ngIf="email?.errors?.['email']">{{ 'REGISTER.EMAIL_INVALID' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'REGISTER.PASSWORD' | translate }}</label>
         <div class="password-input-container">
           <input 
             type="password" 
             id="password" 
             formControlName="password" 
             class="form-control"
-            placeholder="Enter your password"
+            [placeholder]="'REGISTER.PASSWORD_PLACEHOLDER' | translate"
             [class.is-invalid]="password?.invalid && password?.touched"
             [type]="showPassword ? 'text' : 'password'"
           >
@@ -52,23 +52,20 @@
           </button>
         </div>
         <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
-          <span *ngIf="password?.errors?.['required']">Password is required</span>
-          <span *ngIf="password?.errors?.['minLength']">Password must be at least 8 characters</span>
-          <span *ngIf="password?.errors?.['noUpperCase']">Password must contain at least one uppercase letter</span>
-          <span *ngIf="password?.errors?.['noLowerCase']">Password must contain at least one lowercase letter</span>
-          <span *ngIf="password?.errors?.['noNumber']">Password must contain at least one number</span>
+          <span *ngIf="password?.errors?.['required']">{{ 'REGISTER.PASSWORD_REQUIRED' | translate }}</span>
+          <span *ngIf="password?.errors?.['minLength']">{{ 'REGISTER.PASSWORD_MIN_LENGTH' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">{{ 'REGISTER.CONFIRM_PASSWORD' | translate }}</label>
         <div class="password-input-container">
           <input 
             type="password" 
             id="confirmPassword" 
             formControlName="confirmPassword" 
             class="form-control"
-            placeholder="Confirm your password"
+            [placeholder]="'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
             [class.is-invalid]="confirmPassword?.invalid && confirmPassword?.touched"
             [type]="showConfirmPassword ? 'text' : 'password'"
           >
@@ -77,13 +74,13 @@
           </button>
         </div>
         <div class="invalid-feedback" *ngIf="confirmPassword?.invalid && confirmPassword?.touched || registerForm.errors?.['passwordMismatch']">
-          <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
-          <span *ngIf="registerForm.errors?.['passwordMismatch']">Passwords do not match</span>
+          <span *ngIf="confirmPassword?.errors?.['required']">{{ 'REGISTER.CONFIRM_PASSWORD_REQUIRED' | translate }}</span>
+          <span *ngIf="registerForm.errors?.['passwordMismatch']">{{ 'REGISTER.PASSWORDS_MISMATCH' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="phoneNumber">Phone Number (Optional)</label>
+        <label for="phoneNumber">{{ 'REGISTER.PHONE.TITLE' | translate }}</label>
         <div class="phone-input-container">
           <div class="country-selector" (click)="toggleCountryDropdown()">
             <span class="flag">{{ selectedCountry.flag }}</span>
@@ -105,14 +102,14 @@
             id="phoneNumber" 
             formControlName="phoneNumber" 
             class="form-control phone-input"
-            placeholder="Enter your phone number"
+            [placeholder]="'REGISTER.PHONE.PLACEHOLDER' | translate"
             [class.is-invalid]="phoneNumber?.invalid && phoneNumber?.touched"
           >
         </div>
         <div class="invalid-feedback" *ngIf="phoneNumber?.invalid && phoneNumber?.touched">
-          <span *ngIf="phoneNumber?.errors?.['pattern']">Please enter only numbers</span>
-          <span *ngIf="phoneNumber?.errors?.['minlength']">Phone number must be at least 8 digits</span>
-          <span *ngIf="phoneNumber?.errors?.['maxlength']">Phone number cannot exceed 15 digits</span>
+          <span *ngIf="phoneNumber?.errors?.['pattern']">{{ 'REGISTER.PHONE.PATTERN_ERROR' | translate }}</span>
+          <span *ngIf="phoneNumber?.errors?.['minlength']">{{ 'REGISTER.PHONE.MIN_LENGTH_ERROR' | translate }}</span>
+          <span *ngIf="phoneNumber?.errors?.['maxlength']">{{ 'REGISTER.PHONE.MAX_LENGTH_ERROR' | translate }}</span>
         </div>
       </div>
 
@@ -122,13 +119,13 @@
 
       <div class="form-actions">
         <button type="submit" class="btn btn--primary btn--pill" [disabled]="registerForm.invalid || isLoading">
-          <span *ngIf="!isLoading">Register</span>
-          <span *ngIf="isLoading">Registering...</span>
+          <span *ngIf="!isLoading">{{ 'REGISTER.SUBMIT' | translate }}</span>
+          <span *ngIf="isLoading">{{ 'REGISTER.SUBMITTING' | translate }}</span>
         </button>
       </div>
 
       <div class="auth-links">
-        <p>Already have an account? <a routerLink="/auth/login">Login here</a></p>
+        <p>{{ 'REGISTER.HAVE_ACCOUNT' | translate }} <a routerLink="/auth/login">{{ 'REGISTER.LOGIN_HERE' | translate }}</a></p>
       </div>
     </form>
   </div>

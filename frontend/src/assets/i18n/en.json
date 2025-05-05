@@ -357,8 +357,100 @@
       "COMPLETED": "Completed"
     }
   },
+  "LOGIN": {
+    "TITLE": "Login",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Please enter a valid email",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "PASSWORD_REQUIRED": "Password is required",
+    "SUBMIT": "Login",
+    "SUBMITTING": "Logging in...",
+    "NO_ACCOUNT": "Don't have an account?",
+    "REGISTER_HERE": "Register here"
+  },
+  "REGISTER": {
+    "TITLE": "Register",
+    "NAME": "Full Name",
+    "NAME_PLACEHOLDER": "Enter your full name",
+    "NAME_REQUIRED": "Name is required",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Please enter a valid email",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
+    "CONFIRM_PASSWORD_REQUIRED": "Please confirm your password",
+    "PASSWORDS_MISMATCH": "Passwords do not match",
+    "SUBMIT": "Register",
+    "SUBMITTING": "Registering...",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "LOGIN_HERE": "Login here",
+    "PHONE": {
+      "TITLE": "Phone Number (Optional)",
+      "PLACEHOLDER": "Enter your phone number",
+      "PATTERN_ERROR": "Please enter only numbers",
+      "MIN_LENGTH_ERROR": "Phone number must be at least 8 digits",
+      "MAX_LENGTH_ERROR": "Phone number cannot exceed 15 digits"
+    }
+  },
   "SEARCH_BAR": {
     "PLACEHOLDER": "Search vehicles...",
     "ARIA_LABEL": "Search vehicles"
+  },
+  "CONTACT": {
+    "TITLE": "Contact Us",
+    "SUBTITLE": "Get in touch with our team for any questions or inquiries",
+    "LOCATIONS": {
+      "TITLE": "Our Locations",
+      "CITIES": "Sousse, Monastir, Hammamet"
+    },
+    "PHONE": {
+      "TITLE": "Phone",
+      "NUMBER": "+216 21 167 417"
+    },
+    "EMAIL": {
+      "TITLE": "Email",
+      "ADDRESS": "tabessiadam2@gmail.com"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Full Name",
+        "PLACEHOLDER": "Enter your full name",
+        "REQUIRED": "Name is required"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Enter your email",
+        "REQUIRED": "Email is required",
+        "INVALID": "Please enter a valid email"
+      },
+      "PHONE": {
+        "LABEL": "Phone Number",
+        "PLACEHOLDER": "Enter your phone number",
+        "INVALID": "Please enter a valid phone number"
+      },
+      "LOCATION": {
+        "LABEL": "Location",
+        "PLACEHOLDER": "Select a location",
+        "REQUIRED": "Please select a location"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Enter your message",
+        "REQUIRED": "Message is required",
+        "MIN_LENGTH": "Message must be at least 10 characters"
+      },
+      "SUBMIT": "Send Message",
+      "SUBMITTING": "Sending...",
+      "SUCCESS": "Message sent successfully!",
+      "ERROR": "Failed to send message. Please try again."
+    }
   }
 } 

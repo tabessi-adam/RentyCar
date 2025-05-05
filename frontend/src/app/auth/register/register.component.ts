@@ -8,13 +8,21 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { Role } from '../../core/models/role.enum';
 import { countries, Country } from '../../shared/data/countries';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, NavbarComponent, FooterComponent]
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    RouterLink, 
+    NavbarComponent, 
+    FooterComponent,
+    TranslateModule
+  ]
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;

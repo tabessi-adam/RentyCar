@@ -380,8 +380,100 @@
       "COMPLETED": "Terminée"
     }
   },
+  "LOGIN": {
+    "TITLE": "Connexion",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Entrez votre email",
+    "EMAIL_REQUIRED": "L'email est requis",
+    "EMAIL_INVALID": "Veuillez entrer un email valide",
+    "PASSWORD": "Mot de passe",
+    "PASSWORD_PLACEHOLDER": "Entrez votre mot de passe",
+    "PASSWORD_REQUIRED": "Le mot de passe est requis",
+    "SUBMIT": "Se connecter",
+    "SUBMITTING": "Connexion en cours...",
+    "NO_ACCOUNT": "Vous n'avez pas de compte ?",
+    "REGISTER_HERE": "Inscrivez-vous ici"
+  },
+  "REGISTER": {
+    "TITLE": "Inscription",
+    "NAME": "Nom Complet",
+    "NAME_PLACEHOLDER": "Entrez votre nom complet",
+    "NAME_REQUIRED": "Le nom est requis",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Entrez votre email",
+    "EMAIL_REQUIRED": "L'email est requis",
+    "EMAIL_INVALID": "Veuillez entrer un email valide",
+    "PASSWORD": "Mot de passe",
+    "PASSWORD_PLACEHOLDER": "Entrez votre mot de passe",
+    "PASSWORD_REQUIRED": "Le mot de passe est requis",
+    "PASSWORD_MIN_LENGTH": "Le mot de passe doit contenir au moins 6 caractères",
+    "CONFIRM_PASSWORD": "Confirmer le Mot de Passe",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirmez votre mot de passe",
+    "CONFIRM_PASSWORD_REQUIRED": "Veuillez confirmer votre mot de passe",
+    "PASSWORDS_MISMATCH": "Les mots de passe ne correspondent pas",
+    "SUBMIT": "S'inscrire",
+    "SUBMITTING": "Inscription en cours...",
+    "HAVE_ACCOUNT": "Vous avez déjà un compte ?",
+    "LOGIN_HERE": "Connectez-vous ici",
+    "PHONE": {
+      "TITLE": "Numéro de Téléphone (Optionnel)",
+      "PLACEHOLDER": "Entrez votre numéro de téléphone",
+      "PATTERN_ERROR": "Veuillez n'entrer que des chiffres",
+      "MIN_LENGTH_ERROR": "Le numéro de téléphone doit contenir au moins 8 chiffres",
+      "MAX_LENGTH_ERROR": "Le numéro de téléphone ne peut pas dépasser 15 chiffres"
+    }
+  },
   "SEARCH_BAR": {
     "PLACEHOLDER": "Rechercher des véhicules...",
     "ARIA_LABEL": "Rechercher des véhicules"
+  },
+  "CONTACT": {
+    "TITLE": "Contactez-nous",
+    "SUBTITLE": "Contactez notre équipe pour toute question ou demande",
+    "LOCATIONS": {
+      "TITLE": "Nos Emplacements",
+      "CITIES": "Sousse, Monastir, Hammamet"
+    },
+    "PHONE": {
+      "TITLE": "Téléphone",
+      "NUMBER": "+216 21 167 417"
+    },
+    "EMAIL": {
+      "TITLE": "Email",
+      "ADDRESS": "tabessiadam2@gmail.com"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom Complet",
+        "PLACEHOLDER": "Entrez votre nom complet",
+        "REQUIRED": "Le nom est requis"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Entrez votre email",
+        "REQUIRED": "L'email est requis",
+        "INVALID": "Veuillez entrer un email valide"
+      },
+      "PHONE": {
+        "LABEL": "Numéro de Téléphone",
+        "PLACEHOLDER": "Entrez votre numéro de téléphone",
+        "INVALID": "Veuillez entrer un numéro de téléphone valide"
+      },
+      "LOCATION": {
+        "LABEL": "Emplacement",
+        "PLACEHOLDER": "Sélectionnez un emplacement",
+        "REQUIRED": "Veuillez sélectionner un emplacement"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Entrez votre message",
+        "REQUIRED": "Le message est requis",
+        "MIN_LENGTH": "Le message doit contenir au moins 10 caractères"
+      },
+      "SUBMIT": "Envoyer le Message",
+      "SUBMITTING": "Envoi en cours...",
+      "SUCCESS": "Message envoyé avec succès !",
+      "ERROR": "Échec de l'envoi du message. Veuillez réessayer."
+    }
   }
 } 

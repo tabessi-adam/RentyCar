@@ -1,34 +1,34 @@
 <app-navbar></app-navbar>
 <div class="login-container">
   <div class="login-card">
-    <h2 class="heading-underline">Login</h2>
+    <h2 class="heading-underline">{{ 'LOGIN.TITLE' | translate }}</h2>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ 'LOGIN.EMAIL' | translate }}</label>
         <input
           type="email"
           id="email"
           formControlName="email"
           class="form-control"
-          placeholder="Enter your email"
+          [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
           [class.is-invalid]="email?.invalid && email?.touched"
         >
         <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
-          <span *ngIf="email?.errors?.['required']">Email is required</span>
-          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="email?.errors?.['required']">{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</span>
+          <span *ngIf="email?.errors?.['email']">{{ 'LOGIN.EMAIL_INVALID' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <div class="password-input-container">
           <input
             type="password"
             id="password"
             formControlName="password"
             class="form-control"
-            placeholder="Enter your password"
+            [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
             [class.is-invalid]="password?.invalid && password?.touched"
             [type]="showPassword ? 'text' : 'password'"
           >
@@ -37,7 +37,7 @@
           </button>
         </div>
         <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
-          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['required']">{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</span>
         </div>
       </div>
 
@@ -47,13 +47,13 @@
 
       <div class="form-actions">
         <button type="submit" class="btn btn--primary btn--pill" [disabled]="loginForm.invalid || isLoading">
-          <span *ngIf="!isLoading">Login</span>
-          <span *ngIf="isLoading">Logging in...</span>
+          <span *ngIf="!isLoading">{{ 'LOGIN.SUBMIT' | translate }}</span>
+          <span *ngIf="isLoading">{{ 'LOGIN.SUBMITTING' | translate }}</span>
         </button>
       </div>
 
       <div class="auth-links">
-        <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+        <p>{{ 'LOGIN.NO_ACCOUNT' | translate }} <a routerLink="/register">{{ 'LOGIN.REGISTER_HERE' | translate }}</a></p>
       </div>
     </form>
   </div>
