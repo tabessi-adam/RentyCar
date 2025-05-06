@@ -50,30 +50,24 @@
 
   .info-box {
     flex: 1;
-    padding: 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    max-width: calc(100% - 300px);
+    max-width: 100%;
 
     .vehicle-title {
       width: 100%;
-      max-width: 100%;
       h3 {
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0 0 12px 0;
-        color: #1a1a1a;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        padding-right: 20px;
-        cursor: pointer;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: #666;
-        }
+        font-size: 18px;
+        margin-bottom: 8px;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        min-height: 2.6em;
       }
     }
 
@@ -184,6 +178,10 @@
       .vehicle-title h3 {
         font-size: 18px;
         margin-bottom: 8px;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.3;
       }
 
       .features-and-footer {

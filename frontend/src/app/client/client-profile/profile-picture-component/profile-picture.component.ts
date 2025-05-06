@@ -190,7 +190,60 @@ export class ProfilePictureComponent implements AfterViewInit {
     this.isDragging = false;
   }
 
-  onMouseLeave() {
+  onTouchStart(event: TouchEvent) {
+    if (!this.canvas) return;
+
+    this.isDragging = true;
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const touch = event.touches[0];
+
+    // Calculate the touch position relative to the canvas
+    const touchX = touch.clientX - rect.left;
+    const touchY = touch.clientY - rect.top;
+
+    // Calculate the drag start position relative to the image position
+    this.dragStart = {
+      x: touchX - this.position.x,
+      y: touchY - this.position.y,
+    };
+
+    // Prevent default touch behavior
+    event.preventDefault();
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (!this.isDragging || !this.canvas) return;
+
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const touch = event.touches[0];
+
+    // Calculate the touch position relative to the canvas
+    const touchX = touch.clientX - rect.left;
+    const touchY = touch.clientY - rect.top;
+
+    // Calculate new position based on touch movement
+    const newX = touchX - this.dragStart.x;
+    const newY = touchY - this.dragStart.y;
+
+    // Calculate scaled dimensions
+    const scaledWidth = this.imageDimensions.width * this.scale;
+    const scaledHeight = this.imageDimensions.height * this.scale;
+
+    // Calculate maximum allowed position
+    const maxX = (scaledWidth - this.canvasDimensions.width) / 2;
+    const maxY = (scaledHeight - this.canvasDimensions.height) / 2;
+
+    // Constrain position within bounds
+    this.position = {
+      x: Math.max(-maxX, Math.min(maxX, newX)),
+      y: Math.max(-maxY, Math.min(maxY, newY)),
+    };
+
+    this.updatePreview();
+    event.preventDefault();
+  }
+
+  onTouchEnd() {
     this.isDragging = false;
   }
 
